@@ -28,7 +28,7 @@ public class OperationClaimConfiguration : IEntityTypeConfiguration<OperationCla
         builder.HasBaseType((string)null!);
     }
 
-    public static int AdminId => 1;
+    public static int AdminId => 456;
     private IEnumerable<OperationClaim> _seeds
     {
         get
@@ -96,6 +96,10 @@ public class OperationClaimConfiguration : IEntityTypeConfiguration<OperationCla
             ]
         );
         #endregion
+
+        featureOperationClaims.Add(
+                new() { Id = ++lastId, Name = AuthOperationClaims.UpdateUserState}
+            );
 
         return featureOperationClaims;
     }

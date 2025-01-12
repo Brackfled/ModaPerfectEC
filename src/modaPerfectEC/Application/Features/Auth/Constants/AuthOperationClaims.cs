@@ -10,4 +10,5 @@ public static class AuthOperationClaims
     public const string Read = $"{_section}.Read";
 
     public const string RevokeToken = $"{_section}.RevokeToken";
+    public const string UpdateUserState = $"{_section}.UpdateUserState";
 }

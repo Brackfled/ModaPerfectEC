@@ -1,6 +1,7 @@
 ﻿using Application.Features.Auth.Rules;
 using Application.Services.AuthService;
 using Application.Services.Repositories;
+using Domain.Dtos;
 using Domain.Entities;
 using MediatR;
 using NArchitecture.Core.Application.Dtos;
@@ -11,19 +12,19 @@ namespace Application.Features.Auth.Commands.Register;
 
 public class RegisterCommand : IRequest<RegisteredResponse>
 {
-    public UserForRegisterDto UserForRegisterDto { get; set; }
+    public RegisterDto RegisterDto { get; set; }
     public string IpAddress { get; set; }
 
     public RegisterCommand()
     {
-        UserForRegisterDto = null!;
+        RegisterDto = null;
         IpAddress = string.Empty;
     }
 
-    public RegisterCommand(UserForRegisterDto userForRegisterDto, string ipAddress)
+    public RegisterCommand(RegisterDto registerDto, string ıpAddress)
     {
-        UserForRegisterDto = userForRegisterDto;
-        IpAddress = ipAddress;
+        RegisterDto = registerDto;
+        IpAddress = ıpAddress;
     }
 
     public class RegisterCommandHandler : IRequestHandler<RegisterCommand, RegisteredResponse>
@@ -45,23 +46,47 @@ public class RegisterCommand : IRequest<RegisteredResponse>
 
         public async Task<RegisteredResponse> Handle(RegisterCommand request, CancellationToken cancellationToken)
         {
-            await _authBusinessRules.UserEmailShouldBeNotExists(request.UserForRegisterDto.Email);
+            await _authBusinessRules.UserEmailShouldBeNotExists(request.RegisterDto.Email);
+            await _authBusinessRules.IdentityNumberIsAccurate(request.RegisterDto.IdentityNumber);
+            await _authBusinessRules.UserIdentityShouldBeNotExists(request.RegisterDto.IdentityNumber);
 
             HashingHelper.CreatePasswordHash(
-                request.UserForRegisterDto.Password,
+                request.RegisterDto.Password,
                 passwordHash: out byte[] passwordHash,
                 passwordSalt: out byte[] passwordSalt
             );
+
+            HashingHelper.CreatePasswordHash(
+                    request.RegisterDto.IdentityNumber,
+                    passwordHash: out byte[] identityHash,
+                    passwordSalt: out byte[] identitySalt
+                );
+
             User newUser =
                 new()
                 {
-                    Email = request.UserForRegisterDto.Email,
+                    Email = request.RegisterDto.Email,
                     PasswordHash = passwordHash,
                     PasswordSalt = passwordSalt,
+                    IdentityNumberHash = identityHash,
+                    IdentityNumberSalt = identitySalt,
+                    TradeName = request.RegisterDto.TradeName,
+                    FirstName = request.RegisterDto.FirstName,
+                    LastName = request.RegisterDto.LastName,
+                    Country = request.RegisterDto.Country,
+                    City = request.RegisterDto.City,
+                    District = request.RegisterDto.District,
+                    Address = request.RegisterDto.Address,
+                    GsmNumber = request.RegisterDto.GsmNumber,
+                    TaxNumber = request.RegisterDto.TaxNumber,
+                    TaxOffice = request.RegisterDto.TaxOffice,
+                    Reference = request.RegisterDto.Reference,
+                    CustomerCode = request.RegisterDto.CustomerCode,
+                    CarrierCompanyInfo = request.RegisterDto.CarrierCompanyInfo,
+                    UserState = Domain.Enums.UserState.Pending,
                 };
             User createdUser = await _userRepository.AddAsync(newUser);
 
-            AccessToken createdAccessToken = await _authService.CreateAccessToken(createdUser);
 
             Domain.Entities.RefreshToken createdRefreshToken = await _authService.CreateRefreshToken(
                 createdUser,
@@ -69,7 +94,7 @@ public class RegisterCommand : IRequest<RegisteredResponse>
             );
             Domain.Entities.RefreshToken addedRefreshToken = await _authService.AddRefreshToken(createdRefreshToken);
 
-            RegisteredResponse registeredResponse = new() { AccessToken = createdAccessToken, RefreshToken = addedRefreshToken };
+            RegisteredResponse registeredResponse = new() { UserState = createdUser.UserState, RefreshToken = addedRefreshToken };
             return registeredResponse;
         }
     }

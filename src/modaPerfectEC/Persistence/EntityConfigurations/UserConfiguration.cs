@@ -16,6 +16,22 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
         builder.Property(u => u.PasswordSalt).HasColumnName("PasswordSalt").IsRequired();
         builder.Property(u => u.PasswordHash).HasColumnName("PasswordHash").IsRequired();
         builder.Property(u => u.AuthenticatorType).HasColumnName("AuthenticatorType").IsRequired();
+        builder.Property(u => u.TradeName).HasColumnName("TradeName").IsRequired();
+        builder.Property(u => u.FirstName).HasColumnName("FirstName").IsRequired();
+        builder.Property(u => u.LastName).HasColumnName("LastName").IsRequired();
+        builder.Property(u => u.Country).HasColumnName("Country").IsRequired();
+        builder.Property(u => u.City).HasColumnName("City").IsRequired();
+        builder.Property(u => u.District).HasColumnName("District").IsRequired();
+        builder.Property(u => u.Address).HasColumnName("Address").IsRequired();
+        builder.Property(u => u.GsmNumber).HasColumnName("GsmNumber").IsRequired();
+        builder.Property(u => u.TaxOffice).HasColumnName("TaxOffice");
+        builder.Property(u => u.TaxNumber).HasColumnName("TaxNumber");
+        builder.Property(u => u.IdentityNumberSalt).HasColumnName("IdentitySalt");
+        builder.Property(u => u.IdentityNumberHash).HasColumnName("IdentityHash");
+        builder.Property(u => u.Reference).HasColumnName("Reference").IsRequired();
+        builder.Property(u => u.CustomerCode).HasColumnName("CustomerCode");
+        builder.Property(u => u.CarrierCompanyInfo).HasColumnName("CarrierCompanyInfo");
+        builder.Property(u => u.UserState).HasColumnName("UserState");
         builder.Property(u => u.CreatedDate).HasColumnName("CreatedDate").IsRequired();
         builder.Property(u => u.UpdatedDate).HasColumnName("UpdatedDate");
         builder.Property(u => u.DeletedDate).HasColumnName("DeletedDate");
@@ -38,7 +54,7 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
         get
         {
             HashingHelper.CreatePasswordHash(
-                password: "Passw0rd!",
+                password: "Llads81awd2a!asd!(",
                 passwordHash: out byte[] passwordHash,
                 passwordSalt: out byte[] passwordSalt
             );
@@ -46,7 +62,20 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
                 new()
                 {
                     Id = AdminId,
-                    Email = "narch@kodlama.io",
+                    Email = "oncellhsyn@outlook.com",
+                    TradeName = "HHH",
+                    FirstName = "Hüseyin",
+                    LastName = "ÖNCEL",
+                    Country = "Türkiye",
+                    City = "Konya",
+                    District = "Meram",
+                    Address = "Dere",
+                    GsmNumber = "05555555555",
+                    TaxOffice = "Konya VD",
+                    TaxNumber = "6666444555",
+                    IdentityNumberSalt = null,
+                    IdentityNumberHash = null,
+                    Reference = "Ben",
                     PasswordHash = passwordHash,
                     PasswordSalt = passwordSalt
                 };

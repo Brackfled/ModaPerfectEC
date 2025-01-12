@@ -1,3 +1,4 @@
+using Domain.Enums;
 using NArchitecture.Core.Application.Responses;
 
 namespace Application.Features.Users.Commands.Create;
@@ -8,7 +9,8 @@ public class CreatedUserResponse : IResponse
     public string FirstName { get; set; }
     public string LastName { get; set; }
     public string Email { get; set; }
-    public bool Status { get; set; }
+    public UserState UserState { get; set; }
+    public DateTime CreatedDate { get; set; }
 
     public CreatedUserResponse()
     {
@@ -17,12 +19,12 @@ public class CreatedUserResponse : IResponse
         Email = string.Empty;
     }
 
-    public CreatedUserResponse(Guid id, string firstName, string lastName, string email, bool status)
+    public CreatedUserResponse(Guid ýd, string firstName, string lastName, string email, UserState userState)
     {
-        Id = id;
+        Id = ýd;
         FirstName = firstName;
         LastName = lastName;
         Email = email;
-        Status = status;
+        UserState = userState;
     }
 }

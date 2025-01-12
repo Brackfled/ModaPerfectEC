@@ -1,4 +1,5 @@
 using Application.Features.Auth.Commands.RevokeToken;
+using Application.Features.Auth.Commands.UserConfirm;
 using AutoMapper;
 using Domain.Entities;
 
@@ -10,5 +11,6 @@ public class MappingProfiles : Profile
     {
         CreateMap<NArchitecture.Core.Security.Entities.RefreshToken<Guid, Guid>, RefreshToken>().ReverseMap();
         CreateMap<RefreshToken, RevokedTokenResponse>().ReverseMap();
+        CreateMap<User, ConfirmedUserResponse>().ReverseMap();
     }
 }

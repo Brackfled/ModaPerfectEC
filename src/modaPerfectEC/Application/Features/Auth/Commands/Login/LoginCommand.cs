@@ -54,6 +54,7 @@ public class LoginCommand : IRequest<LoggedResponse>
                 cancellationToken: cancellationToken
             );
             await _authBusinessRules.UserShouldBeExistsWhenSelected(user);
+            await _authBusinessRules.UserShouldBeConfirmedForLogin(user!);
             await _authBusinessRules.UserPasswordShouldBeMatch(user!, request.UserForLoginDto.Password);
 
             LoggedResponse loggedResponse = new();

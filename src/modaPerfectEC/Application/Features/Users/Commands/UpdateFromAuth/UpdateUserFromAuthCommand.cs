@@ -2,6 +2,7 @@
 using Application.Services.AuthService;
 using Application.Services.Repositories;
 using AutoMapper;
+using Domain.Dtos;
 using Domain.Entities;
 using MediatR;
 using NArchitecture.Core.Security.Hashing;
@@ -11,24 +12,16 @@ namespace Application.Features.Users.Commands.UpdateFromAuth;
 public class UpdateUserFromAuthCommand : IRequest<UpdatedUserFromAuthResponse>
 {
     public Guid Id { get; set; }
-    public string FirstName { get; set; }
-    public string LastName { get; set; }
-    public string Password { get; set; }
-    public string? NewPassword { get; set; }
+    public UserUpdateFromAuthRequestDto UserUpdateFromAuthRequestDto { get; set; }
 
     public UpdateUserFromAuthCommand()
     {
-        FirstName = string.Empty;
-        LastName = string.Empty;
-        Password = string.Empty;
+        UserUpdateFromAuthRequestDto = null!;
     }
-
-    public UpdateUserFromAuthCommand(Guid id, string firstName, string lastName, string password)
+    public UpdateUserFromAuthCommand(Guid id, UserUpdateFromAuthRequestDto userUpdateFromAuthRequestDto)
     {
         Id = id;
-        FirstName = firstName;
-        LastName = lastName;
-        Password = password;
+        UserUpdateFromAuthRequestDto = userUpdateFromAuthRequestDto;
     }
 
     public class UpdateUserFromAuthCommandHandler : IRequestHandler<UpdateUserFromAuthCommand, UpdatedUserFromAuthResponse>
@@ -61,25 +54,13 @@ public class UpdateUserFromAuthCommand : IRequest<UpdatedUserFromAuthResponse>
                 cancellationToken: cancellationToken
             );
             await _userBusinessRules.UserShouldBeExistsWhenSelected(user);
-            await _userBusinessRules.UserPasswordShouldBeMatched(user: user!, request.Password);
-            await _userBusinessRules.UserEmailShouldNotExistsWhenUpdate(user!.Id, user.Email);
 
-            user = _mapper.Map(request, user);
-            if (request.NewPassword != null && !string.IsNullOrWhiteSpace(request.NewPassword))
-            {
-                HashingHelper.CreatePasswordHash(
-                    request.Password,
-                    passwordHash: out byte[] passwordHash,
-                    passwordSalt: out byte[] passwordSalt
-                );
-                user!.PasswordHash = passwordHash;
-                user!.PasswordSalt = passwordSalt;
-            }
+            user = _mapper.Map(request.UserUpdateFromAuthRequestDto, user);
+            user.UserState = Domain.Enums.UserState.Pending;
 
             User updatedUser = await _userRepository.UpdateAsync(user!);
 
             UpdatedUserFromAuthResponse response = _mapper.Map<UpdatedUserFromAuthResponse>(updatedUser);
-            response.AccessToken = await _authService.CreateAccessToken(user!);
             return response;
         }
     }

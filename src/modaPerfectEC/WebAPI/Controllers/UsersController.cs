@@ -4,6 +4,7 @@ using Application.Features.Users.Commands.Update;
 using Application.Features.Users.Commands.UpdateFromAuth;
 using Application.Features.Users.Queries.GetById;
 using Application.Features.Users.Queries.GetList;
+using Domain.Dtos;
 using Microsoft.AspNetCore.Mvc;
 using NArchitecture.Core.Application.Requests;
 using NArchitecture.Core.Application.Responses;
@@ -52,10 +53,10 @@ public class UsersController : BaseController
     }
 
     [HttpPut("FromAuth")]
-    public async Task<IActionResult> UpdateFromAuth([FromBody] UpdateUserFromAuthCommand updateUserFromAuthCommand)
+    public async Task<IActionResult> UpdateFromAuth([FromBody] UserUpdateFromAuthRequestDto userUpdateFromAuth)
     {
-        updateUserFromAuthCommand.Id = getUserIdFromRequest();
-        UpdatedUserFromAuthResponse result = await Mediator.Send(updateUserFromAuthCommand);
+        UpdateUserFromAuthCommand command = new() { Id = getUserIdFromRequest(), UserUpdateFromAuthRequestDto = userUpdateFromAuth };
+        UpdatedUserFromAuthResponse result = await Mediator.Send(command);
         return Ok(result);
     }
 

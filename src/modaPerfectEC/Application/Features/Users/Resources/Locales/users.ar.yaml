@@ -1,0 +1,4 @@
+﻿UserDontExists: "المستخدم غير موجود."
+UserMailAlreadyExists: "البريد الإلكتروني للمستخدم موجود بالفعل."
+PasswordDontMatch: "كلمة المرور غير متطابقة."
+UserAlreadyHasThisState: "المستخدم لديه هذه الحالة بالفعل."

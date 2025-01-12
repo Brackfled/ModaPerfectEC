@@ -1,6 +1,8 @@
+using Application.Features.Auth.Constants;
 using Application.Features.Users.Constants;
 using Application.Services.Repositories;
 using Domain.Entities;
+using Domain.Enums;
 using NArchitecture.Core.Application.Rules;
 using NArchitecture.Core.CrossCuttingConcerns.Exception.Types;
 using NArchitecture.Core.Localization.Abstraction;
@@ -34,7 +36,7 @@ public class UserBusinessRules : BaseBusinessRules
     public async Task UserIdShouldBeExistsWhenSelected(Guid id)
     {
         bool doesExist = await _userRepository.AnyAsync(predicate: u => u.Id == id);
-        if (doesExist)
+        if (!doesExist)
             await throwBusinessException(UsersMessages.UserDontExists);
     }
 
@@ -56,5 +58,11 @@ public class UserBusinessRules : BaseBusinessRules
         bool doesExists = await _userRepository.AnyAsync(predicate: u => u.Id != id && u.Email == email);
         if (doesExists)
             await throwBusinessException(UsersMessages.UserMailAlreadyExists);
+    }
+
+    public async Task UserStateIsAccurate(User user, UserState userState)
+    {
+        if (user.UserState == userState)
+            await throwBusinessException(UsersMessages.UserAlreadyHasThisState);
     }
 }

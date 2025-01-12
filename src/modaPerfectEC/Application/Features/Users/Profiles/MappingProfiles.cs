@@ -5,6 +5,7 @@ using Application.Features.Users.Commands.UpdateFromAuth;
 using Application.Features.Users.Queries.GetById;
 using Application.Features.Users.Queries.GetList;
 using AutoMapper;
+using Domain.Dtos;
 using Domain.Entities;
 using NArchitecture.Core.Application.Responses;
 using NArchitecture.Core.Persistence.Paging;
@@ -19,6 +20,8 @@ public class MappingProfiles : Profile
         CreateMap<User, CreatedUserResponse>().ReverseMap();
         CreateMap<User, UpdateUserCommand>().ReverseMap();
         CreateMap<User, UpdatedUserResponse>().ReverseMap();
+        CreateMap<UserUpdateFromAuthRequestDto, User>()
+            .ForAllMembers(opt => opt.Condition((src, dest, srcMember) => srcMember != null));
         CreateMap<User, UpdateUserFromAuthCommand>().ReverseMap();
         CreateMap<User, UpdatedUserFromAuthResponse>().ReverseMap();
         CreateMap<User, DeleteUserCommand>().ReverseMap();

@@ -1,0 +1,3 @@
+MPFileNotExists: File not exists.
+FileIsNotImageFile: File is not a image file.
+FilesCountMusBeBetweenTwoAndSix: Number of files must be between 2 and 6.

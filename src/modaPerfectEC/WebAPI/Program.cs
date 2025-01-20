@@ -1,6 +1,11 @@
+using Amazon;
+using Amazon.Runtime;
+using Amazon.S3;
 using Application;
 using Infrastructure;
+using Infrastructure.Adapters.Stroage.AWS;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using NArchitecture.Core.CrossCuttingConcerns.Exception.WebApi.Extensions;
@@ -32,6 +37,18 @@ builder.Services.AddApplicationServices(
 builder.Services.AddPersistenceServices(builder.Configuration);
 builder.Services.AddInfrastructureServices();
 builder.Services.AddHttpContextAccessor();
+
+builder.Services.Configure<AWSOptions>(builder.Configuration.GetSection("AmazonConfiguration"));
+builder.Services.AddSingleton<IAmazonS3>(provider =>
+{
+    var options = provider.GetRequiredService<IOptions<AWSOptions>>().Value;
+    var credentials = new BasicAWSCredentials(options.AccessKey, options.SecretKey);
+    var config = new AmazonS3Config
+    {
+        RegionEndpoint = RegionEndpoint.GetBySystemName(options.Region),
+    };
+    return new AmazonS3Client(credentials, config);
+});
 
 const string tokenOptionsConfigurationSection = "TokenOptions";
 TokenOptions tokenOptions =

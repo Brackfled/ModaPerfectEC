@@ -6,6 +6,14 @@ using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using NArchitecture.Core.Security.Constants;
+using Application.Features.Categories.Constants;
+using Application.Features.SubCategories.Constants;
+using Application.Features.Products.Constants;
+using Application.Features.ProductVariants.Constants;
+
+
+
+
 
 namespace Persistence.EntityConfigurations;
 
@@ -101,6 +109,62 @@ public class OperationClaimConfiguration : IEntityTypeConfiguration<OperationCla
                 new() { Id = ++lastId, Name = AuthOperationClaims.UpdateUserState}
             );
 
+        
+        #region Categories CRUD
+        featureOperationClaims.AddRange(
+            [
+                new() { Id = ++lastId, Name = CategoriesOperationClaims.Admin },
+                new() { Id = ++lastId, Name = CategoriesOperationClaims.Read },
+                new() { Id = ++lastId, Name = CategoriesOperationClaims.Write },
+                new() { Id = ++lastId, Name = CategoriesOperationClaims.Create },
+                new() { Id = ++lastId, Name = CategoriesOperationClaims.Update },
+                new() { Id = ++lastId, Name = CategoriesOperationClaims.Delete },
+            ]
+        );
+        #endregion
+        
+        
+        #region SubCategories CRUD
+        featureOperationClaims.AddRange(
+            [
+                new() { Id = ++lastId, Name = SubCategoriesOperationClaims.Admin },
+                new() { Id = ++lastId, Name = SubCategoriesOperationClaims.Read },
+                new() { Id = ++lastId, Name = SubCategoriesOperationClaims.Write },
+                new() { Id = ++lastId, Name = SubCategoriesOperationClaims.Create },
+                new() { Id = ++lastId, Name = SubCategoriesOperationClaims.Update },
+                new() { Id = ++lastId, Name = SubCategoriesOperationClaims.Delete },
+            ]
+        );
+        #endregion
+        
+        
+        #region Products CRUD
+        featureOperationClaims.AddRange(
+            [
+                new() { Id = ++lastId, Name = ProductsOperationClaims.Admin },
+                new() { Id = ++lastId, Name = ProductsOperationClaims.Read },
+                new() { Id = ++lastId, Name = ProductsOperationClaims.Write },
+                new() { Id = ++lastId, Name = ProductsOperationClaims.Create },
+                new() { Id = ++lastId, Name = ProductsOperationClaims.Update },
+                new() { Id = ++lastId, Name = ProductsOperationClaims.Delete },
+            ]
+        );
+        #endregion
+        
+        
+        #region ProductVariants CRUD
+        featureOperationClaims.AddRange(
+            [
+                new() { Id = ++lastId, Name = ProductVariantsOperationClaims.Admin },
+                new() { Id = ++lastId, Name = ProductVariantsOperationClaims.Read },
+                new() { Id = ++lastId, Name = ProductVariantsOperationClaims.Write },
+                new() { Id = ++lastId, Name = ProductVariantsOperationClaims.Create },
+                new() { Id = ++lastId, Name = ProductVariantsOperationClaims.Update },
+                new() { Id = ++lastId, Name = ProductVariantsOperationClaims.Delete },
+            ]
+        );
+        #endregion
+        
         return featureOperationClaims;
     }
 #pragma warning restore S1854 // Unused assignments should be removed

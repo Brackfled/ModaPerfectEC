@@ -1,4 +1,4 @@
-﻿using System.Reflection;
+using System.Reflection;
 using Application.Services.AuthenticatorService;
 using Application.Services.AuthService;
 using Application.Services.UsersService;
@@ -20,6 +20,11 @@ using NArchitecture.Core.Mailing;
 using NArchitecture.Core.Mailing.MailKit;
 using NArchitecture.Core.Security.DependencyInjection;
 using NArchitecture.Core.Security.JWT;
+using Application.Services.Categories;
+using Application.Services.SubCategories;
+using Application.Services.Products;
+using Application.Services.ProductVariants;
+using Application.Services.ProductImages;
 
 namespace Application;
 
@@ -59,6 +64,11 @@ public static class ApplicationServiceRegistration
 
         services.AddSecurityServices<Guid, int, Guid>(tokenOptions);
 
+        services.AddScoped<ICategoryService, CategoryManager>();
+        services.AddScoped<ISubCategoryService, SubCategoryManager>();
+        services.AddScoped<IProductService, ProductManager>();
+        services.AddScoped<IProductVariantService, ProductVariantManager>();
+        services.AddScoped<IProductImageService, ProductImageManager>();
         return services;
     }
 

@@ -22,6 +22,40 @@ namespace Persistence.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("Domain.Entities.Category", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnName("Id");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("CreatedDate");
+
+                    b.Property<DateTime?>("DeletedDate")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("DeletedDate");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)")
+                        .HasColumnName("Name");
+
+                    b.Property<DateTime?>("UpdatedDate")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("UpdatedDate");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex(new[] { "Name" }, "UK_Categories_Name")
+                        .IsUnique();
+
+                    b.ToTable("Categories", (string)null);
+                });
+
             modelBuilder.Entity("Domain.Entities.EmailAuthenticator", b =>
                 {
                     b.Property<Guid>("Id")
@@ -58,6 +92,57 @@ namespace Persistence.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("EmailAuthenticators", (string)null);
+                });
+
+            modelBuilder.Entity("Domain.Entities.MPFile", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("Id");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("CreatedDate");
+
+                    b.Property<DateTime?>("DeletedDate")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("DeletedDate");
+
+                    b.Property<string>("FileName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)")
+                        .HasColumnName("FileName");
+
+                    b.Property<string>("FilePath")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("FilePath");
+
+                    b.Property<string>("FileType")
+                        .IsRequired()
+                        .HasMaxLength(13)
+                        .HasColumnType("nvarchar(13)");
+
+                    b.Property<string>("FileUrl")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("FileUrl");
+
+                    b.Property<DateTime?>("UpdatedDate")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("UpdatedDate");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex(new[] { "FileName" }, "UK_MPFile_FileName")
+                        .IsUnique();
+
+                    b.ToTable("MPFile", (string)null);
+
+                    b.HasDiscriminator<string>("FileType").HasValue("MPFile");
+
+                    b.UseTphMappingStrategy();
                 });
 
             modelBuilder.Entity("Domain.Entities.OperationClaim", b =>
@@ -228,6 +313,156 @@ namespace Persistence.Migrations
                             Id = 478,
                             CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "Users.Delete"
+                        },
+                        new
+                        {
+                            Id = 479,
+                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "Auth.UpdateUserState"
+                        },
+                        new
+                        {
+                            Id = 480,
+                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "Categories.Admin"
+                        },
+                        new
+                        {
+                            Id = 481,
+                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "Categories.Read"
+                        },
+                        new
+                        {
+                            Id = 482,
+                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "Categories.Write"
+                        },
+                        new
+                        {
+                            Id = 483,
+                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "Categories.Create"
+                        },
+                        new
+                        {
+                            Id = 484,
+                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "Categories.Update"
+                        },
+                        new
+                        {
+                            Id = 485,
+                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "Categories.Delete"
+                        },
+                        new
+                        {
+                            Id = 486,
+                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "SubCategories.Admin"
+                        },
+                        new
+                        {
+                            Id = 487,
+                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "SubCategories.Read"
+                        },
+                        new
+                        {
+                            Id = 488,
+                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "SubCategories.Write"
+                        },
+                        new
+                        {
+                            Id = 489,
+                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "SubCategories.Create"
+                        },
+                        new
+                        {
+                            Id = 490,
+                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "SubCategories.Update"
+                        },
+                        new
+                        {
+                            Id = 491,
+                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "SubCategories.Delete"
+                        },
+                        new
+                        {
+                            Id = 492,
+                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "Products.Admin"
+                        },
+                        new
+                        {
+                            Id = 493,
+                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "Products.Read"
+                        },
+                        new
+                        {
+                            Id = 494,
+                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "Products.Write"
+                        },
+                        new
+                        {
+                            Id = 495,
+                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "Products.Create"
+                        },
+                        new
+                        {
+                            Id = 496,
+                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "Products.Update"
+                        },
+                        new
+                        {
+                            Id = 497,
+                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "Products.Delete"
+                        },
+                        new
+                        {
+                            Id = 498,
+                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "ProductVariants.Admin"
+                        },
+                        new
+                        {
+                            Id = 499,
+                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "ProductVariants.Read"
+                        },
+                        new
+                        {
+                            Id = 500,
+                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "ProductVariants.Write"
+                        },
+                        new
+                        {
+                            Id = 501,
+                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "ProductVariants.Create"
+                        },
+                        new
+                        {
+                            Id = 502,
+                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "ProductVariants.Update"
+                        },
+                        new
+                        {
+                            Id = 503,
+                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "ProductVariants.Delete"
                         });
                 });
 
@@ -268,6 +503,109 @@ namespace Persistence.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("OtpAuthenticators", (string)null);
+                });
+
+            modelBuilder.Entity("Domain.Entities.Product", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("Id");
+
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("int")
+                        .HasColumnName("CategoryId");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("CreatedDate");
+
+                    b.Property<DateTime?>("DeletedDate")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("DeletedDate");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("Description");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)")
+                        .HasColumnName("Name");
+
+                    b.Property<double>("Price")
+                        .HasColumnType("float")
+                        .HasColumnName("Price");
+
+                    b.Property<int>("ProductState")
+                        .HasColumnType("int")
+                        .HasColumnName("ProductState");
+
+                    b.Property<int>("SubCategoryId")
+                        .HasColumnType("int")
+                        .HasColumnName("SubCategoryId");
+
+                    b.Property<DateTime?>("UpdatedDate")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("UpdatedDate");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SubCategoryId");
+
+                    b.HasIndex(new[] { "Name" }, "UK_Products_Name")
+                        .IsUnique();
+
+                    b.ToTable("Products", (string)null);
+                });
+
+            modelBuilder.Entity("Domain.Entities.ProductVariant", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("Id");
+
+                    b.Property<string>("Color")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("Color");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("CreatedDate");
+
+                    b.Property<DateTime?>("DeletedDate")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("DeletedDate");
+
+                    b.Property<string>("Hex")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("Hex");
+
+                    b.Property<Guid>("ProductId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("ProductId");
+
+                    b.Property<string>("Sizes")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("StockAmount")
+                        .HasColumnType("int")
+                        .HasColumnName("StockAmount");
+
+                    b.Property<DateTime?>("UpdatedDate")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("UpdatedDate");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("ProductVariants", (string)null);
                 });
 
             modelBuilder.Entity("Domain.Entities.RefreshToken", b =>
@@ -328,6 +666,46 @@ namespace Persistence.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("RefreshTokens", (string)null);
+                });
+
+            modelBuilder.Entity("Domain.Entities.SubCategory", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnName("Id");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("int")
+                        .HasColumnName("CategoryId");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("CreatedDate");
+
+                    b.Property<DateTime?>("DeletedDate")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("DeletedDate");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)")
+                        .HasColumnName("Name");
+
+                    b.Property<DateTime?>("UpdatedDate")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("UpdatedDate");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CategoryId");
+
+                    b.HasIndex(new[] { "Name" }, "UK_SubCategories_Name")
+                        .IsUnique();
+
+                    b.ToTable("SubCategories", (string)null);
                 });
 
             modelBuilder.Entity("Domain.Entities.User", b =>
@@ -448,7 +826,7 @@ namespace Persistence.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("107668af-ab09-4e5d-ba68-f7341dc7a372"),
+                            Id = new Guid("d7805a6b-0682-4c15-add3-582cc9e0567a"),
                             Address = "Dere",
                             AuthenticatorType = 0,
                             City = "Konya",
@@ -459,8 +837,8 @@ namespace Persistence.Migrations
                             FirstName = "Hüseyin",
                             GsmNumber = "05555555555",
                             LastName = "ÖNCEL",
-                            PasswordHash = new byte[] { 195, 231, 117, 146, 162, 220, 141, 124, 208, 230, 71, 70, 144, 23, 71, 122, 229, 170, 252, 176, 10, 122, 12, 108, 89, 250, 38, 6, 105, 120, 48, 31, 166, 135, 220, 78, 251, 184, 221, 103, 201, 166, 185, 124, 86, 238, 248, 74, 52, 127, 192, 48, 61, 168, 47, 48, 21, 160, 171, 181, 80, 226, 250, 11 },
-                            PasswordSalt = new byte[] { 59, 40, 78, 38, 161, 14, 18, 39, 238, 70, 148, 50, 57, 246, 88, 182, 152, 13, 77, 37, 188, 22, 209, 205, 141, 2, 169, 35, 98, 205, 53, 37, 57, 71, 191, 160, 194, 157, 142, 99, 128, 103, 113, 130, 196, 223, 27, 83, 239, 55, 5, 190, 127, 254, 66, 107, 0, 175, 169, 90, 18, 188, 43, 152, 138, 128, 183, 100, 100, 19, 62, 104, 123, 241, 139, 97, 134, 6, 165, 91, 175, 196, 149, 33, 253, 103, 214, 202, 178, 166, 65, 188, 24, 1, 234, 242, 231, 82, 9, 190, 102, 130, 10, 5, 108, 252, 201, 12, 240, 182, 102, 24, 170, 107, 193, 32, 191, 66, 220, 203, 243, 74, 4, 200, 173, 87, 210, 26 },
+                            PasswordHash = new byte[] { 126, 135, 197, 181, 167, 167, 56, 131, 127, 57, 43, 160, 176, 246, 171, 248, 74, 249, 114, 194, 159, 101, 1, 5, 165, 123, 227, 237, 244, 171, 89, 187, 154, 84, 101, 126, 27, 108, 194, 107, 33, 5, 19, 49, 77, 52, 93, 104, 133, 26, 162, 67, 110, 79, 88, 104, 6, 68, 25, 111, 251, 73, 98, 127 },
+                            PasswordSalt = new byte[] { 151, 233, 40, 28, 42, 152, 72, 152, 133, 250, 130, 42, 206, 156, 213, 9, 251, 184, 81, 147, 125, 184, 196, 70, 69, 171, 117, 7, 169, 102, 251, 49, 165, 231, 82, 53, 121, 174, 40, 226, 145, 138, 187, 244, 27, 196, 28, 149, 226, 80, 144, 33, 92, 93, 9, 105, 251, 142, 250, 128, 210, 67, 89, 96, 38, 39, 111, 143, 185, 175, 51, 206, 239, 57, 54, 149, 81, 241, 218, 116, 118, 12, 55, 57, 62, 85, 104, 23, 135, 179, 2, 191, 112, 38, 209, 86, 192, 87, 179, 216, 166, 176, 187, 31, 159, 33, 115, 169, 45, 242, 211, 178, 125, 111, 145, 142, 112, 122, 105, 206, 244, 171, 45, 159, 107, 231, 60, 165 },
                             Reference = "Ben",
                             TaxNumber = "6666444555",
                             TaxOffice = "Konya VD",
@@ -507,11 +885,23 @@ namespace Persistence.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("aa6bab7e-a949-4756-b869-4d9fb6e4598d"),
+                            Id = new Guid("9e22f8ab-3b8b-4b6c-9b97-fb675fd7dab3"),
                             CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             OperationClaimId = 456,
-                            UserId = new Guid("107668af-ab09-4e5d-ba68-f7341dc7a372")
+                            UserId = new Guid("d7805a6b-0682-4c15-add3-582cc9e0567a")
                         });
+                });
+
+            modelBuilder.Entity("Domain.Entities.ProductImage", b =>
+                {
+                    b.HasBaseType("Domain.Entities.MPFile");
+
+                    b.Property<Guid>("ProductId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasIndex("ProductId");
+
+                    b.HasDiscriminator().HasValue("ProductImage");
                 });
 
             modelBuilder.Entity("Domain.Entities.EmailAuthenticator", b =>
@@ -536,6 +926,36 @@ namespace Persistence.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("Domain.Entities.Product", b =>
+                {
+                    b.HasOne("Domain.Entities.Category", "Category")
+                        .WithMany("Products")
+                        .HasForeignKey("SubCategoryId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Domain.Entities.SubCategory", "SubCategory")
+                        .WithMany("Products")
+                        .HasForeignKey("SubCategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Category");
+
+                    b.Navigation("SubCategory");
+                });
+
+            modelBuilder.Entity("Domain.Entities.ProductVariant", b =>
+                {
+                    b.HasOne("Domain.Entities.Product", "Product")
+                        .WithMany("ProductVariants")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Product");
+                });
+
             modelBuilder.Entity("Domain.Entities.RefreshToken", b =>
                 {
                     b.HasOne("Domain.Entities.User", "User")
@@ -545,6 +965,17 @@ namespace Persistence.Migrations
                         .IsRequired();
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Domain.Entities.SubCategory", b =>
+                {
+                    b.HasOne("Domain.Entities.Category", "Category")
+                        .WithMany("SubCategories")
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Category");
                 });
 
             modelBuilder.Entity("Domain.Entities.UserOperationClaim", b =>
@@ -564,6 +995,36 @@ namespace Persistence.Migrations
                     b.Navigation("OperationClaim");
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Domain.Entities.ProductImage", b =>
+                {
+                    b.HasOne("Domain.Entities.Product", "Product")
+                        .WithMany("ProductImages")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Product");
+                });
+
+            modelBuilder.Entity("Domain.Entities.Category", b =>
+                {
+                    b.Navigation("Products");
+
+                    b.Navigation("SubCategories");
+                });
+
+            modelBuilder.Entity("Domain.Entities.Product", b =>
+                {
+                    b.Navigation("ProductImages");
+
+                    b.Navigation("ProductVariants");
+                });
+
+            modelBuilder.Entity("Domain.Entities.SubCategory", b =>
+                {
+                    b.Navigation("Products");
                 });
 
             modelBuilder.Entity("Domain.Entities.User", b =>

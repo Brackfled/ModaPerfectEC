@@ -9,6 +9,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="13.0.1" />
+    <PackageReference Include="AWSSDK.S3" Version="3.7.412.1" />
     <PackageReference Include="MediatR" Version="12.2.0" />
     <PackageReference Include="NArchitecture.Core.Application" Version="1.0.1" />
     <PackageReference Include="NArchitecture.Core.Mailing" Version="1.0.1" />
@@ -21,12 +22,13 @@
 	<PackageReference Include="NArchitecture.Core.Security.DependencyInjection" Version="1.2.0" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Services\" />
-    <Folder Include="Services\Repositories" />
-  </ItemGroup>
-  <ItemGroup>
     <None Update="Features\**\Resources\Locales\*.*.yaml">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Features\MPFile\Profiles\" />
+    <Folder Include="Features\MPFile\Resources\Locales\" />
+    <Folder Include="Features\MPFile\Queries\" />
   </ItemGroup>
 </Project>

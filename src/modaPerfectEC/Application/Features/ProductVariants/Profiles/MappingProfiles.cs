@@ -19,6 +19,12 @@ public class MappingProfiles : Profile
 
         CreateMap<UpdateProductVariantCommand, ProductVariant>();
         CreateMap<ProductVariant, UpdatedProductVariantResponse>();
+        CreateMap<UpdateProductVariantRequest, ProductVariant>()
+            .ForAllMembers(opt => opt.Condition((src, dest, srcMember) =>
+                srcMember != null &&
+                (srcMember is not int || (int?)srcMember != 0) &&
+                (srcMember is not byte[] || ((byte[])srcMember).Length > 0)
+                ));
 
         CreateMap<DeleteProductVariantCommand, ProductVariant>();
         CreateMap<ProductVariant, DeletedProductVariantResponse>();

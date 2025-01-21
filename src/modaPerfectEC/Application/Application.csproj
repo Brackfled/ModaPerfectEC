@@ -27,7 +27,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Features\MPFile\Profiles\" />
     <Folder Include="Features\MPFile\Resources\Locales\" />
     <Folder Include="Features\MPFile\Queries\" />
   </ItemGroup>

@@ -33,6 +33,8 @@ public class CreateSubCategoryCommand : IRequest<CreatedSubCategoryResponse>, IS
 
         public async Task<CreatedSubCategoryResponse> Handle(CreateSubCategoryCommand request, CancellationToken cancellationToken)
         {
+            await _subCategoryBusinessRules.SubCategoryShouldNotExists(request.Name);
+
             SubCategory subCategory = _mapper.Map<SubCategory>(request);
 
             await _subCategoryRepository.AddAsync(subCategory);

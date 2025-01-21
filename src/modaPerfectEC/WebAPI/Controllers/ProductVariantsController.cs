@@ -22,8 +22,10 @@ public class ProductVariantsController : BaseController
     }
 
     [HttpPut]
-    public async Task<ActionResult<UpdatedProductVariantResponse>> Update([FromBody] UpdateProductVariantCommand command)
+    public async Task<ActionResult<UpdatedProductVariantResponse>> Update([FromBody] UpdateProductVariantRequest updateProductVariantRequest)
     {
+        UpdateProductVariantCommand command = new() { UpdateProductVariantRequest = updateProductVariantRequest};
+
         UpdatedProductVariantResponse response = await Mediator.Send(command);
 
         return Ok(response);

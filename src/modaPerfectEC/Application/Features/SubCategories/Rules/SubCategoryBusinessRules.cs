@@ -39,4 +39,11 @@ public class SubCategoryBusinessRules : BaseBusinessRules
         );
         await SubCategoryShouldExistWhenSelected(subCategory);
     }
+
+    public async Task SubCategoryShouldNotExists(string name)
+    {
+        bool doesExists = await _subCategoryRepository.AnyAsync(sc => sc.Name == name);
+        if (doesExists)
+            await throwBusinessException(SubCategoriesBusinessMessages.SubCategoryNotExists);
+    }
 }

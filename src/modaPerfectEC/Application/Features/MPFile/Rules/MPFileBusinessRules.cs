@@ -1,6 +1,7 @@
 ﻿using Application.Features.Categories.Constants;
 using Application.Features.MPFile.Constants;
 using Application.Services.Repositories;
+using Domain.Entities;
 using Microsoft.AspNetCore.Http;
 using NArchitecture.Core.Application.Rules;
 using NArchitecture.Core.CrossCuttingConcerns.Exception.Types;
@@ -47,5 +48,9 @@ public class MPFileBusinessRules:BaseBusinessRules
             await throwBusinessException(MPFileBusinessMessages.FilesCountMusBeBetweenTwoAndSix);
     }
 
-
+    public async Task MPFileShouldExistsWhenSelected(ProductImage productImage)
+    {
+        if (productImage == null)
+            await throwBusinessException(MPFileBusinessMessages.MPFileNotExists);
+    }
 }

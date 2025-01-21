@@ -36,7 +36,7 @@ public class DeleteProductVariantCommand : IRequest<DeletedProductVariantRespons
             ProductVariant? productVariant = await _productVariantRepository.GetAsync(predicate: pv => pv.Id == request.Id, cancellationToken: cancellationToken);
             await _productVariantBusinessRules.ProductVariantShouldExistWhenSelected(productVariant);
 
-            await _productVariantRepository.DeleteAsync(productVariant!);
+            await _productVariantRepository.DeleteAsync(productVariant!, true);
 
             DeletedProductVariantResponse response = _mapper.Map<DeletedProductVariantResponse>(productVariant);
             return response;

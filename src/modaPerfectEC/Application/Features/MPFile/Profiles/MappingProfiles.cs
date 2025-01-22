@@ -1,4 +1,6 @@
 ﻿using Application.Features.MPFile.Commands.DeleteProductImage;
+using Application.Features.MPFile.Queries.GetById;
+using Application.Features.MPFile.Queries.GetListByProductId;
 using AutoMapper;
 using Domain.Entities;
 using System;
@@ -13,5 +15,9 @@ public class MappingProfiles: Profile
     public MappingProfiles()
     {
         CreateMap<ProductImage, DeletedProductImageResponse>();
+
+        CreateMap<ProductImage, GetByIdProductImageResponse>();
+
+        CreateMap<ProductImage, GetListByProductIdProductImageListItemDto>();
     }
 }

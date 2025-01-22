@@ -6,6 +6,7 @@ using Domain.Entities;
 using NArchitecture.Core.Application.Pipelines.Authorization;
 using MediatR;
 using static Application.Features.Categories.Constants.CategoriesOperationClaims;
+using Microsoft.EntityFrameworkCore;
 
 namespace Application.Features.Categories.Queries.GetById;
 
@@ -30,7 +31,7 @@ public class GetByIdCategoryQuery : IRequest<GetByIdCategoryResponse>//, ISecure
 
         public async Task<GetByIdCategoryResponse> Handle(GetByIdCategoryQuery request, CancellationToken cancellationToken)
         {
-            Category? category = await _categoryRepository.GetAsync(predicate: c => c.Id == request.Id, cancellationToken: cancellationToken);
+            Category? category = await _categoryRepository.GetAsync(predicate: c => c.Id == request.Id,include:opt => opt.Include(c => c.SubCategories!) , cancellationToken: cancellationToken);
             await _categoryBusinessRules.CategoryShouldExistWhenSelected(category);
 
             GetByIdCategoryResponse response = _mapper.Map<GetByIdCategoryResponse>(category);

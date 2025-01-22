@@ -47,4 +47,25 @@ public class ProductVariantBusinessRules : BaseBusinessRules
         if (doesExists)
             await throwBusinessException(ProductVariantsBusinessMessages.ThisProductHasAThisVariant);
     }
+
+    public async Task SizesShouldBeTheRight(int[] sizes)
+    {
+        if (sizes.Length > 9)
+            await throwBusinessException(ProductVariantsBusinessMessages.SizesOverLenght);
+
+        bool hasDuplicated = (sizes.Count() != sizes.Distinct().Count());
+
+        if (hasDuplicated)
+            await throwBusinessException(ProductVariantsBusinessMessages.SizesHasDuplicatedElement);
+
+        foreach (int size in sizes)
+        {
+            if (size < 38 && size > 54)
+                await throwBusinessException(ProductVariantsBusinessMessages.SizesListHasAIllegalSize);
+
+            if(size % 2 != 0)
+                await throwBusinessException(ProductVariantsBusinessMessages.SizesListHasAIllegalSize);
+
+        }
+    }
 }

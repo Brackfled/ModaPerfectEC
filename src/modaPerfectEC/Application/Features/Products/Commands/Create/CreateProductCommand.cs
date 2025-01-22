@@ -41,6 +41,7 @@ public class CreateProductCommand : IRequest<CreatedProductResponse>, ISecuredRe
         {
 
             await _productBusinessRules.ProductNameShouldNotExistsWhenSelected(request.CreateProductRequest.Name);
+            await _productVariantBusinessRules.SizesShouldBeTheRight(request.CreateProductRequest.Sizes);
 
             Product product = new()
             {

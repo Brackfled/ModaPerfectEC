@@ -8,6 +8,7 @@ using NArchitecture.Core.Application.Responses;
 using NArchitecture.Core.Persistence.Paging;
 using MediatR;
 using static Application.Features.SubCategories.Constants.SubCategoriesOperationClaims;
+using Microsoft.EntityFrameworkCore;
 
 namespace Application.Features.SubCategories.Queries.GetList;
 

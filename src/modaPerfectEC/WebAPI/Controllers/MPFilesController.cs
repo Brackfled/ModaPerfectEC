@@ -1,5 +1,7 @@
 ﻿using Application.Features.MPFile.Commands.CreateProductImage;
 using Application.Features.MPFile.Commands.DeleteProductImage;
+using Application.Features.MPFile.Queries.GetById;
+using Application.Features.MPFile.Queries.GetListByProductId;
 using Application.Features.Products.Commands.Delete;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -21,6 +23,22 @@ public class MPFilesController : BaseController
     {
         DeleteProductImageCommand command = new() { Id = id};
         DeletedProductImageResponse result = await Mediator.Send(command);
+        return Ok(result);
+    }
+
+    [HttpGet("GetById/{id}")]
+    public async Task<IActionResult> GetByIdProduct([FromRoute] Guid id)
+    {
+        GetByIdProductImageQuery query = new() { Id = id };
+        GetByIdProductImageResponse result = await Mediator.Send(query);
+        return Ok(result);
+    }
+
+    [HttpGet("GetListByProductId/{productId}")]
+    public async Task<IActionResult> GetListByProductIdProductImage([FromRoute] Guid productId)
+    {
+        GetListByProductIdProductImageQuery query = new() { ProductId = productId };
+        ICollection<GetListByProductIdProductImageListItemDto> result = await Mediator.Send(query);
         return Ok(result);
     }
 }

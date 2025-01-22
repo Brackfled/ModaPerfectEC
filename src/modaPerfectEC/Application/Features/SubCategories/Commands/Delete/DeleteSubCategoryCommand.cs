@@ -36,7 +36,7 @@ public class DeleteSubCategoryCommand : IRequest<DeletedSubCategoryResponse>, IS
             SubCategory? subCategory = await _subCategoryRepository.GetAsync(predicate: sc => sc.Id == request.Id, cancellationToken: cancellationToken);
             await _subCategoryBusinessRules.SubCategoryShouldExistWhenSelected(subCategory);
 
-            await _subCategoryRepository.DeleteAsync(subCategory!);
+            await _subCategoryRepository.DeleteAsync(subCategory!, true);
 
             DeletedSubCategoryResponse response = _mapper.Map<DeletedSubCategoryResponse>(subCategory);
             return response;

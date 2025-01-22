@@ -36,7 +36,7 @@ public class DeleteCategoryCommand : IRequest<DeletedCategoryResponse>, ISecured
             Category? category = await _categoryRepository.GetAsync(predicate: c => c.Id == request.Id, cancellationToken: cancellationToken);
             await _categoryBusinessRules.CategoryShouldExistWhenSelected(category);
 
-            await _categoryRepository.DeleteAsync(category!);
+            await _categoryRepository.DeleteAsync(category!, true);
 
             DeletedCategoryResponse response = _mapper.Map<DeletedCategoryResponse>(category);
             return response;

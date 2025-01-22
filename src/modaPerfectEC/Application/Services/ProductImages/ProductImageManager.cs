@@ -31,6 +31,12 @@ public class ProductImageManager: IProductImageService
         return deletedProductImage;
     }
 
+    public async Task<ICollection<ProductImage>> GetAllAsync(Expression<Func<ProductImage, bool>>? predicate = null)
+    {
+        ICollection<ProductImage>? productImages = await _productImageRepository.GetAllAsync(predicate);
+        return productImages;
+    }
+
     public async Task<ProductImage?> GetAsync(Expression<Func<ProductImage, bool>> predicate, Func<IQueryable<ProductImage>, IIncludableQueryable<ProductImage, object>>? include = null, bool withDeleted = false, bool enableTracking = true, CancellationToken cancellationToken = default)
     {
         ProductImage? productImage = await _productImageRepository.GetAsync(

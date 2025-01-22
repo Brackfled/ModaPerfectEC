@@ -33,4 +33,5 @@ public interface IProductImageService
     Task<ProductImage> AddAsync(ProductImage productImage);
     Task<ProductImage> UpdateAsync(ProductImage productImage);
     Task<ProductImage> DeleteAsync(ProductImage productImage, bool permanent = false);
+    Task<ICollection<ProductImage>> GetAllAsync(Expression<Func<ProductImage, bool>>? predicate = null);
 }

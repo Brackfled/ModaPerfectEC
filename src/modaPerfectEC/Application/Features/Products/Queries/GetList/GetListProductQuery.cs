@@ -12,11 +12,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Application.Features.Products.Queries.GetList;
 
-public class GetListProductQuery : IRequest<GetListResponse<GetListProductListItemDto>>, ISecuredRequest
+public class GetListProductQuery : IRequest<GetListResponse<GetListProductListItemDto>>//, ISecuredRequest
 {
     public PageRequest PageRequest { get; set; }
 
-    public string[] Roles => [Admin, Read];
+    //public string[] Roles => [Admin, Read];
 
     public class GetListProductQueryHandler : IRequestHandler<GetListProductQuery, GetListResponse<GetListProductListItemDto>>
     {

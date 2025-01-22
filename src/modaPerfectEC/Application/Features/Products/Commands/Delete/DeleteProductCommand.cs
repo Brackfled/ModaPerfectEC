@@ -42,7 +42,7 @@ public class DeleteProductCommand : IRequest<DeletedProductResponse>, ISecuredRe
 
 
 
-            await _productRepository.DeleteAsync(product!);
+            await _productRepository.DeleteAsync(product!, true);
 
             DeletedProductResponse response = _mapper.Map<DeletedProductResponse>(product);
             return response;

@@ -6,4 +6,5 @@ public static class ProductsBusinessMessages
 
     public const string ProductNotExists = "ProductNotExists";
     public const string ProductExists = "ProductExists";
+    public const string TheLastImageCannotBeDeleted = "TheLastImageCannotBeDeleted";
 }

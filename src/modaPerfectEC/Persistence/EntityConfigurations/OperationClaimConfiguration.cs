@@ -10,6 +10,7 @@ using Application.Features.Categories.Constants;
 using Application.Features.SubCategories.Constants;
 using Application.Features.Products.Constants;
 using Application.Features.ProductVariants.Constants;
+using Application.Features.MPFile.Constants;
 
 
 
@@ -164,7 +165,15 @@ public class OperationClaimConfiguration : IEntityTypeConfiguration<OperationCla
             ]
         );
         #endregion
-        
+
+        featureOperationClaims.AddRange(
+           [
+                new() {Id = ++lastId, Name = MPFilesOperationClaims.Create},              
+                new() {Id = ++lastId, Name = MPFilesOperationClaims.Deleted},              
+                new() {Id = ++lastId, Name = MPFilesOperationClaims.Read},              
+           ]
+        );
+
         return featureOperationClaims;
     }
 #pragma warning restore S1854 // Unused assignments should be removed

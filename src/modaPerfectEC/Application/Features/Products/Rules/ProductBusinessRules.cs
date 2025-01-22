@@ -4,6 +4,9 @@ using NArchitecture.Core.Application.Rules;
 using NArchitecture.Core.CrossCuttingConcerns.Exception.Types;
 using NArchitecture.Core.Localization.Abstraction;
 using Domain.Entities;
+using Microsoft.EntityFrameworkCore;
+using static System.Net.Mime.MediaTypeNames;
+using System.Collections.Generic;
 
 namespace Application.Features.Products.Rules;
 
@@ -46,5 +49,13 @@ public class ProductBusinessRules : BaseBusinessRules
 
         if (doesExists)
             await throwBusinessException(ProductsBusinessMessages.ProductExists);
+    }
+
+    public async Task IsTheImageTheFinalImageOfTheProduct(Guid productId)
+    {
+        Product? product = await _productRepository.GetAsync(p => p.Id == productId, include:opt => opt.Include(p => p.ProductImages!));
+
+        if (product!.ProductImages!.Count() <= 1)
+            await throwBusinessException(ProductsBusinessMessages.TheLastImageCannotBeDeleted);
     }
 }

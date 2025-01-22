@@ -16,7 +16,6 @@ public class CreateProductRequest
     public  string Description { get; set; }
     public  ProductState ProductState { get; set; }
     public ColorDto[] ColorDtos { get; set; }
-    public int StockAmount { get; set; }
     public int[] Sizes { get; set; }
 
 }

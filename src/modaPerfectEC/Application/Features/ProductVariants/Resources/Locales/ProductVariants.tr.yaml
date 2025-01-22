@@ -1,2 +1,5 @@
 ProductVariantNotExists: Ürün varyantý mevcut deðil.
 ThisProductHasAThisVariant: Ürün bu varyanta sahip.
+SizesOverLenght: Beden sayýsý dokuzdan fazla olamaz.
+SizesHasDuplicatedElement: Beden listesi tekrarlayan eleman içeriyor.
+SizesListHasAIllegalSize: Beden listesi anormal beden içeriyor.

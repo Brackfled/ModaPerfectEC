@@ -34,6 +34,9 @@ public class UpdateProductVariantCommand : IRequest<UpdatedProductVariantRespons
 
         public async Task<UpdatedProductVariantResponse> Handle(UpdateProductVariantCommand request, CancellationToken cancellationToken)
         {
+            if(request.UpdateProductVariantRequest.Sizes != null)
+                await _productVariantBusinessRules.SizesShouldBeTheRight(request.UpdateProductVariantRequest.Sizes!);
+
             ProductVariant? productVariant = await _productVariantRepository.GetAsync(predicate: pv => pv.Id == request.UpdateProductVariantRequest.Id, cancellationToken: cancellationToken);
             await _productVariantBusinessRules.ProductVariantShouldExistWhenSelected(productVariant);
             productVariant = _mapper.Map(request.UpdateProductVariantRequest, productVariant);

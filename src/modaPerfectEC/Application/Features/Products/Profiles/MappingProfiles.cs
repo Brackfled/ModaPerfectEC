@@ -9,6 +9,7 @@ using Domain.Entities;
 using NArchitecture.Core.Persistence.Paging;
 using Application.Features.Products.Queries.GetAllByFiltered;
 using Application.Features.Products.Queries.GetListByDynamic;
+using Application.Features.Products.Queries.GetListByShowCase;
 
 namespace Application.Features.Products.Profiles;
 
@@ -40,5 +41,10 @@ public class MappingProfiles : Profile
 
         CreateMap<Product, GetListByDynamicProductListItemDto>();
         CreateMap<IPaginate<Product>, GetListResponse<GetListByDynamicProductListItemDto>>();
+
+        CreateMap<Product, GetListByShowCaseProductListItemDto>();
+        CreateMap<ICollection<Product>, ICollection<GetListByShowCaseProductListItemDto>>()
+            .ConvertUsing((src, dest, context) =>
+                src.Select(product => context.Mapper.Map<GetListByShowCaseProductListItemDto>(product)).ToList());
     }
 }

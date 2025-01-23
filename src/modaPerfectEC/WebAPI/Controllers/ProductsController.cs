@@ -13,6 +13,7 @@ using Domain.Dtos;
 using Application.Features.Products.Queries.GetAllByFiltered;
 using NArchitecture.Core.Persistence.Dynamic;
 using Application.Features.Products.Queries.GetListByDynamic;
+using Application.Features.Products.Queries.GetListByShowCase;
 
 namespace WebAPI.Controllers;
 
@@ -80,6 +81,14 @@ public class ProductsController : BaseController
     {
         GetListByDynamicProductQuery query = new() {PageRequest = pageRequest, DynamicQuery = dynamicQuery };
         GetListResponse<GetListByDynamicProductListItemDto> result = await Mediator.Send(query);
+        return Ok(result);
+    }
+
+    [HttpGet("GetAllByShowCase")]
+    public async Task<IActionResult> GetAllByShowCaseProducts()
+    {
+        GetListByShowCaseProductQuery query = new();
+        ICollection<GetListByShowCaseProductListItemDto> result = await Mediator.Send(query);
         return Ok(result);
     }
 }

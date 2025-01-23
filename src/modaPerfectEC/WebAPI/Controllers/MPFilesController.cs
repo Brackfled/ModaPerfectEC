@@ -12,8 +12,9 @@ namespace WebAPI.Controllers;
 public class MPFilesController : BaseController
 {
     [HttpPost("CreateProductImage")]
-    public async Task<IActionResult> CreateProductImage([FromForm] CreateProductImageCommand command)
+    public async Task<IActionResult> CreateProductImage([FromForm] CreateProductImageRequest createProductImageRequest)
     {
+        CreateProductImageCommand command = new() { CreateProductImageRequest = createProductImageRequest };
         CreatedProductImageResponse result = await Mediator.Send(command);
         return Ok(result);
     }

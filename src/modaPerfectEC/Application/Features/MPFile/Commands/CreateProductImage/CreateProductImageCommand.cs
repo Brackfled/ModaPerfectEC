@@ -19,8 +19,7 @@ using System.Threading.Tasks;
 namespace Application.Features.MPFile.Commands.CreateProductImage;
 public class CreateProductImageCommand: IRequest<CreatedProductImageResponse>, ITransactionalRequest, ISecuredRequest
 {
-    public Guid ProductId { get; set; }
-    public IList<IFormFile> FormFiles { get; set; }
+    public CreateProductImageRequest CreateProductImageRequest { get; set; }
 
     public string[] Roles => [MPFilesOperationClaims.Create];
 
@@ -41,20 +40,20 @@ public class CreateProductImageCommand: IRequest<CreatedProductImageResponse>, I
 
         public async Task<CreatedProductImageResponse> Handle(CreateProductImageCommand request, CancellationToken cancellationToken)
         {
-            await _mpFileBusinessRules.FileShouldBeMinAndMaxCount(request.FormFiles,2,6);
-            await _mpFileBusinessRules.FileIsImageFiles(request.FormFiles);
-            await _productBusinessRules.ProductIdShouldExistWhenSelected(request.ProductId, cancellationToken);
+            await _mpFileBusinessRules.FileShouldBeMinAndMaxCount(request.CreateProductImageRequest.FormFiles,2,6);
+            await _mpFileBusinessRules.FileIsImageFiles(request.CreateProductImageRequest.FormFiles);
+            await _productBusinessRules.ProductIdShouldExistWhenSelected(request.CreateProductImageRequest.ProductId, cancellationToken);
 
             IList<ProductImage> productImages = new List<ProductImage>();
 
-            foreach (IFormFile formFile in request.FormFiles)
+            foreach (IFormFile formFile in request.CreateProductImageRequest.FormFiles)
             {
                 Domain.Dtos.FileOptions fileOptions = await _stroageService.UploadFileAsync(formFile, "hk-image");
 
                 ProductImage productImage = new()
                 {
                     Id = Guid.NewGuid(),
-                    ProductId = request.ProductId,
+                    ProductId = request.CreateProductImageRequest.ProductId,
                     FileName = fileOptions.FileName,
                     FilePath = fileOptions.BucketName,
                     FileUrl = fileOptions.FileUrl,
@@ -64,7 +63,7 @@ public class CreateProductImageCommand: IRequest<CreatedProductImageResponse>, I
                 productImages.Add(addedProductImage);
             }
 
-            CreatedProductImageResponse response = new() { ProductId =  request.ProductId , ProductImages = productImages};
+            CreatedProductImageResponse response = new() { ProductId =  request.CreateProductImageRequest.ProductId , ProductImages = productImages};
             return response;
         }
     }

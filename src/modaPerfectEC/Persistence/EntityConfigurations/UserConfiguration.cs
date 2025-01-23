@@ -77,7 +77,8 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
                     IdentityNumberHash = null,
                     Reference = "Ben",
                     PasswordHash = passwordHash,
-                    PasswordSalt = passwordSalt
+                    PasswordSalt = passwordSalt,
+                    UserState = Domain.Enums.UserState.Confirmed
                 };
             yield return adminUser;
         }

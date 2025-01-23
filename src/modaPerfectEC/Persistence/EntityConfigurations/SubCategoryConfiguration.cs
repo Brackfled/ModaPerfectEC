@@ -20,7 +20,7 @@ public class SubCategoryConfiguration : IEntityTypeConfiguration<SubCategory>
         builder.HasIndex(sc => sc.Name, name:"UK_SubCategories_Name").IsUnique();
 
         builder.HasOne(sc => sc.Category);
-        builder.HasMany(sc => sc.Products).WithOne(p => p.SubCategory).HasForeignKey(p => p.SubCategoryId).OnDelete(DeleteBehavior.Cascade);
+        builder.HasMany(sc => sc.Products).WithOne(p => p.SubCategory).HasForeignKey(p => p.SubCategoryId).OnDelete(DeleteBehavior.Restrict);
 
         builder.HasQueryFilter(sc => !sc.DeletedDate.HasValue);
     }

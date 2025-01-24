@@ -23,7 +23,7 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
 
         builder.HasIndex(p => p.Name, name:"UK_Products_Name").IsUnique();
 
-        builder.HasOne(p => p.Category).WithMany(sc => sc.Products).HasForeignKey(p => p.SubCategoryId).OnDelete(DeleteBehavior.Restrict);
+        builder.HasOne(p => p.Category).WithMany(sc => sc.Products).HasForeignKey(p => p.CategoryId).OnDelete(DeleteBehavior.Restrict);
         builder.HasOne(p => p.SubCategory).WithMany(sc => sc.Products).HasForeignKey(p => p.SubCategoryId).OnDelete(DeleteBehavior.Restrict);
         builder.HasMany(p => p.ProductVariants).WithOne(pv => pv.Product).HasForeignKey(pv => pv.ProductId).OnDelete(DeleteBehavior.Cascade);
         builder.HasMany(p => p.ProductImages).WithOne(pv => pv.Product).HasForeignKey(pv => pv.ProductId).OnDelete(DeleteBehavior.Cascade);

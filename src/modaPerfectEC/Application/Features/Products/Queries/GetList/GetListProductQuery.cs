@@ -32,7 +32,7 @@ public class GetListProductQuery : IRequest<GetListResponse<GetListProductListIt
         public async Task<GetListResponse<GetListProductListItemDto>> Handle(GetListProductQuery request, CancellationToken cancellationToken)
         {
             IPaginate<Product> products = await _productRepository.GetListAsync(
-                include:opt => opt.Include(p => p.ProductVariants)!.Include(p => p.ProductImages)! ,
+                include:opt => opt.Include(p => p.ProductVariants)!.Include(p => p.ProductImages)!.Include(p => p.Category)!.Include(p => p.SubCategory!) ,
                 index: request.PageRequest.PageIndex,
                 size: request.PageRequest.PageSize, 
                 cancellationToken: cancellationToken

@@ -31,7 +31,9 @@ public class GetByIdProductQuery : IRequest<GetByIdProductResponse>//, ISecuredR
 
         public async Task<GetByIdProductResponse> Handle(GetByIdProductQuery request, CancellationToken cancellationToken)
         {
-            Product? product = await _productRepository.GetAsync(predicate: p => p.Id == request.Id, include: opt => opt.Include(p => p.ProductVariants)!.Include(p => p.ProductImages)!, cancellationToken: cancellationToken);
+            Product? product = await _productRepository.GetAsync(predicate: p => p.Id == request.Id, 
+                include: opt => opt.Include(p => p.ProductVariants)!.Include(p => p.ProductImages)!.Include(p => p.Category!).Include(p => p.SubCategory!), 
+                cancellationToken: cancellationToken);
             await _productBusinessRules.ProductShouldExistWhenSelected(product);
 
             GetByIdProductResponse response = _mapper.Map<GetByIdProductResponse>(product);

@@ -31,7 +31,7 @@ public class GetAllByFilteredProductQuery: IRequest<ICollection<GetAllByFiltered
         public async Task<ICollection<GetAllByFilteredProductListItemDto>> Handle(GetAllByFilteredProductQuery request, CancellationToken cancellationToken)
         {
             ICollection<Product>? products = await _productRepository.GetAllAsync(
-                include: opt => opt.Include(p => p.ProductVariants)!.Include(p => p.ProductImages)!
+                include: opt => opt.Include(p => p.ProductVariants)!.Include(p => p.ProductImages)!.Include(p => p.Category)!.Include(p => p.SubCategory)!
                 );
 
             ICollection<GetAllByFilteredProductListItemDto> response = _mapper.Map<ICollection<GetAllByFilteredProductListItemDto>>(products);

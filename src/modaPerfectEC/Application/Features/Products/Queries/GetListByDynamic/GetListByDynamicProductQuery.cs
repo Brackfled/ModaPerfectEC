@@ -35,7 +35,7 @@ public class GetListByDynamicProductQuery: IRequest<GetListResponse<GetListByDyn
         {
             IPaginate<Product>? products = await _productRepository.GetListByDynamicAsync(
                 dynamic:request.DynamicQuery,
-                include:opt => opt.Include(p => p.ProductVariants)!.Include(p => p.ProductImages)!,
+                include:opt => opt.Include(p => p.ProductVariants)!.Include(p => p.ProductImages)!.Include(p => p.Category)!.Include(p => p.SubCategory)!,
                 size:request.PageRequest.PageSize,
                 index:request.PageRequest.PageIndex,
                 cancellationToken:cancellationToken

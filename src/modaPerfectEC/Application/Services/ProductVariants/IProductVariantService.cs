@@ -27,4 +27,5 @@ public interface IProductVariantService
     Task<ProductVariant> AddAsync(ProductVariant productVariant);
     Task<ProductVariant> UpdateAsync(ProductVariant productVariant);
     Task<ProductVariant> DeleteAsync(ProductVariant productVariant, bool permanent = false);
+    Task<ProductVariant> UpdateStockAmount(ProductVariant productVariant, bool increase, int processAmount);
 }

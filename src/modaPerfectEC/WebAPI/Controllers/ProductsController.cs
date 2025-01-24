@@ -14,6 +14,7 @@ using Application.Features.Products.Queries.GetAllByFiltered;
 using NArchitecture.Core.Persistence.Dynamic;
 using Application.Features.Products.Queries.GetListByDynamic;
 using Application.Features.Products.Queries.GetListByShowCase;
+using Domain.Enums;
 
 namespace WebAPI.Controllers;
 
@@ -69,9 +70,9 @@ public class ProductsController : BaseController
     }
 
     [HttpGet("GetAll")]
-    public async Task<IActionResult> GetAllProducts()
+    public async Task<IActionResult> GetAllProducts([FromQuery] ProductState? productState)
     {
-        GetAllByFilteredProductQuery query = new();
+        GetAllByFilteredProductQuery query = new() { ProductState = productState };
         ICollection<GetAllByFilteredProductListItemDto> result = await Mediator.Send(query);
         return Ok(result);
     }

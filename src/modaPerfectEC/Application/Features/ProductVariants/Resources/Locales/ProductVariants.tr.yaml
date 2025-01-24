@@ -3,3 +3,4 @@ ThisProductHasAThisVariant: Ürün bu varyanta sahip.
 SizesOverLenght: Beden sayýsý dokuzdan fazla olamaz.
 SizesHasDuplicatedElement: Beden listesi tekrarlayan eleman içeriyor.
 SizesListHasAIllegalSize: Beden listesi anormal beden içeriyor.
+DecreaseIsNotPossible: Sýfýrdan az stok olamaz.

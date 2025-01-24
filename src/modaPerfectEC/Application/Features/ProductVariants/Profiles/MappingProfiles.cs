@@ -7,6 +7,7 @@ using AutoMapper;
 using NArchitecture.Core.Application.Responses;
 using Domain.Entities;
 using NArchitecture.Core.Persistence.Paging;
+using Application.Features.ProductVariants.Commands.UpdateStockAmount;
 
 namespace Application.Features.ProductVariants.Profiles;
 
@@ -33,5 +34,7 @@ public class MappingProfiles : Profile
 
         CreateMap<ProductVariant, GetListProductVariantListItemDto>();
         CreateMap<IPaginate<ProductVariant>, GetListResponse<GetListProductVariantListItemDto>>();
+
+        CreateMap<ProductVariant, UpdatedStockAmountProductVariantResponse>();
     }
 }

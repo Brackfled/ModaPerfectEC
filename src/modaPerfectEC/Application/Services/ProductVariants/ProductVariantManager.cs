@@ -74,4 +74,10 @@ public class ProductVariantManager : IProductVariantService
 
         return deletedProductVariant;
     }
+
+    public async Task<ProductVariant> UpdateStockAmount(ProductVariant productVariant, bool increase, int processAmount)
+    {
+        ProductVariant updatedProductVariant = await _productVariantRepository.UpdateStockAmount(productVariant, increase, processAmount);
+        return updatedProductVariant;
+    }
 }

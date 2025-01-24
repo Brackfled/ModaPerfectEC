@@ -3,3 +3,4 @@ ThisProductHasAThisVariant: Product has a this variant.
 SizesOverLenght: The number of sizes cannot exceed nine.
 SizesHasDuplicatedElement: Size list contains repeating element.
 SizesListHasAIllegalSize: Size list contains abnormal size.
+DecreaseIsNotPossible: Decrease is not possible.

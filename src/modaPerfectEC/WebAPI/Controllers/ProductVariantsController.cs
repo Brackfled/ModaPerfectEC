@@ -6,6 +6,7 @@ using Application.Features.ProductVariants.Queries.GetList;
 using NArchitecture.Core.Application.Requests;
 using NArchitecture.Core.Application.Responses;
 using Microsoft.AspNetCore.Mvc;
+using Application.Features.ProductVariants.Commands.UpdateStockAmount;
 
 namespace WebAPI.Controllers;
 
@@ -58,6 +59,15 @@ public class ProductVariantsController : BaseController
 
         GetListResponse<GetListProductVariantListItemDto> response = await Mediator.Send(query);
 
+        return Ok(response);
+
+    }
+
+    [HttpPut("UpdateStockAmount")]
+    public async Task<IActionResult> UpdateStockAmountProductVariant([FromBody] UpdateStockAmountProductVariantRequest updateStockAmountProductVariantRequest)
+    {
+        UpdateStockAmountProductVariantCommand command = new() {UpdateStockAmountProductVariantRequest = updateStockAmountProductVariantRequest};
+        UpdatedStockAmountProductVariantResponse response = await Mediator.Send(command);
         return Ok(response);
     }
 }

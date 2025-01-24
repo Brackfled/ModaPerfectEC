@@ -4,6 +4,8 @@ using NArchitecture.Core.Application.Rules;
 using NArchitecture.Core.CrossCuttingConcerns.Exception.Types;
 using NArchitecture.Core.Localization.Abstraction;
 using Domain.Entities;
+using Amazon.S3.Model;
+using Application.Features.Products.Constants;
 
 namespace Application.Features.ProductVariants.Rules;
 
@@ -67,5 +69,13 @@ public class ProductVariantBusinessRules : BaseBusinessRules
                 await throwBusinessException(ProductVariantsBusinessMessages.SizesListHasAIllegalSize);
 
         }
+
+       
+    }
+
+    public async Task DecreaseIsAvailable(ProductVariant productVariant, int processAmount)
+    {
+        if (productVariant.StockAmount - processAmount < 0)
+            await throwBusinessException(ProductsBusinessMessages.DecreaseIsNotPossible);
     }
 }

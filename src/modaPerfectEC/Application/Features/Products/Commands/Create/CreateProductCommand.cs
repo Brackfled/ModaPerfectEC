@@ -11,6 +11,7 @@ using static Application.Features.Products.Constants.ProductsOperationClaims;
 using Application.Services.ProductVariants;
 using Application.Features.ProductVariants.Rules;
 using Domain.Dtos;
+using Application.Services.ExchangeService;
 
 namespace Application.Features.Products.Commands.Create;
 
@@ -27,14 +28,16 @@ public class CreateProductCommand : IRequest<CreatedProductResponse>, ISecuredRe
         private readonly ProductBusinessRules _productBusinessRules;
         private readonly IProductVariantService _productVariantService;
         private readonly ProductVariantBusinessRules _productVariantBusinessRules;
+        private readonly ExchangeServiceBase _exchangeServiceBase;
 
-        public CreateProductCommandHandler(IMapper mapper, IProductRepository productRepository, ProductBusinessRules productBusinessRules, IProductVariantService productVariantService, ProductVariantBusinessRules productVariantBusinessRules)
+        public CreateProductCommandHandler(IMapper mapper, IProductRepository productRepository, ProductBusinessRules productBusinessRules, IProductVariantService productVariantService, ProductVariantBusinessRules productVariantBusinessRules, ExchangeServiceBase exchangeServiceBase)
         {
             _mapper = mapper;
             _productRepository = productRepository;
             _productBusinessRules = productBusinessRules;
             _productVariantService = productVariantService;
             _productVariantBusinessRules = productVariantBusinessRules;
+            _exchangeServiceBase = exchangeServiceBase;
         }
 
         public async Task<CreatedProductResponse> Handle(CreateProductCommand request, CancellationToken cancellationToken)
@@ -42,6 +45,11 @@ public class CreateProductCommand : IRequest<CreatedProductResponse>, ISecuredRe
 
             await _productBusinessRules.ProductNameShouldNotExistsWhenSelected(request.CreateProductRequest.Name);
             await _productVariantBusinessRules.SizesShouldBeTheRight(request.CreateProductRequest.Sizes);
+
+            double exchangedUSDToTRY = await _exchangeServiceBase.GetUsdExchangeRateAsync();
+
+            double priceUSD = request.CreateProductRequest.Price / exchangedUSDToTRY;
+            double flooredPriceUSD = Math.Floor(priceUSD * 100) / 100;
 
             Product product = new()
             {
@@ -51,7 +59,8 @@ public class CreateProductCommand : IRequest<CreatedProductResponse>, ISecuredRe
                 Name = request.CreateProductRequest.Name,
                 Description = request.CreateProductRequest.Description,
                 ProductState = request.CreateProductRequest.ProductState,
-                Price = request.CreateProductRequest.Price
+                Price = request.CreateProductRequest.Price,
+                PriceUSD = flooredPriceUSD
             };
 
             Product addedProduct = await _productRepository.AddAsync(product);

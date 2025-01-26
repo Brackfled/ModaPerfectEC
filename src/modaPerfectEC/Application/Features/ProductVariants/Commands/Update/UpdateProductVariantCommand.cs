@@ -8,6 +8,7 @@ using NArchitecture.Core.Application.Pipelines.Transaction;
 using MediatR;
 using static Application.Features.ProductVariants.Constants.ProductVariantsOperationClaims;
 using Application.Services.Products;
+using Microsoft.EntityFrameworkCore;
 
 namespace Application.Features.ProductVariants.Commands.Update;
 
@@ -43,7 +44,22 @@ public class UpdateProductVariantCommand : IRequest<UpdatedProductVariantRespons
 
             await _productVariantRepository.UpdateAsync(productVariant!);
 
-            Product? product = await _productService.GetAsync(p => p.Id == productVariant!.ProductId);
+            Product? product = await _productService.GetAsync(p => p.Id == productVariant!.ProductId, include:opt => opt.Include(p => p.ProductVariants)!);
+
+            if(request.UpdateProductVariantRequest.Sizes is not null)
+            {
+                foreach (ProductVariant pv in product.ProductVariants!)
+                {
+                    if(pv != productVariant)
+                    {
+                        pv.Sizes = request.UpdateProductVariantRequest.Sizes;
+                        await _productVariantRepository.UpdateAsync(pv);
+                    }
+                }
+
+            }
+
+            
 
             UpdatedProductVariantResponse response = _mapper.Map<UpdatedProductVariantResponse>(productVariant);
             response.Product = product;

@@ -17,6 +17,7 @@ public class GetListByShowCaseProductListItemDto: IResponse
     public string SubCategoryName { get; set; }
     public string Name { get; set; }
     public double Price { get; set; }
+    public double PriceUSD { get; set; }
     public string Description { get; set; }
     public DateTime CreatedDate { get; set; }
     public DateTime? UpdatedDate { get; set; }

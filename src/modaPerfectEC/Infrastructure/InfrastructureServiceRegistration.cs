@@ -1,5 +1,7 @@
-﻿using Application.Services.ImageService;
+﻿using Application.Services.ExchangeService;
+using Application.Services.ImageService;
 using Application.Services.Stroage;
+using Infrastructure.Adapters.ExchangeService;
 using Infrastructure.Adapters.ImageService;
 using Infrastructure.Adapters.Stroage.AWS;
 using Microsoft.Extensions.DependencyInjection;
@@ -12,6 +14,7 @@ public static class InfrastructureServiceRegistration
     {
         services.AddScoped<ImageServiceBase, CloudinaryImageServiceAdapter>();
         services.AddScoped<IStroageService, AwsStroage>();
+        services.AddScoped<ExchangeServiceBase, ExchangeRateAPI>();
 
         return services;
     }

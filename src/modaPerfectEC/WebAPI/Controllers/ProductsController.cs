@@ -15,6 +15,7 @@ using NArchitecture.Core.Persistence.Dynamic;
 using Application.Features.Products.Queries.GetListByDynamic;
 using Application.Features.Products.Queries.GetListByShowCase;
 using Domain.Enums;
+using Application.Services.ExchangeService;
 
 namespace WebAPI.Controllers;
 
@@ -22,6 +23,13 @@ namespace WebAPI.Controllers;
 [ApiController]
 public class ProductsController : BaseController
 {
+    private readonly ExchangeServiceBase _exchangeService;
+
+    public ProductsController(ExchangeServiceBase exchangeService)
+    {
+        _exchangeService = exchangeService;
+    }
+
     [HttpPost]
     public async Task<ActionResult<CreatedProductResponse>> Add([FromBody] CreateProductRequest createProductRequest)
     {

@@ -11,6 +11,7 @@ public class CreatedProductResponse : IResponse
     public int SubCategoryId { get; set; }
     public string Name { get; set; }
     public double Price { get; set; }
+    public double PriceUSD { get; set; }
     public string Description { get; set; }
     public ProductState ProductState { get; set; }
     public ICollection<ProductVariant> ProductVariants { get; set; }

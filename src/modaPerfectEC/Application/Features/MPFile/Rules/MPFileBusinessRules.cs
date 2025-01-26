@@ -53,4 +53,10 @@ public class MPFileBusinessRules:BaseBusinessRules
         if (productImage == null)
             await throwBusinessException(MPFileBusinessMessages.MPFileNotExists);
     }
+
+    public async Task ProductHasAImageOverload(Product product, IList<IFormFile> formFiles, int maxCount)
+    {
+        if (product.ProductImages!.Count() + formFiles.Count() > maxCount)
+            await throwBusinessException(MPFileBusinessMessages.ImageOverload);
+    }
 }

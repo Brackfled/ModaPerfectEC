@@ -37,6 +37,7 @@ builder.Services.AddApplicationServices(
 builder.Services.AddPersistenceServices(builder.Configuration);
 builder.Services.AddInfrastructureServices();
 builder.Services.AddHttpContextAccessor();
+builder.Services.AddHttpClient();
 
 builder.Services.Configure<AWSOptions>(builder.Configuration.GetSection("AmazonConfiguration"));
 builder.Services.AddSingleton<IAmazonS3>(provider =>

@@ -20,6 +20,7 @@ public class ProductVariantConfiguration : IEntityTypeConfiguration<ProductVaria
         builder.Property(pv => pv.DeletedDate).HasColumnName("DeletedDate");
 
         builder.HasOne(pv => pv.Product);
+        builder.HasMany(pv => pv.BasketItems).WithOne(pv => pv.ProductVariant).HasForeignKey(pv => pv.ProductVariantId).OnDelete(DeleteBehavior.Restrict);
 
         builder.HasQueryFilter(pv => !pv.DeletedDate.HasValue);
     }

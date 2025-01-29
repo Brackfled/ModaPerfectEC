@@ -11,6 +11,10 @@ using Application.Features.SubCategories.Constants;
 using Application.Features.Products.Constants;
 using Application.Features.ProductVariants.Constants;
 using Application.Features.MPFile.Constants;
+using Application.Features.Baskets.Constants;
+using Application.Features.BasketItems.Constants;
+
+
 
 
 
@@ -174,6 +178,34 @@ public class OperationClaimConfiguration : IEntityTypeConfiguration<OperationCla
            ]
         );
 
+        
+        #region Baskets CRUD
+        featureOperationClaims.AddRange(
+            [
+                new() { Id = ++lastId, Name = BasketsOperationClaims.Admin },
+                new() { Id = ++lastId, Name = BasketsOperationClaims.Read },
+                new() { Id = ++lastId, Name = BasketsOperationClaims.Write },
+                new() { Id = ++lastId, Name = BasketsOperationClaims.Create },
+                new() { Id = ++lastId, Name = BasketsOperationClaims.Update },
+                new() { Id = ++lastId, Name = BasketsOperationClaims.Delete },
+            ]
+        );
+        #endregion
+        
+        
+        #region BasketItems CRUD
+        featureOperationClaims.AddRange(
+            [
+                new() { Id = ++lastId, Name = BasketItemsOperationClaims.Admin },
+                new() { Id = ++lastId, Name = BasketItemsOperationClaims.Read },
+                new() { Id = ++lastId, Name = BasketItemsOperationClaims.Write },
+                new() { Id = ++lastId, Name = BasketItemsOperationClaims.Create },
+                new() { Id = ++lastId, Name = BasketItemsOperationClaims.Update },
+                new() { Id = ++lastId, Name = BasketItemsOperationClaims.Delete },
+            ]
+        );
+        #endregion
+        
         return featureOperationClaims;
     }
 #pragma warning restore S1854 // Unused assignments should be removed

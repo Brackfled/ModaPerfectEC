@@ -9,4 +9,5 @@ public static class ProductVariantsBusinessMessages
     public const string SizesOverLenght = "SizesOverLenght";
     public const string SizesHasDuplicatedElement = "SizesHasDuplicatedElement";
     public const string SizesListHasAIllegalSize = "SizesListHasAIllegalSize";
+    public const string StockAmountIsNotAvailable = "StockAmountIsNotAvailable";
 }

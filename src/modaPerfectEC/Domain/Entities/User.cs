@@ -25,6 +25,7 @@ public class User : NArchitecture.Core.Security.Entities.User<Guid>
     public virtual ICollection<RefreshToken> RefreshTokens { get; set; } = default!;
     public virtual ICollection<OtpAuthenticator> OtpAuthenticators { get; set; } = default!;
     public virtual ICollection<EmailAuthenticator> EmailAuthenticators { get; set; } = default!;
+    public virtual ICollection<Basket> Baskets { get; set; } = default!;
 
     public User()
     {
@@ -43,7 +44,7 @@ public class User : NArchitecture.Core.Security.Entities.User<Guid>
         CarrierCompanyInfo = null;
     }
 
-    public User(string tradeName, string firstName, string lastName, string country, string city, string district, string address, string gsmNumber, string? taxOffice, string? taxNumber, byte[]? ıdentityNumberSalt, byte[]? ıdentityNumberHash, string reference, string? customerCode, string? carrierCompanyInfo, UserState userState, ICollection<UserOperationClaim> userOperationClaims, ICollection<RefreshToken> refreshTokens, ICollection<OtpAuthenticator> otpAuthenticators, ICollection<EmailAuthenticator> emailAuthenticators)
+    public User(string tradeName, string firstName, string lastName, string country, string city, string district, string address, string gsmNumber, string? taxOffice, string? taxNumber, byte[]? ıdentityNumberSalt, byte[]? ıdentityNumberHash, string reference, string? customerCode, string? carrierCompanyInfo, UserState userState, ICollection<UserOperationClaim> userOperationClaims, ICollection<RefreshToken> refreshTokens, ICollection<OtpAuthenticator> otpAuthenticators, ICollection<EmailAuthenticator> emailAuthenticators, ICollection<Basket> baskets)
     {
         TradeName = tradeName;
         FirstName = firstName;
@@ -65,5 +66,6 @@ public class User : NArchitecture.Core.Security.Entities.User<Guid>
         RefreshTokens = refreshTokens;
         OtpAuthenticators = otpAuthenticators;
         EmailAuthenticators = emailAuthenticators;
+        Baskets = baskets;
     }
 }

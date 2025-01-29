@@ -22,6 +22,98 @@ namespace Persistence.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("Domain.Entities.Basket", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("Id");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("CreatedDate");
+
+                    b.Property<DateTime?>("DeletedDate")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("DeletedDate");
+
+                    b.Property<bool>("IsOrderBasket")
+                        .HasColumnType("bit")
+                        .HasColumnName("IsOrderBasket");
+
+                    b.Property<double>("TotalPrice")
+                        .HasColumnType("float")
+                        .HasColumnName("TotalPrice");
+
+                    b.Property<DateTime?>("UpdatedDate")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("UpdatedDate");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("UserId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Baskets", (string)null);
+                });
+
+            modelBuilder.Entity("Domain.Entities.BasketItem", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("Id");
+
+                    b.Property<Guid>("BasketId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("BasketId");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("CreatedDate");
+
+                    b.Property<DateTime?>("DeletedDate")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("DeletedDate");
+
+                    b.Property<bool>("IsReturned")
+                        .HasColumnType("bit")
+                        .HasColumnName("IsReturned");
+
+                    b.Property<int>("ProductAmount")
+                        .HasColumnType("int")
+                        .HasColumnName("ProductAmount");
+
+                    b.Property<Guid?>("ProductId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("ProductId");
+
+                    b.Property<Guid?>("ProductVariantId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("ProductVariantId");
+
+                    b.Property<int>("RemainingAfterDelivery")
+                        .HasColumnType("int")
+                        .HasColumnName("RemainingAfterDelivery");
+
+                    b.Property<DateTime?>("UpdatedDate")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("UpdatedDate");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BasketId");
+
+                    b.HasIndex("ProductId");
+
+                    b.HasIndex("ProductVariantId");
+
+                    b.ToTable("BasketItems", (string)null);
+                });
+
             modelBuilder.Entity("Domain.Entities.Category", b =>
                 {
                     b.Property<int>("Id")
@@ -481,6 +573,78 @@ namespace Persistence.Migrations
                             Id = 506,
                             CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "MPFiles.Read"
+                        },
+                        new
+                        {
+                            Id = 507,
+                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "Baskets.Admin"
+                        },
+                        new
+                        {
+                            Id = 508,
+                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "Baskets.Read"
+                        },
+                        new
+                        {
+                            Id = 509,
+                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "Baskets.Write"
+                        },
+                        new
+                        {
+                            Id = 510,
+                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "Baskets.Create"
+                        },
+                        new
+                        {
+                            Id = 511,
+                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "Baskets.Update"
+                        },
+                        new
+                        {
+                            Id = 512,
+                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "Baskets.Delete"
+                        },
+                        new
+                        {
+                            Id = 513,
+                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "BasketItems.Admin"
+                        },
+                        new
+                        {
+                            Id = 514,
+                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "BasketItems.Read"
+                        },
+                        new
+                        {
+                            Id = 515,
+                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "BasketItems.Write"
+                        },
+                        new
+                        {
+                            Id = 516,
+                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "BasketItems.Create"
+                        },
+                        new
+                        {
+                            Id = 517,
+                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "BasketItems.Update"
+                        },
+                        new
+                        {
+                            Id = 518,
+                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "BasketItems.Delete"
                         });
                 });
 
@@ -850,7 +1014,7 @@ namespace Persistence.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("9807ed72-cf90-4b1a-892b-6f963bda8084"),
+                            Id = new Guid("d77a1a23-7e72-4f78-9769-aba78089ed57"),
                             Address = "Dere",
                             AuthenticatorType = 0,
                             City = "Konya",
@@ -861,8 +1025,8 @@ namespace Persistence.Migrations
                             FirstName = "Hüseyin",
                             GsmNumber = "05555555555",
                             LastName = "ÖNCEL",
-                            PasswordHash = new byte[] { 219, 96, 67, 237, 253, 21, 66, 131, 147, 130, 150, 131, 128, 86, 114, 69, 50, 182, 201, 52, 25, 237, 29, 202, 163, 83, 57, 224, 14, 100, 196, 194, 208, 87, 22, 129, 171, 43, 184, 104, 26, 159, 155, 245, 216, 152, 146, 215, 79, 65, 209, 232, 254, 185, 225, 255, 146, 208, 39, 96, 152, 20, 196, 137 },
-                            PasswordSalt = new byte[] { 44, 56, 214, 80, 110, 61, 93, 51, 134, 126, 133, 237, 5, 45, 102, 191, 146, 215, 151, 138, 20, 30, 131, 80, 142, 208, 94, 205, 58, 143, 84, 102, 80, 104, 109, 7, 65, 87, 54, 146, 137, 111, 78, 135, 223, 161, 251, 161, 134, 23, 173, 112, 113, 91, 58, 86, 245, 60, 89, 201, 177, 196, 211, 104, 57, 122, 146, 88, 190, 214, 119, 50, 67, 232, 211, 208, 190, 123, 40, 235, 70, 63, 200, 121, 213, 255, 4, 28, 88, 220, 188, 243, 39, 65, 82, 34, 167, 108, 198, 122, 253, 153, 77, 73, 167, 224, 67, 22, 98, 25, 219, 81, 114, 192, 204, 142, 6, 53, 194, 91, 157, 38, 12, 185, 121, 158, 173, 184 },
+                            PasswordHash = new byte[] { 70, 81, 160, 194, 35, 116, 145, 160, 143, 8, 11, 193, 91, 120, 130, 231, 72, 244, 23, 162, 17, 236, 219, 198, 66, 143, 241, 226, 18, 30, 105, 219, 151, 166, 11, 117, 180, 152, 244, 247, 12, 188, 213, 7, 104, 9, 35, 80, 242, 163, 222, 229, 116, 223, 63, 41, 161, 18, 72, 11, 151, 8, 35, 71 },
+                            PasswordSalt = new byte[] { 189, 191, 109, 223, 113, 64, 244, 162, 39, 112, 134, 55, 146, 130, 185, 168, 209, 155, 124, 198, 9, 169, 231, 201, 205, 47, 115, 137, 212, 107, 161, 176, 110, 66, 5, 196, 68, 194, 37, 215, 250, 60, 56, 228, 56, 207, 32, 73, 75, 158, 188, 237, 186, 253, 229, 91, 25, 170, 130, 78, 234, 214, 38, 141, 206, 198, 72, 197, 209, 130, 218, 63, 96, 206, 48, 36, 240, 229, 72, 104, 100, 89, 241, 212, 235, 234, 2, 133, 183, 155, 6, 96, 181, 175, 194, 213, 207, 202, 19, 229, 213, 117, 60, 23, 150, 141, 124, 38, 242, 122, 120, 250, 55, 215, 94, 83, 215, 168, 18, 195, 48, 152, 197, 100, 88, 94, 100, 232 },
                             Reference = "Ben",
                             TaxNumber = "6666444555",
                             TaxOffice = "Konya VD",
@@ -909,10 +1073,10 @@ namespace Persistence.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("1aecf973-8893-45ec-952b-f541a9f59a64"),
+                            Id = new Guid("b77ec252-a47d-4fc0-9e18-50a83b24d956"),
                             CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             OperationClaimId = 456,
-                            UserId = new Guid("9807ed72-cf90-4b1a-892b-6f963bda8084")
+                            UserId = new Guid("d77a1a23-7e72-4f78-9769-aba78089ed57")
                         });
                 });
 
@@ -926,6 +1090,42 @@ namespace Persistence.Migrations
                     b.HasIndex("ProductId");
 
                     b.HasDiscriminator().HasValue("ProductImage");
+                });
+
+            modelBuilder.Entity("Domain.Entities.Basket", b =>
+                {
+                    b.HasOne("Domain.Entities.User", "User")
+                        .WithMany("Baskets")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Domain.Entities.BasketItem", b =>
+                {
+                    b.HasOne("Domain.Entities.Basket", "Basket")
+                        .WithMany("BasketItems")
+                        .HasForeignKey("BasketId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Domain.Entities.Product", "Product")
+                        .WithMany("BasketItems")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("Domain.Entities.ProductVariant", "ProductVariant")
+                        .WithMany("BasketItems")
+                        .HasForeignKey("ProductVariantId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.Navigation("Basket");
+
+                    b.Navigation("Product");
+
+                    b.Navigation("ProductVariant");
                 });
 
             modelBuilder.Entity("Domain.Entities.EmailAuthenticator", b =>
@@ -1032,6 +1232,11 @@ namespace Persistence.Migrations
                     b.Navigation("Product");
                 });
 
+            modelBuilder.Entity("Domain.Entities.Basket", b =>
+                {
+                    b.Navigation("BasketItems");
+                });
+
             modelBuilder.Entity("Domain.Entities.Category", b =>
                 {
                     b.Navigation("Products");
@@ -1041,9 +1246,16 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Domain.Entities.Product", b =>
                 {
+                    b.Navigation("BasketItems");
+
                     b.Navigation("ProductImages");
 
                     b.Navigation("ProductVariants");
+                });
+
+            modelBuilder.Entity("Domain.Entities.ProductVariant", b =>
+                {
+                    b.Navigation("BasketItems");
                 });
 
             modelBuilder.Entity("Domain.Entities.SubCategory", b =>
@@ -1053,6 +1265,8 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Domain.Entities.User", b =>
                 {
+                    b.Navigation("Baskets");
+
                     b.Navigation("EmailAuthenticators");
 
                     b.Navigation("OtpAuthenticators");

@@ -25,6 +25,8 @@ using Application.Services.SubCategories;
 using Application.Services.Products;
 using Application.Services.ProductVariants;
 using Application.Services.ProductImages;
+using Application.Services.Baskets;
+using Application.Services.BasketItems;
 
 namespace Application;
 
@@ -69,6 +71,8 @@ public static class ApplicationServiceRegistration
         services.AddScoped<IProductService, ProductManager>();
         services.AddScoped<IProductVariantService, ProductVariantManager>();
         services.AddScoped<IProductImageService, ProductImageManager>();
+        services.AddScoped<IBasketService, BasketManager>();
+        services.AddScoped<IBasketItemService, BasketItemManager>();
         return services;
     }
 

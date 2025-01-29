@@ -28,6 +28,7 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
         builder.HasOne(p => p.SubCategory).WithMany(sc => sc.Products).HasForeignKey(p => p.SubCategoryId).OnDelete(DeleteBehavior.Restrict);
         builder.HasMany(p => p.ProductVariants).WithOne(pv => pv.Product).HasForeignKey(pv => pv.ProductId).OnDelete(DeleteBehavior.Cascade);
         builder.HasMany(p => p.ProductImages).WithOne(pv => pv.Product).HasForeignKey(pv => pv.ProductId).OnDelete(DeleteBehavior.Cascade);
+        builder.HasMany(p => p.BasketItems).WithOne(pv => pv.Product).HasForeignKey(pv => pv.ProductId).OnDelete(DeleteBehavior.Restrict);
 
         builder.HasQueryFilter(p => !p.DeletedDate.HasValue);
     }

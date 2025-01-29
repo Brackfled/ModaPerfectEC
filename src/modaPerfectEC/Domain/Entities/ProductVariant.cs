@@ -17,6 +17,7 @@ public class ProductVariant: Entity<Guid>
 
     [JsonIgnore]
     public virtual Product? Product { get; set; }
+    public virtual ICollection<BasketItem> BasketItems { get; set; } = default!;
 
     public ProductVariant()
     {
@@ -25,7 +26,7 @@ public class ProductVariant: Entity<Guid>
         Sizes = Array.Empty<int>();
     }
 
-    public ProductVariant(Guid productId, string color, string hex, int stockAmount, int[] sizes, Product? product)
+    public ProductVariant(Guid productId, string color, string hex, int stockAmount, int[] sizes, Product? product, ICollection<BasketItem> basketItems)
     {
         ProductId = productId;
         Color = color;
@@ -33,5 +34,6 @@ public class ProductVariant: Entity<Guid>
         StockAmount = stockAmount;
         Sizes = sizes;
         Product = product;
+        BasketItems = basketItems;
     }
 }

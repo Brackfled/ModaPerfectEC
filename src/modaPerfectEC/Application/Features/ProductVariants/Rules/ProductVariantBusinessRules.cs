@@ -78,4 +78,13 @@ public class ProductVariantBusinessRules : BaseBusinessRules
         if (productVariant.StockAmount - processAmount < 0)
             await throwBusinessException(ProductsBusinessMessages.DecreaseIsNotPossible);
     }
+
+    public async Task StockAmountIsAvailabla(Guid id, int amount)
+    {
+        ProductVariant? productVariant = await _productVariantRepository.GetAsync(pv => pv.Id == id);
+        await ProductVariantShouldExistWhenSelected(productVariant);
+
+        if (productVariant.StockAmount - amount < 0)
+            await throwBusinessException(ProductVariantsBusinessMessages.StockAmountIsNotAvailable);
+    }
 }

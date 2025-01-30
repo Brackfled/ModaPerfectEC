@@ -13,6 +13,7 @@ public class BasketConfiguration : IEntityTypeConfiguration<Basket>
         builder.Property(b => b.Id).HasColumnName("Id").IsRequired();
         builder.Property(b => b.UserId).HasColumnName("UserId").IsRequired();
         builder.Property(b => b.TotalPrice).HasColumnName("TotalPrice").IsRequired();
+        builder.Property(b => b.TotalPriceUSD).HasColumnName("TotalPriceUSD").IsRequired();
         builder.Property(b => b.IsOrderBasket).HasColumnName("IsOrderBasket").IsRequired();
         builder.Property(b => b.CreatedDate).HasColumnName("CreatedDate").IsRequired();
         builder.Property(b => b.UpdatedDate).HasColumnName("UpdatedDate");

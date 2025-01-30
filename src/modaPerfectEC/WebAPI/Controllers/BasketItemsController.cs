@@ -17,22 +17,22 @@ namespace WebAPI.Controllers;
 public class BasketItemsController : BaseController
 {
     [HttpPost]
-    public async Task<ActionResult<CreatedBasketItemResponse>> Add([FromBody] CreateBasketItemRequest createBasketItemRequest)
+    public async Task<ActionResult<CreatedBasketItemResponse>> Add([FromBody] IList<CreateBasketItemRequest> createBasketItemRequests)
     {
-        CreateBasketItemCommand command = new() { UserId = getUserIdFromRequest(), CreateBasketItemRequest = createBasketItemRequest };
+        CreateBasketItemCommand command = new() { UserId = getUserIdFromRequest(), CreateBasketItemRequests = createBasketItemRequests };
 
-        CreatedBasketItemResponse response = await Mediator.Send(command);
+        ICollection<CreatedBasketItemResponse> response = await Mediator.Send(command);
 
-        return CreatedAtAction(nameof(GetById), new { response.Id }, response);
+        return Ok(response);
     }
 
-    //[HttpPut]
-    //public async Task<ActionResult<UpdatedBasketItemResponse>> Update([FromBody] UpdateBasketItemCommand command)
-    //{
-    //    UpdatedBasketItemResponse response = await Mediator.Send(command);
+    [HttpPut]
+    public async Task<ActionResult<UpdatedBasketItemResponse>> Update([FromBody] UpdateBasketItemCommand command)
+    {
+        UpdatedBasketItemResponse response = await Mediator.Send(command);
 
-    //    return Ok(response);
-    //}
+        return Ok(response);
+    }
 
     [HttpDelete("{id}")]
     public async Task<ActionResult<DeletedBasketItemResponse>> Delete([FromRoute] Guid id)

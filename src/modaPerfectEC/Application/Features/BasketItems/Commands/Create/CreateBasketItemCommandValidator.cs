@@ -6,6 +6,6 @@ public class CreateBasketItemCommandValidator : AbstractValidator<CreateBasketIt
 {
     public CreateBasketItemCommandValidator()
     {        
-        RuleFor(c => c.CreateBasketItemRequest.ProductAmount).NotEmpty();
+       
     }
 }

@@ -30,6 +30,7 @@ public class MappingProfiles : Profile
         CreateMap<IPaginate<BasketItem>, GetListResponse<GetListBasketItemListItemDto>>();
 
         CreateMap<BasketItem, GetByBasketIdBasketItemListItemDto>()
+            .ForMember(bi => bi.ProductProductImages , memberOptions: opt => opt.MapFrom(c => c.Product!.ProductImages))
             ;
     }
 }

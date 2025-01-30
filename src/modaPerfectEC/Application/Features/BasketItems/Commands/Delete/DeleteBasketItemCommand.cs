@@ -46,6 +46,7 @@ public class DeleteBasketItemCommand : IRequest<DeletedBasketItemResponse>, ITra
             await _basketBusinessRules.BasketShouldExistWhenSelected(basket);
 
             basket!.TotalPrice = Math.Round(basket.TotalPrice - (basketItem!.ProductAmount * basketItem!.Product!.Price), 2, MidpointRounding.AwayFromZero);
+            basket!.TotalPriceUSD = Math.Round(basket.TotalPriceUSD - (basketItem!.ProductAmount * basketItem!.Product!.PriceUSD), 2, MidpointRounding.AwayFromZero);
             await _basketService.UpdateAsync(basket);
 
             await _basketItemRepository.DeleteAsync(basketItem!, true);

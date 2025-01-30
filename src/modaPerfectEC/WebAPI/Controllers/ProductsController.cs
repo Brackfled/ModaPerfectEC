@@ -16,6 +16,8 @@ using Application.Features.Products.Queries.GetListByDynamic;
 using Application.Features.Products.Queries.GetListByShowCase;
 using Domain.Enums;
 using Application.Services.ExchangeService;
+using Application.Features.Products.Queries.GetListByCategoryId;
+using Application.Features.Products.Queries.GetListBySubCategoryId;
 
 namespace WebAPI.Controllers;
 
@@ -86,9 +88,9 @@ public class ProductsController : BaseController
     }
 
     [HttpPost("GetListByDynamic")]
-    public async Task<IActionResult> GetListByDynamicProducts([FromQuery] PageRequest pageRequest,  DynamicQuery dynamicQuery)
+    public async Task<IActionResult> GetListByDynamicProducts([FromQuery] PageRequest pageRequest, DynamicQuery dynamicQuery)
     {
-        GetListByDynamicProductQuery query = new() {PageRequest = pageRequest, DynamicQuery = dynamicQuery };
+        GetListByDynamicProductQuery query = new() { PageRequest = pageRequest, DynamicQuery = dynamicQuery };
         GetListResponse<GetListByDynamicProductListItemDto> result = await Mediator.Send(query);
         return Ok(result);
     }
@@ -98,6 +100,23 @@ public class ProductsController : BaseController
     {
         GetListByShowCaseProductQuery query = new();
         ICollection<GetListByShowCaseProductListItemDto> result = await Mediator.Send(query);
+        return Ok(result);
+    }
+
+    [HttpGet("GetListByCategoryId/{categoryId}")]
+    public async Task<IActionResult> GetListByCategoryIdProduts([FromRoute] int categoryId)
+    {
+        GetListByCategoryIdProductQuery  query = new() { CategoryId = categoryId };
+
+        ICollection<GetListByCategoryIdProductListItemDto> result = await Mediator.Send(query);
+        return Ok(result);
+    }
+
+    [HttpGet("GetListBySubCategoryId/{subCategoryId}")]
+    public async Task<IActionResult> GetListBySubCategoryProducts([FromRoute] int subCategoryId)
+    {
+        GetListBySubCategoryIdProductQuery query = new() { SubCategoryId = subCategoryId };
+        ICollection<GetListBySubCategoryIdProductListItemDto> result = await Mediator.Send(query);
         return Ok(result);
     }
 }

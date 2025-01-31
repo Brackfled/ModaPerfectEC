@@ -18,13 +18,14 @@ public class GetByBasketIdBasketItemListItemDto: IResponse
     public string ProductName { get; set; }
     public Guid? ProductVariantId { get; set; }
     public string ProductVariantColor { get; set; }
+    public string ProductVariantHex { get; set; }
     public int[] ProductVariantSizes { get; set; }
     public int ProductAmount { get; set; }
     public int RemainingAfterDelivery { get; set; }
     public bool IsReturned { get; set; }
     public ICollection<ProductImage>? ProductProductImages { get; set; }
 
-    public double BasketItemTotalPrice => Math.Round(ProductPrice * ProductAmount, 2, MidpointRounding.AwayFromZero);
-    public double BasketItemTotalPriceUSD => Math.Round(ProductPriceUSD * ProductAmount, 2, MidpointRounding.AwayFromZero);
+    public double BasketItemTotalPrice => Math.Round((ProductPrice * ProductAmount) * ProductVariantSizes.Length, 2, MidpointRounding.AwayFromZero);
+    public double BasketItemTotalPriceUSD => Math.Round((ProductPriceUSD * ProductAmount) * ProductVariantSizes.Length, 2, MidpointRounding.AwayFromZero);
 
 }

@@ -59,19 +59,20 @@ public class CreateBasketItemCommand : IRequest<ICollection<CreatedBasketItemRes
             foreach(CreateBasketItemRequest rq in request.CreateBasketItemRequests)
             {
                 await _productVariantBusinessRules.StockAmountIsAvailabla(rq.ProductVariantId, rq.ProductAmount);
+                await _basketItemBusinessRules.ProductAmountGreatherThenZero(rq.ProductAmount);
 
 
                 BasketItem? basketItem = await _basketItemRepository.GetAsync(
                     predicate: bi => bi.ProductVariantId == rq.ProductVariantId,
-                    include: (opt => opt.Include(bi => bi.Product)!),
+                    include: (opt => opt.Include(bi => bi.Product)!.Include(bi => bi.ProductVariant)!),
                     cancellationToken: cancellationToken
                 );
 
                 if (basketItem is not null)
                 {
                     basketItem.ProductAmount += rq.ProductAmount;
-                    basket!.TotalPrice = Math.Round(basket.TotalPrice + (rq.ProductAmount * basketItem.Product!.Price), 2);
-                    basket!.TotalPriceUSD = Math.Round(basket.TotalPriceUSD + (rq.ProductAmount * basketItem.Product!.PriceUSD), 2);
+                    basket!.TotalPrice = Math.Round(basket.TotalPrice + ((rq.ProductAmount * basketItem.Product!.Price) * basketItem!.ProductVariant!.Sizes.Length), 2);
+                    basket!.TotalPriceUSD = Math.Round(basket.TotalPriceUSD + ((rq.ProductAmount * basketItem.Product!.PriceUSD) * basketItem.ProductVariant.Sizes.Length), 2);
 
                     await _basketItemRepository.UpdateAsync(basketItem);
                     await _basketService.UpdateAsync(basket);
@@ -96,8 +97,8 @@ public class CreateBasketItemCommand : IRequest<ICollection<CreatedBasketItemRes
                     Product? product = await _productService.GetAsync(p => p.Id == rq.ProductId);
                     await _productBusinessRules.ProductShouldExistWhenSelected(product);
 
-                    basket!.TotalPrice = Math.Round(basket.TotalPrice + (rq.ProductAmount * product!.Price), 2, MidpointRounding.AwayFromZero);
-                    basket!.TotalPriceUSD = Math.Round(basket.TotalPriceUSD + (rq.ProductAmount * product!.PriceUSD), 2, MidpointRounding.AwayFromZero);
+                    basket!.TotalPrice = Math.Round(basket.TotalPrice + ((rq.ProductAmount * product!.Price) * addedBasketItem!.ProductVariant!.Sizes.Length), 2, MidpointRounding.AwayFromZero);
+                    basket!.TotalPriceUSD = Math.Round(basket.TotalPriceUSD + ((rq.ProductAmount * product!.PriceUSD) * addedBasketItem!.ProductVariant!.Sizes.Length), 2, MidpointRounding.AwayFromZero);
                     await _basketService.UpdateAsync(basket);
 
                     basketItems.Add(addedBasketItem);

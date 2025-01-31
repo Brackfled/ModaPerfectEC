@@ -34,7 +34,7 @@ public class GetByBasketIdBasketItemQuery: IRequest<ICollection<GetByBasketIdBas
         {
             ICollection<BasketItem> basketItems = await _basketItemRepository.GetAllAsync(
                     predicate:bi => bi.BasketId == request.BasketId,
-                    include: opt => opt.Include(bi => bi.Basket)!.Include(bi => bi.Product)!.Include(bi => bi.ProductVariant)!
+                    include: opt => opt.Include(bi => bi.Basket)!.Include(bi => bi.Product)!.ThenInclude(p => p.ProductImages).Include(bi => bi.ProductVariant)!
                 );
 
             ICollection<GetByBasketIdBasketItemListItemDto> response = _mapper.Map<ICollection<GetByBasketIdBasketItemListItemDto>>(basketItems);

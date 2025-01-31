@@ -39,14 +39,14 @@ public class DeleteBasketItemCommand : IRequest<DeletedBasketItemResponse>, ITra
 
         public async Task<DeletedBasketItemResponse> Handle(DeleteBasketItemCommand request, CancellationToken cancellationToken)
         {
-            BasketItem? basketItem = await _basketItemRepository.GetAsync(predicate: bi => bi.Id == request.Id, include:opt => opt.Include(bi => bi.Product)!, cancellationToken: cancellationToken);
+            BasketItem? basketItem = await _basketItemRepository.GetAsync(predicate: bi => bi.Id == request.Id, include:opt => opt.Include(bi => bi.Product)!.Include(bi => bi.ProductVariant)!, cancellationToken: cancellationToken);
             await _basketItemBusinessRules.BasketItemShouldExistWhenSelected(basketItem);
 
             Basket? basket = await _basketService.GetAsync(b => b.Id == basketItem!.BasketId);
             await _basketBusinessRules.BasketShouldExistWhenSelected(basket);
 
-            basket!.TotalPrice = Math.Round(basket.TotalPrice - (basketItem!.ProductAmount * basketItem!.Product!.Price), 2, MidpointRounding.AwayFromZero);
-            basket!.TotalPriceUSD = Math.Round(basket.TotalPriceUSD - (basketItem!.ProductAmount * basketItem!.Product!.PriceUSD), 2, MidpointRounding.AwayFromZero);
+            basket!.TotalPrice = Math.Round(basket.TotalPrice - ((basketItem!.ProductAmount * basketItem!.Product!.Price) * basketItem.ProductVariant!.Sizes.Length), 2, MidpointRounding.AwayFromZero);
+            basket!.TotalPriceUSD = Math.Round(basket.TotalPriceUSD - ((basketItem!.ProductAmount * basketItem!.Product!.PriceUSD) * basketItem.ProductVariant.Sizes.Length), 2, MidpointRounding.AwayFromZero);
             await _basketService.UpdateAsync(basket);
 
             await _basketItemRepository.DeleteAsync(basketItem!, true);

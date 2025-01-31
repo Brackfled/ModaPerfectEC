@@ -39,4 +39,10 @@ public class BasketItemBusinessRules : BaseBusinessRules
         );
         await BasketItemShouldExistWhenSelected(basketItem);
     }
+
+    public async Task ProductAmountGreatherThenZero(int productAmount)
+    {
+        if (productAmount <= 0)
+            await throwBusinessException(BasketItemsBusinessMessages.ProductAmountGreatherThenZero);
+    }
 }

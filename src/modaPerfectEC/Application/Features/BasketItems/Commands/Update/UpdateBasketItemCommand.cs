@@ -57,16 +57,16 @@ public class UpdateBasketItemCommand : IRequest<UpdatedBasketItemResponse>, ITra
                 await _productVariantBusinessRules.StockAmountIsAvailabla(basketItem!.ProductVariant!.Id, request.ProcessAmount);
 
                 basketItem!.ProductAmount += request.ProcessAmount;
-                basket!.TotalPrice = Math.Round(basket.TotalPrice + (request.ProcessAmount * basketItem.Product!.Price), 2);
-                basket!.TotalPriceUSD = Math.Round(basket.TotalPriceUSD+ (request.ProcessAmount * basketItem.Product!.PriceUSD), 2);
+                basket!.TotalPrice = Math.Round(basket.TotalPrice + ((request.ProcessAmount * basketItem.Product!.Price) * basketItem.ProductVariant.Sizes.Length), 2);
+                basket!.TotalPriceUSD = Math.Round(basket.TotalPriceUSD+ ((request.ProcessAmount * basketItem.Product!.Price) * basketItem.ProductVariant.Sizes.Length), 2);
 
             }
 
             if (!request.Increase)
             {
                 basketItem!.ProductAmount -= request.ProcessAmount;
-                basket!.TotalPrice = Math.Round(basket.TotalPrice - (request.ProcessAmount * basketItem.Product!.Price), 2);
-                basket!.TotalPriceUSD= Math.Round(basket.TotalPriceUSD- (request.ProcessAmount * basketItem.Product!.PriceUSD), 2);
+                basket!.TotalPrice = Math.Round(basket.TotalPrice - ((request.ProcessAmount * basketItem.Product!.Price) * basketItem.ProductVariant!.Sizes.Length), 2);
+                basket!.TotalPriceUSD= Math.Round(basket.TotalPriceUSD- ((request.ProcessAmount * basketItem.Product!.PriceUSD) * basketItem.ProductVariant.Sizes.Length), 2);
             }
 
             await _basketItemRepository.UpdateAsync(basketItem!);

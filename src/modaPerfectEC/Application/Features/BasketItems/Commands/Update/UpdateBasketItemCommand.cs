@@ -58,7 +58,7 @@ public class UpdateBasketItemCommand : IRequest<UpdatedBasketItemResponse>, ITra
 
                 basketItem!.ProductAmount += request.ProcessAmount;
                 basket!.TotalPrice = Math.Round(basket.TotalPrice + ((request.ProcessAmount * basketItem.Product!.Price) * basketItem.ProductVariant.Sizes.Length), 2);
-                basket!.TotalPriceUSD = Math.Round(basket.TotalPriceUSD+ ((request.ProcessAmount * basketItem.Product!.Price) * basketItem.ProductVariant.Sizes.Length), 2);
+                basket!.TotalPriceUSD = Math.Round(basket.TotalPriceUSD+ ((request.ProcessAmount * basketItem.Product!.PriceUSD) * basketItem.ProductVariant.Sizes.Length), 2);
 
             }
 

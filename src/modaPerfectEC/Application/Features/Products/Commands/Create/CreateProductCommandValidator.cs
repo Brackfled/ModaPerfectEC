@@ -9,7 +9,7 @@ public class CreateProductCommandValidator : AbstractValidator<CreateProductComm
         RuleFor(c => c.CreateProductRequest.CategoryId).NotEmpty();
         RuleFor(c => c.CreateProductRequest.SubCategoryId).NotEmpty();
         RuleFor(c => c.CreateProductRequest.Name).NotEmpty();
-        RuleFor(c => c.CreateProductRequest.Price).NotEmpty();
+        RuleFor(c => c.CreateProductRequest.Price).NotEmpty().GreaterThan(0);
         RuleFor(c => c.CreateProductRequest.Description).NotEmpty();
         RuleFor(c => c.CreateProductRequest.ProductState).IsInEnum();
     }

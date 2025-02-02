@@ -103,8 +103,8 @@ public class ProductsController : BaseController
         return Ok(result);
     }
 
-    [HttpGet("GetListByCategoryId/{categoryId}")]
-    public async Task<IActionResult> GetListByCategoryIdProduts([FromRoute] string categoryName)
+    [HttpGet("GetListByCategoryId")]
+    public async Task<IActionResult> GetListByCategoryIdProduts([FromQuery] string categoryName)
     {
         GetListByCategoryIdProductQuery  query = new() { Name= categoryName };
 
@@ -112,8 +112,8 @@ public class ProductsController : BaseController
         return Ok(result);
     }
 
-    [HttpGet("GetListBySubCategoryId/{subCategoryId}")]
-    public async Task<IActionResult> GetListBySubCategoryProducts([FromRoute] string subCategoryName)
+    [HttpGet("GetListBySubCategoryId")]
+    public async Task<IActionResult> GetListBySubCategoryProducts([FromQuery] string subCategoryName)
     {
         GetListBySubCategoryIdProductQuery query = new() { Name = subCategoryName};
         ICollection<GetListBySubCategoryIdProductListItemDto> result = await Mediator.Send(query);

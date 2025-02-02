@@ -11,6 +11,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Net.Mime.MediaTypeNames;
+using System.Drawing;
 
 namespace Application.Features.MPFile.Rules;
 public class MPFileBusinessRules:BaseBusinessRules
@@ -58,5 +60,18 @@ public class MPFileBusinessRules:BaseBusinessRules
     {
         if (product.ProductImages!.Count() + formFiles.Count() > maxCount)
             await throwBusinessException(MPFileBusinessMessages.ImageOverload);
+    }
+
+    public async Task FileSizeIsCorrect(IFormFile formFile, int maxWidth, int maxHeight)
+    {
+
+        using (var stream = formFile.OpenReadStream())
+        {
+            using (var image = System.Drawing.Image.FromStream(stream))
+            {
+                if (image.Width <= maxWidth || image.Height <= maxHeight)
+                    await throwBusinessException(MPFileBusinessMessages.FileIsIncorrect);
+            }
+        }
     }
 }

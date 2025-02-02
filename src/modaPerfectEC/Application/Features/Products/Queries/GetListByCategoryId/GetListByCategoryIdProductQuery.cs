@@ -1,5 +1,7 @@
 ﻿using Amazon.Runtime.Internal;
+using Application.Features.Categories.Rules;
 using Application.Features.Products.Rules;
+using Application.Services.Categories;
 using Application.Services.Repositories;
 using AutoMapper;
 using Domain.Entities;
@@ -25,19 +27,26 @@ public class GetListByCategoryIdProductQuery: IRequest<ICollection<GetListByCate
     {
         private readonly IProductRepository _productRepository;
         private readonly ProductBusinessRules _productBusinessRules;
+        private readonly ICategoryService _categoryService;
+        private readonly CategoryBusinessRules _categoryBusinessRules;
         private IMapper _mapper;
 
-        public GetListByCategoryIdProductQueryHandler(IProductRepository productRepository, ProductBusinessRules productBusinessRules, IMapper mapper)
+        public GetListByCategoryIdProductQueryHandler(IProductRepository productRepository, ProductBusinessRules productBusinessRules, ICategoryService categoryService, CategoryBusinessRules categoryBusinessRules, IMapper mapper)
         {
             _productRepository = productRepository;
             _productBusinessRules = productBusinessRules;
+            _categoryService = categoryService;
+            _categoryBusinessRules = categoryBusinessRules;
             _mapper = mapper;
         }
 
         public async Task<ICollection<GetListByCategoryIdProductListItemDto>> Handle(GetListByCategoryIdProductQuery request, CancellationToken cancellationToken)
         {
+            Category? category = await _categoryService.GetAsync(c => c.Name == request.Name);
+            await _categoryBusinessRules.CategoryShouldExistWhenSelected(category);
+
             ICollection<Product>? products = await _productRepository.GetAllAsync(
-                    predicate: p => p.Name == request.Name,
+                    predicate: p => p.CategoryId == category!.Id,
                     include:opt => opt.Include(p => p.ProductVariants)!.Include(p => p.ProductImages)!
                 );
 

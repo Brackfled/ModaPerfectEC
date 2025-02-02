@@ -103,7 +103,7 @@ public class ProductsController : BaseController
         return Ok(result);
     }
 
-    [HttpGet("GetListByCategoryId")]
+    [HttpGet("GetListByCategoryName")]
     public async Task<IActionResult> GetListByCategoryIdProduts([FromQuery] string categoryName)
     {
         GetListByCategoryIdProductQuery  query = new() { Name= categoryName };
@@ -112,7 +112,7 @@ public class ProductsController : BaseController
         return Ok(result);
     }
 
-    [HttpGet("GetListBySubCategoryId")]
+    [HttpGet("GetListBySubCategoryName")]
     public async Task<IActionResult> GetListBySubCategoryProducts([FromQuery] string subCategoryName)
     {
         GetListBySubCategoryIdProductQuery query = new() { Name = subCategoryName};

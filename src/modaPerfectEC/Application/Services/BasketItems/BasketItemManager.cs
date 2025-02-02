@@ -103,4 +103,16 @@ public class BasketItemManager : IBasketItemService
         ICollection<BasketItem> deletedBasketItems = await _basketItemRepository.DeleteRangeAsync(basketItems, true);
         return deletedBasketItems;
     }
+
+    public async Task<ICollection<BasketItem>> GetAllAsync(Expression<Func<BasketItem, bool>>? predicate = null, Func<IQueryable<BasketItem>, IIncludableQueryable<BasketItem, object>>? include = null)
+    {
+        ICollection<BasketItem> basketItems = await _basketItemRepository.GetAllAsync(predicate, include);
+        return basketItems;
+    }
+
+    public async Task<ICollection<BasketItem>> DeleteRangeAsync(ICollection<BasketItem> basketItems, bool permantly)
+    {
+        ICollection<BasketItem> deletedBasketItems = await _basketItemRepository.DeleteRangeAsync(basketItems, permantly);
+        return deletedBasketItems;
+    }
 }

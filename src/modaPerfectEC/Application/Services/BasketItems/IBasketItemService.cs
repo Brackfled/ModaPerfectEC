@@ -28,4 +28,6 @@ public interface IBasketItemService
     Task<BasketItem> UpdateAsync(BasketItem basketItem);
     Task<BasketItem> DeleteAsync(BasketItem basketItem, bool permanent = false);
     Task<ICollection<BasketItem>> DeleteAllByProductIdAsync(Guid productId);
+    Task<ICollection<BasketItem>> GetAllAsync(Expression<Func<BasketItem, bool>>? predicate = null, Func<IQueryable<BasketItem>, IIncludableQueryable<BasketItem, object>>? include = null);
+    Task<ICollection<BasketItem>> DeleteRangeAsync(ICollection<BasketItem> basketItems, bool permantly);
 }

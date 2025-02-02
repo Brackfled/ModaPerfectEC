@@ -1,6 +1,7 @@
 ﻿using Application.Features.Auth.Constants;
 using Application.Features.Baskets.Rules;
 using Application.Features.Users.Rules;
+using Application.Services.BasketItems;
 using Application.Services.Baskets;
 using Application.Services.Repositories;
 using Application.Services.UserOperationClaims;
@@ -31,15 +32,17 @@ public class ConfirmUserCommand: IRequest<ConfirmedUserResponse>, ISecuredReques
         private readonly IBasketService _basketService;
         private readonly BasketBusinessRules _basketBusinessRules;
         private readonly IUserOperationClaimService _userOperationClaimService;
+        private readonly IBasketItemService _basketItemService;
         private IMapper _mapper;
 
-        public ConfirmUserCommandHandler(IUserService userService, UserBusinessRules userBusinessRules, IBasketService basketService, BasketBusinessRules basketBusinessRules, IUserOperationClaimService userOperationClaimService, IMapper mapper)
+        public ConfirmUserCommandHandler(IUserService userService, UserBusinessRules userBusinessRules, IBasketService basketService, BasketBusinessRules basketBusinessRules, IUserOperationClaimService userOperationClaimService, IBasketItemService basketItemService, IMapper mapper)
         {
             _userService = userService;
             _userBusinessRules = userBusinessRules;
             _basketService = basketService;
             _basketBusinessRules = basketBusinessRules;
             _userOperationClaimService = userOperationClaimService;
+            _basketItemService = basketItemService;
             _mapper = mapper;
         }
 
@@ -49,7 +52,7 @@ public class ConfirmUserCommand: IRequest<ConfirmedUserResponse>, ISecuredReques
 
             User? user = await _userService.GetAsync(u => u.Id == request.UserId);
 
-            if (user!.UserState == UserState.Pending && request.UserState == UserState.Confirmed)
+            if ((user!.UserState == UserState.Pending || user!.UserState == UserState.BlackList || user!.UserState == UserState.Rejected) && request.UserState == UserState.Confirmed)
             {
                 await _basketBusinessRules.UserShouldNotHasActiveBasket(request.UserId);
 
@@ -70,11 +73,21 @@ public class ConfirmUserCommand: IRequest<ConfirmedUserResponse>, ISecuredReques
 
             }
 
-            if(user.UserState == UserState.Confirmed && (request.UserState == UserState.Rejected || request.UserState == UserState.BlackList))
+            if(user.UserState == UserState.Confirmed && (request.UserState == UserState.Rejected || request.UserState == UserState.BlackList || request.UserState == UserState.Pending))
             {
                 IList<UserOperationClaim> uocs = await _userOperationClaimService.GetUserOperationClaimsByUserIdAsync(user.Id);
 
                 await _userOperationClaimService.DeleteRangeAsync(uocs, true);
+
+                Basket? userActiveBasket = await _basketService.GetAsync(b => b.UserId == user.Id && b.IsOrderBasket == false);
+                
+                if(userActiveBasket is not null)
+                {
+                    ICollection<BasketItem> basketItems = await _basketItemService.GetAllAsync(bi => bi.BasketId == userActiveBasket!.Id);
+
+                    await _basketService.DeleteAsync(userActiveBasket!, true);
+                    await _basketItemService.DeleteRangeAsync(basketItems, true);
+                }   
             }
 
             await _userBusinessRules.UserStateIsAccurate(user, request.UserState);

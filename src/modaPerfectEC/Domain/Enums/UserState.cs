@@ -10,5 +10,6 @@ public enum UserState
     Pending,
     Confirmed,
     Rejected,
-    BlackList
+    BlackList,
+    Admin
 }

@@ -114,7 +114,8 @@ public class UserUserOperationClaimManager : IUserOperationClaimService
             {
                 await _operationClaimBusinessRules.OperationClaimIdShouldExistWhenSelected(oc);
 
-                UserOperationClaim uoc = new() {
+                UserOperationClaim uoc = new()
+                {
                     Id = Guid.NewGuid(),
                     UserId = user.Id,
                     OperationClaimId = oc,
@@ -125,6 +126,27 @@ public class UserUserOperationClaimManager : IUserOperationClaimService
                 userStateOperationClaimDto.UserState = UserState.Confirmed;
                 userStateOperationClaimDto.Success = true;
             }
+        }
+
+        if (userState == UserState.Admin)
+        {
+            foreach (int oc in adminUser)
+            {
+                await _operationClaimBusinessRules.OperationClaimIdShouldExistWhenSelected(oc);
+
+                UserOperationClaim uoc = new()
+                {
+                    Id = Guid.NewGuid(),
+                    UserId = user.Id,
+                    OperationClaimId = oc,
+                };
+
+                await _userUserOperationClaimRepository.AddAsync(uoc);
+                user.UserState = UserState.Admin;
+                userStateOperationClaimDto.Success = true;
+            }
+
+            
         }
 
         return userStateOperationClaimDto;

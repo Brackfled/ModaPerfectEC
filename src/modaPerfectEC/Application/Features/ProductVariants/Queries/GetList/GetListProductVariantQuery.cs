@@ -11,11 +11,11 @@ using static Application.Features.ProductVariants.Constants.ProductVariantsOpera
 
 namespace Application.Features.ProductVariants.Queries.GetList;
 
-public class GetListProductVariantQuery : IRequest<GetListResponse<GetListProductVariantListItemDto>>//, ISecuredRequest
+public class GetListProductVariantQuery : IRequest<GetListResponse<GetListProductVariantListItemDto>>, ISecuredRequest
 {
     public PageRequest PageRequest { get; set; }
 
-    //public string[] Roles => [Admin, Read];
+    public string[] Roles => [Admin, Read];
 
     public class GetListProductVariantQueryHandler : IRequestHandler<GetListProductVariantQuery, GetListResponse<GetListProductVariantListItemDto>>
     {

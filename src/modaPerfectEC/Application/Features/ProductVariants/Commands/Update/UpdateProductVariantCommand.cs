@@ -12,11 +12,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Application.Features.ProductVariants.Commands.Update;
 
-public class UpdateProductVariantCommand : IRequest<UpdatedProductVariantResponse>, ITransactionalRequest //, ISecuredRequest
+public class UpdateProductVariantCommand : IRequest<UpdatedProductVariantResponse>, ITransactionalRequest , ISecuredRequest
 {
     public UpdateProductVariantRequest UpdateProductVariantRequest { get; set; }
 
-//    public string[] Roles => [Admin, Write, ProductVariantsOperationClaims.Update];
+    public string[] Roles => [Admin, ProductVariantsOperationClaims.Update];
 
     public class UpdateProductVariantCommandHandler : IRequestHandler<UpdateProductVariantCommand, UpdatedProductVariantResponse>
     {
@@ -40,17 +40,20 @@ public class UpdateProductVariantCommand : IRequest<UpdatedProductVariantRespons
 
             ProductVariant? productVariant = await _productVariantRepository.GetAsync(predicate: pv => pv.Id == request.UpdateProductVariantRequest.Id, cancellationToken: cancellationToken);
             await _productVariantBusinessRules.ProductVariantShouldExistWhenSelected(productVariant);
-            productVariant = _mapper.Map(request.UpdateProductVariantRequest, productVariant);
+            ProductVariant mappedProductVariant = _mapper.Map(request.UpdateProductVariantRequest, productVariant);
 
-            await _productVariantRepository.UpdateAsync(productVariant!);
+            if (request.UpdateProductVariantRequest.Sizes is null)
+                mappedProductVariant.Sizes = productVariant!.Sizes;
 
-            Product? product = await _productService.GetAsync(p => p.Id == productVariant!.ProductId, include:opt => opt.Include(p => p.ProductVariants)!);
+            await _productVariantRepository.UpdateAsync(mappedProductVariant!);
+
+            Product? product = await _productService.GetAsync(p => p.Id == mappedProductVariant!.ProductId, include:opt => opt.Include(p => p.ProductVariants)!);
 
             if(request.UpdateProductVariantRequest.Sizes is not null)
             {
                 foreach (ProductVariant pv in product.ProductVariants!)
                 {
-                    if(pv != productVariant)
+                    if(pv != mappedProductVariant)
                     {
                         pv.Sizes = request.UpdateProductVariantRequest.Sizes;
                         await _productVariantRepository.UpdateAsync(pv);
@@ -61,7 +64,7 @@ public class UpdateProductVariantCommand : IRequest<UpdatedProductVariantRespons
 
             
 
-            UpdatedProductVariantResponse response = _mapper.Map<UpdatedProductVariantResponse>(productVariant);
+            UpdatedProductVariantResponse response = _mapper.Map<UpdatedProductVariantResponse>(mappedProductVariant);
             response.Product = product;
             return response;
         }

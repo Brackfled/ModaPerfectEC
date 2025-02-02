@@ -5,6 +5,7 @@ using AutoMapper;
 using Domain.Entities;
 using MediatR;
 using NArchitecture.Core.Application.Pipelines.Authorization;
+using NArchitecture.Core.Security.Constants;
 using static Application.Features.UserOperationClaims.Constants.UserOperationClaimsOperationClaims;
 
 namespace Application.Features.UserOperationClaims.Commands.Delete;
@@ -13,7 +14,7 @@ public class DeleteUserOperationClaimCommand : IRequest<DeletedUserOperationClai
 {
     public Guid Id { get; set; }
 
-    public string[] Roles => new[] { Admin, Write, UserOperationClaimsOperationClaims.Delete };
+    public string[] Roles => new[] { GeneralOperationClaims.Admin };
 
     public class DeleteUserOperationClaimCommandHandler
         : IRequestHandler<DeleteUserOperationClaimCommand, DeletedUserOperationClaimResponse>

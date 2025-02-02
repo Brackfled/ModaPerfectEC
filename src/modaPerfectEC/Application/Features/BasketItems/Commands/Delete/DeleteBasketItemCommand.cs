@@ -13,12 +13,12 @@ using Application.Features.Baskets.Rules;
 
 namespace Application.Features.BasketItems.Commands.Delete;
 
-public class DeleteBasketItemCommand : IRequest<DeletedBasketItemResponse>, ITransactionalRequest //,ISecuredRequest
+public class DeleteBasketItemCommand : IRequest<DeletedBasketItemResponse>, ITransactionalRequest ,ISecuredRequest
 {
     public Guid UserId { get; set; }
     public Guid Id { get; set; }
 
-    //public string[] Roles => [Admin, Write, BasketItemsOperationClaims.Delete];
+    public string[] Roles => [Admin, BasketItemsOperationClaims.Delete];
 
     public class DeleteBasketItemCommandHandler : IRequestHandler<DeleteBasketItemCommand, DeletedBasketItemResponse>
     {

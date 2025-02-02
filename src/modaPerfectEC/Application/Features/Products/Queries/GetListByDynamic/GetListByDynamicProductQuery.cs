@@ -4,6 +4,7 @@ using AutoMapper;
 using Domain.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using NArchitecture.Core.Application.Pipelines.Authorization;
 using NArchitecture.Core.Application.Requests;
 using NArchitecture.Core.Application.Responses;
 using NArchitecture.Core.Persistence.Dynamic;
@@ -12,13 +13,16 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using static Application.Features.Products.Constants.ProductsOperationClaims;
 using System.Threading.Tasks;
 
 namespace Application.Features.Products.Queries.GetListByDynamic;
-public class GetListByDynamicProductQuery: IRequest<GetListResponse<GetListByDynamicProductListItemDto>>
+public class GetListByDynamicProductQuery: IRequest<GetListResponse<GetListByDynamicProductListItemDto>>, ISecuredRequest
 {
     public PageRequest PageRequest { get; set; }
     public DynamicQuery DynamicQuery { get; set; }
+
+    public string[] Roles => [Admin, Read];
 
     public class GetListByDynamicProductQueryHandler: IRequestHandler<GetListByDynamicProductQuery, GetListResponse<GetListByDynamicProductListItemDto>>
     {

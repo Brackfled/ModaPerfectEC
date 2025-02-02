@@ -14,13 +14,13 @@ using Application.Features.ProductVariants.Rules;
 
 namespace Application.Features.BasketItems.Commands.Update;
 
-public class UpdateBasketItemCommand : IRequest<UpdatedBasketItemResponse>, ITransactionalRequest //,ISecuredRequest
+public class UpdateBasketItemCommand : IRequest<UpdatedBasketItemResponse>, ITransactionalRequest ,ISecuredRequest
 {
     public Guid Id { get; set; }
     public int ProcessAmount { get; set; }
     public bool Increase {  get; set; }
 
-    //public string[] Roles => [Admin, Write, BasketItemsOperationClaims.Update];
+    public string[] Roles => [Admin, BasketItemsOperationClaims.Update];
 
     public class UpdateBasketItemCommandHandler : IRequestHandler<UpdateBasketItemCommand, UpdatedBasketItemResponse>
     {

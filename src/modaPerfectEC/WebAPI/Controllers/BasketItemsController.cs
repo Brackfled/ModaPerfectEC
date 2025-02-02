@@ -44,15 +44,15 @@ public class BasketItemsController : BaseController
         return Ok(response);
     }
 
-    [HttpGet("{id}")]
-    public async Task<ActionResult<GetByIdBasketItemResponse>> GetById([FromRoute] Guid id)
-    {
-        GetByIdBasketItemQuery query = new() { Id = id };
+    //[HttpGet("{id}")]
+    //public async Task<ActionResult<GetByIdBasketItemResponse>> GetById([FromRoute] Guid id)
+    //{
+    //    GetByIdBasketItemQuery query = new() { Id = id };
 
-        GetByIdBasketItemResponse response = await Mediator.Send(query);
+    //    GetByIdBasketItemResponse response = await Mediator.Send(query);
 
-        return Ok(response);
-    }
+    //    return Ok(response);
+    //}
 
     //[HttpGet]
     //public async Task<ActionResult<GetListResponse<GetListBasketItemListItemDto>>> GetList([FromQuery] PageRequest pageRequest)

@@ -15,7 +15,7 @@ public class CreateSubCategoryCommand : IRequest<CreatedSubCategoryResponse>, IS
     public required int CategoryId { get; set; }
     public required string Name { get; set; }
 
-    public string[] Roles => [Admin, Write, SubCategoriesOperationClaims.Create];
+    public string[] Roles => [Admin, SubCategoriesOperationClaims.Create];
 
     public class CreateSubCategoryCommandHandler : IRequestHandler<CreateSubCategoryCommand, CreatedSubCategoryResponse>
     {

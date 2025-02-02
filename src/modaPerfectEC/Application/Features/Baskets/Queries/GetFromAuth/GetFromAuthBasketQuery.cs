@@ -4,16 +4,20 @@ using Application.Services.Repositories;
 using AutoMapper;
 using Domain.Entities;
 using MediatR;
+using NArchitecture.Core.Application.Pipelines.Authorization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Application.Features.Baskets.Constants.BasketsOperationClaims;
 
 namespace Application.Features.Baskets.Queries.GetFromAuth;
-public class GetFromAuthBasketQuery: IRequest<GetFromAuthBasketResponse>
+public class GetFromAuthBasketQuery: IRequest<GetFromAuthBasketResponse>, ISecuredRequest
 {
     public Guid UserId { get; set; }
+
+    public string[] Roles => [Admin, Read];
 
     public class GetFromAuthBasketQueryHandler: IRequestHandler<GetFromAuthBasketQuery, GetFromAuthBasketResponse>
     {

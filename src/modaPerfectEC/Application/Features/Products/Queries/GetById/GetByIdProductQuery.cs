@@ -10,11 +10,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Application.Features.Products.Queries.GetById;
 
-public class GetByIdProductQuery : IRequest<GetByIdProductResponse>//, ISecuredRequest
+public class GetByIdProductQuery : IRequest<GetByIdProductResponse>, ISecuredRequest
 {
     public Guid Id { get; set; }
 
-    //public string[] Roles => [Admin, Read];
+    public string[] Roles => [Admin, Read];
 
     public class GetByIdProductQueryHandler : IRequestHandler<GetByIdProductQuery, GetByIdProductResponse>
     {

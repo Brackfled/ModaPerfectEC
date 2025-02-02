@@ -13,7 +13,7 @@ public class GetByIdBasketItemQuery : IRequest<GetByIdBasketItemResponse>, ISecu
 {
     public Guid Id { get; set; }
 
-    public string[] Roles => [Admin, Read];
+    public string[] Roles => [Admin];
 
     public class GetByIdBasketItemQueryHandler : IRequestHandler<GetByIdBasketItemQuery, GetByIdBasketItemResponse>
     {

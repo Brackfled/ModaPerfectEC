@@ -1,20 +1,26 @@
 ﻿using Amazon.Runtime.Internal;
+using Application.Features.Products.Constants;
 using Application.Features.ProductVariants.Rules;
 using Application.Services.Repositories;
 using AutoMapper;
 using Domain.Entities;
 using MediatR;
+using NArchitecture.Core.Application.Pipelines.Authorization;
 using NArchitecture.Core.Application.Pipelines.Transaction;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Application.Features.Products.Constants.ProductsOperationClaims;
+
 
 namespace Application.Features.ProductVariants.Commands.UpdateStockAmount;
-public class UpdateStockAmountProductVariantCommand: IRequest<UpdatedStockAmountProductVariantResponse>, ITransactionalRequest
+public class UpdateStockAmountProductVariantCommand: IRequest<UpdatedStockAmountProductVariantResponse>, ITransactionalRequest, ISecuredRequest
 {
     public UpdateStockAmountProductVariantRequest UpdateStockAmountProductVariantRequest { get; set; }
+
+    public string[] Roles => [Admin, ProductsOperationClaims.Update];
 
     public class UpdateStockAmountProductVariantCommandHandler: IRequestHandler<UpdateStockAmountProductVariantCommand, UpdatedStockAmountProductVariantResponse>
     {

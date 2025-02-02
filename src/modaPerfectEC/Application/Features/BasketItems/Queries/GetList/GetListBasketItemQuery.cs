@@ -15,7 +15,7 @@ public class GetListBasketItemQuery : IRequest<GetListResponse<GetListBasketItem
 {
     public PageRequest PageRequest { get; set; }
 
-    public string[] Roles => [Admin, Read];
+    public string[] Roles => [Admin];
 
     public class GetListBasketItemQueryHandler : IRequestHandler<GetListBasketItemQuery, GetListResponse<GetListBasketItemListItemDto>>
     {

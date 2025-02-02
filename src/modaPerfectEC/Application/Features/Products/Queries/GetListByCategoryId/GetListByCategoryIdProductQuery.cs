@@ -5,16 +5,21 @@ using AutoMapper;
 using Domain.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using NArchitecture.Core.Application.Pipelines.Authorization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Application.Features.Products.Constants.ProductsOperationClaims;
+
 
 namespace Application.Features.Products.Queries.GetListByCategoryId;
-public class GetListByCategoryIdProductQuery: IRequest<ICollection<GetListByCategoryIdProductListItemDto>>
+public class GetListByCategoryIdProductQuery: IRequest<ICollection<GetListByCategoryIdProductListItemDto>>, ISecuredRequest
 {
-    public int CategoryId { get; set; }
+    public string Name { get; set; }
+
+    public string[] Roles => [Admin, Read];
 
     public class GetListByCategoryIdProductQueryHandler: IRequestHandler<GetListByCategoryIdProductQuery, ICollection<GetListByCategoryIdProductListItemDto>>
     {
@@ -32,7 +37,7 @@ public class GetListByCategoryIdProductQuery: IRequest<ICollection<GetListByCate
         public async Task<ICollection<GetListByCategoryIdProductListItemDto>> Handle(GetListByCategoryIdProductQuery request, CancellationToken cancellationToken)
         {
             ICollection<Product>? products = await _productRepository.GetAllAsync(
-                    predicate: p => p.CategoryId == request.CategoryId,
+                    predicate: p => p.Name == request.Name,
                     include:opt => opt.Include(p => p.ProductVariants)!.Include(p => p.ProductImages)!
                 );
 

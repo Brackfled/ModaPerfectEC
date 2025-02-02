@@ -1,3 +1,4 @@
 ProductNotExists: Ürün bulunamadý.
 ProductExists: Ürün mevcut.
 TheLastImageCannotBeDeleted: Ürünün son fotoðrafýný silenemez. Lütfen birkaç fotoðraf giriþi yaptýktan sonra tekrar deneyiniz.
+ProductIsNotActive: Ürün aktif deðil. Satýn alýnamaz.

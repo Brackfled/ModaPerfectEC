@@ -1,3 +1,4 @@
 ProductNotExists: Product don't exists.
 ProductExists: Product is exists.
 TheLastImageCannotBeDeleted: The last photo of the product cannot be deleted. Please try again after entering a few photos.
+ProductIsNotActive: The product is not active and cannot be purchased.

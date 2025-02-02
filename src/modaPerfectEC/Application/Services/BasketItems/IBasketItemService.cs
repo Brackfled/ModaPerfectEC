@@ -27,4 +27,5 @@ public interface IBasketItemService
     Task<BasketItem> AddAsync(BasketItem basketItem);
     Task<BasketItem> UpdateAsync(BasketItem basketItem);
     Task<BasketItem> DeleteAsync(BasketItem basketItem, bool permanent = false);
+    Task<ICollection<BasketItem>> DeleteAllByProductIdAsync(Guid productId);
 }

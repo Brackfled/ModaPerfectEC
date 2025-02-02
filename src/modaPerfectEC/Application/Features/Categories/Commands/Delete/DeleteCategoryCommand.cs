@@ -15,7 +15,7 @@ public class DeleteCategoryCommand : IRequest<DeletedCategoryResponse>, ISecured
 {
     public int Id { get; set; }
 
-    public string[] Roles => [Admin, Write, CategoriesOperationClaims.Delete];
+    public string[] Roles => [Admin, CategoriesOperationClaims.Delete];
 
     public class DeleteCategoryCommandHandler : IRequestHandler<DeleteCategoryCommand, DeletedCategoryResponse>
     {

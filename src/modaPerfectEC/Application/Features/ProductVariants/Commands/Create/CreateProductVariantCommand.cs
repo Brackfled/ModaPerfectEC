@@ -19,7 +19,7 @@ public class CreateProductVariantCommand : IRequest<CreatedProductVariantRespons
     public required Guid ProductId { get; set; }
     public required ColorDto ColorDto { get; set; }
 
-    public string[] Roles => [Admin, Write, ProductVariantsOperationClaims.Create];
+    public string[] Roles => [Admin, ProductVariantsOperationClaims.Create];
 
     public class CreateProductVariantCommandHandler : IRequestHandler<CreateProductVariantCommand, CreatedProductVariantResponse>
     {

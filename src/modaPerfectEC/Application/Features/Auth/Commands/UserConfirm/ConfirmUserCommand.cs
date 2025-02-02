@@ -2,6 +2,8 @@
 using Application.Features.Baskets.Rules;
 using Application.Features.Users.Rules;
 using Application.Services.Baskets;
+using Application.Services.Repositories;
+using Application.Services.UserOperationClaims;
 using Application.Services.UsersService;
 using AutoMapper;
 using Domain.Entities;
@@ -28,14 +30,16 @@ public class ConfirmUserCommand: IRequest<ConfirmedUserResponse>, ISecuredReques
         private readonly UserBusinessRules _userBusinessRules;
         private readonly IBasketService _basketService;
         private readonly BasketBusinessRules _basketBusinessRules;
+        private readonly IUserOperationClaimRepository _userOperationClaimRepository;
         private IMapper _mapper;
 
-        public ConfirmUserCommandHandler(IUserService userService, UserBusinessRules userBusinessRules, IBasketService basketService, BasketBusinessRules basketBusinessRules, IMapper mapper)
+        public ConfirmUserCommandHandler(IUserService userService, UserBusinessRules userBusinessRules, IBasketService basketService, BasketBusinessRules basketBusinessRules, IUserOperationClaimRepository userOperationClaimRepository, IMapper mapper)
         {
             _userService = userService;
             _userBusinessRules = userBusinessRules;
             _basketService = basketService;
             _basketBusinessRules = basketBusinessRules;
+            _userOperationClaimRepository = userOperationClaimRepository;
             _mapper = mapper;
         }
 

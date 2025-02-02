@@ -16,7 +16,7 @@ public class UpdateSubCategoryCommand : IRequest<UpdatedSubCategoryResponse>, IS
     public required int CategoryId { get; set; }
     public required string Name { get; set; }
 
-    public string[] Roles => [Admin, Write, SubCategoriesOperationClaims.Update];
+    public string[] Roles => [Admin, SubCategoriesOperationClaims.Update];
 
     public class UpdateSubCategoryCommandHandler : IRequestHandler<UpdateSubCategoryCommand, UpdatedSubCategoryResponse>
     {

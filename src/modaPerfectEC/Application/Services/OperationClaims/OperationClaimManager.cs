@@ -1,7 +1,9 @@
 ﻿using System.Linq.Expressions;
 using Application.Features.OperationClaims.Rules;
 using Application.Services.Repositories;
+using Domain.Dtos;
 using Domain.Entities;
+using Domain.Enums;
 using Microsoft.EntityFrameworkCore.Query;
 using NArchitecture.Core.Persistence.Paging;
 

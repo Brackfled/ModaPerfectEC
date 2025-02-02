@@ -9,6 +9,7 @@ using MediatR;
 using Domain.Enums;
 using static Application.Features.Products.Constants.ProductsOperationClaims;
 using Application.Services.ExchangeService;
+using Application.Services.BasketItems;
 
 namespace Application.Features.Products.Commands.Update;
 
@@ -17,7 +18,7 @@ public class UpdateProductCommand : IRequest<UpdatedProductResponse>, ISecuredRe
     public Guid Id { get; set; }
     public UpdateProductRequest UpdateProductRequest { get; set; }
 
-    public string[] Roles => [Admin, Write, ProductsOperationClaims.Update];
+    public string[] Roles => [Admin, ProductsOperationClaims.Update];
 
     public class UpdateProductCommandHandler : IRequestHandler<UpdateProductCommand, UpdatedProductResponse>
     {
@@ -25,13 +26,15 @@ public class UpdateProductCommand : IRequest<UpdatedProductResponse>, ISecuredRe
         private readonly IProductRepository _productRepository;
         private readonly ProductBusinessRules _productBusinessRules;
         private readonly ExchangeServiceBase _exchangeServiceBase;
+        private readonly IBasketItemService _basketItemService;
 
-        public UpdateProductCommandHandler(IMapper mapper, IProductRepository productRepository, ProductBusinessRules productBusinessRules, ExchangeServiceBase exchangeService)
+        public UpdateProductCommandHandler(IMapper mapper, IProductRepository productRepository, ProductBusinessRules productBusinessRules, ExchangeServiceBase exchangeServiceBase, IBasketItemService basketItemService)
         {
             _mapper = mapper;
             _productRepository = productRepository;
             _productBusinessRules = productBusinessRules;
-            _exchangeServiceBase = exchangeService;
+            _exchangeServiceBase = exchangeServiceBase;
+            _basketItemService = basketItemService;
         }
 
         public async Task<UpdatedProductResponse> Handle(UpdateProductCommand request, CancellationToken cancellationToken)
@@ -46,6 +49,8 @@ public class UpdateProductCommand : IRequest<UpdatedProductResponse>, ISecuredRe
                 double flooredPriceUSD = Math.Floor(priceUSD * 100) / 100;
 
                 product.PriceUSD = flooredPriceUSD;
+
+                await _basketItemService.DeleteAllByProductIdAsync(product.Id);
             }
 
             product = _mapper.Map(request.UpdateProductRequest, product);

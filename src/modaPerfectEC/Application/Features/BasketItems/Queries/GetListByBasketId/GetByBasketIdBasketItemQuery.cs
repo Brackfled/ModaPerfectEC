@@ -5,17 +5,21 @@ using AutoMapper;
 using Domain.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using NArchitecture.Core.Application.Pipelines.Authorization;
 using Org.BouncyCastle.Security;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Application.Features.BasketItems.Constants.BasketItemsOperationClaims;
 
 namespace Application.Features.BasketItems.Queries.GetFromAuth;
-public class GetByBasketIdBasketItemQuery: IRequest<ICollection<GetByBasketIdBasketItemListItemDto>>
+public class GetByBasketIdBasketItemQuery: IRequest<ICollection<GetByBasketIdBasketItemListItemDto>>, ISecuredRequest
 {
     public Guid BasketId { get; set; }
+
+    public string[] Roles => [Admin, Read];
 
     public class GetByBasketIdBasketItemQueryHandler: IRequestHandler<GetByBasketIdBasketItemQuery, ICollection<GetByBasketIdBasketItemListItemDto>>
     {

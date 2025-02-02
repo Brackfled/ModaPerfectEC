@@ -1,7 +1,10 @@
 ﻿using System.Linq.Expressions;
+using Application.Features.OperationClaims.Rules;
 using Application.Features.UserOperationClaims.Rules;
 using Application.Services.Repositories;
+using Domain.Dtos;
 using Domain.Entities;
+using Domain.Enums;
 using Microsoft.EntityFrameworkCore.Query;
 using NArchitecture.Core.Persistence.Paging;
 
@@ -11,14 +14,13 @@ public class UserUserOperationClaimManager : IUserOperationClaimService
 {
     private readonly IUserOperationClaimRepository _userUserOperationClaimRepository;
     private readonly UserOperationClaimBusinessRules _userUserOperationClaimBusinessRules;
+    private readonly OperationClaimBusinessRules _operationClaimBusinessRules;
 
-    public UserUserOperationClaimManager(
-        IUserOperationClaimRepository userUserOperationClaimRepository,
-        UserOperationClaimBusinessRules userUserOperationClaimBusinessRules
-    )
+    public UserUserOperationClaimManager(IUserOperationClaimRepository userUserOperationClaimRepository, UserOperationClaimBusinessRules userUserOperationClaimBusinessRules, OperationClaimBusinessRules operationClaimBusinessRules)
     {
         _userUserOperationClaimRepository = userUserOperationClaimRepository;
         _userUserOperationClaimBusinessRules = userUserOperationClaimBusinessRules;
+        _operationClaimBusinessRules = operationClaimBusinessRules;
     }
 
     public async Task<UserOperationClaim?> GetAsync(
@@ -97,5 +99,34 @@ public class UserUserOperationClaimManager : IUserOperationClaimService
         );
 
         return deletedUserOperationClaim;
+    }
+
+    public async Task<UserStateOperationClaimDto> SetUserOperationClaimsAsync(User user, UserState userState)
+    {
+        int[] approvedUser = [516, 518, 517, 514, 508, 493, 499];
+        int[] adminUser = [516, 518, 517, 514, 508, 513, 507, 480, 483, 485, 484, 486, 489, 490, 491, 504, 505, 506, 492, 495, 496, 497, 493, 498, 501, 502, 503, 499, 479];
+
+        UserStateOperationClaimDto userStateOperationClaimDto = new UserStateOperationClaimDto();
+
+        if (user.UserState == UserState.Pending && userState == UserState.Confirmed)
+        {
+            foreach (int oc in approvedUser)
+            {
+                await _operationClaimBusinessRules.OperationClaimIdShouldExistWhenSelected(oc);
+
+                UserOperationClaim uoc = new() {
+                    Id = Guid.NewGuid(),
+                    UserId = user.Id,
+                    OperationClaimId = oc,
+                };
+
+                await _userUserOperationClaimRepository.AddAsync(uoc);
+
+                userStateOperationClaimDto.UserState = UserState.Confirmed;
+                userStateOperationClaimDto.Success = true;
+            }
+        }
+
+        return userStateOperationClaimDto;
     }
 }

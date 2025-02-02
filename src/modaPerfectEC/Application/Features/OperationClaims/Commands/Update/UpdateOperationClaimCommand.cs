@@ -5,6 +5,7 @@ using AutoMapper;
 using Domain.Entities;
 using MediatR;
 using NArchitecture.Core.Application.Pipelines.Authorization;
+using NArchitecture.Core.Security.Constants;
 using static Application.Features.OperationClaims.Constants.OperationClaimsOperationClaims;
 
 namespace Application.Features.OperationClaims.Commands.Update;
@@ -25,7 +26,7 @@ public class UpdateOperationClaimCommand : IRequest<UpdatedOperationClaimRespons
         Name = name;
     }
 
-    public string[] Roles => new[] { Admin, Write, OperationClaimsOperationClaims.Update };
+    public string[] Roles => new[] { GeneralOperationClaims.Admin };
 
     public class UpdateOperationClaimCommandHandler : IRequestHandler<UpdateOperationClaimCommand, UpdatedOperationClaimResponse>
     {

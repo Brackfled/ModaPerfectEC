@@ -9,11 +9,11 @@ using static Application.Features.ProductVariants.Constants.ProductVariantsOpera
 
 namespace Application.Features.ProductVariants.Queries.GetById;
 
-public class GetByIdProductVariantQuery : IRequest<GetByIdProductVariantResponse>//, ISecuredRequest
+public class GetByIdProductVariantQuery : IRequest<GetByIdProductVariantResponse>, ISecuredRequest
 {
     public Guid Id { get; set; }
 
-    //public string[] Roles => [Admin, Read];
+    public string[] Roles => [Admin, Read];
 
     public class GetByIdProductVariantQueryHandler : IRequestHandler<GetByIdProductVariantQuery, GetByIdProductVariantResponse>
     {

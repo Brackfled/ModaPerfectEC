@@ -16,12 +16,12 @@ using Application.Features.ProductVariants.Rules;
 
 namespace Application.Features.BasketItems.Commands.Create;
 
-public class CreateBasketItemCommand : IRequest<ICollection<CreatedBasketItemResponse>>, ITransactionalRequest //, ISecuredRequest
+public class CreateBasketItemCommand : IRequest<ICollection<CreatedBasketItemResponse>>, ITransactionalRequest , ISecuredRequest
 {
     public required Guid UserId { get; set; }
     public IList<CreateBasketItemRequest> CreateBasketItemRequests { get; set; }
 
-    //public string[] Roles => [Admin, Write, BasketItemsOperationClaims.Create];
+    public string[] Roles => [Admin, BasketItemsOperationClaims.Create];
 
     public class CreateBasketItemCommandHandler : IRequestHandler<CreateBasketItemCommand, ICollection<CreatedBasketItemResponse>>
     {
@@ -63,7 +63,7 @@ public class CreateBasketItemCommand : IRequest<ICollection<CreatedBasketItemRes
 
 
                 BasketItem? basketItem = await _basketItemRepository.GetAsync(
-                    predicate: bi => bi.ProductVariantId == rq.ProductVariantId,
+                    predicate: bi => bi.BasketId == basket!.Id && bi.ProductVariantId == rq.ProductVariantId,
                     include: (opt => opt.Include(bi => bi.Product)!.Include(bi => bi.ProductVariant)!),
                     cancellationToken: cancellationToken
                 );
@@ -81,6 +81,10 @@ public class CreateBasketItemCommand : IRequest<ICollection<CreatedBasketItemRes
                 }
                 else
                 {
+                    Product? product = await _productService.GetAsync(p => p.Id == rq.ProductId);
+                    await _productBusinessRules.ProductShouldExistWhenSelected(product);
+                    await _productBusinessRules.ProductShouldBeActive(product);
+
                     BasketItem addedBasketItem = await _basketItemRepository.AddAsync(
                             new()
                             {
@@ -93,9 +97,6 @@ public class CreateBasketItemCommand : IRequest<ICollection<CreatedBasketItemRes
                                 RemainingAfterDelivery = 0
                             }
                         );
-
-                    Product? product = await _productService.GetAsync(p => p.Id == rq.ProductId);
-                    await _productBusinessRules.ProductShouldExistWhenSelected(product);
 
                     basket!.TotalPrice = Math.Round(basket.TotalPrice + ((rq.ProductAmount * product!.Price) * addedBasketItem!.ProductVariant!.Sizes.Length), 2, MidpointRounding.AwayFromZero);
                     basket!.TotalPriceUSD = Math.Round(basket.TotalPriceUSD + ((rq.ProductAmount * product!.PriceUSD) * addedBasketItem!.ProductVariant!.Sizes.Length), 2, MidpointRounding.AwayFromZero);

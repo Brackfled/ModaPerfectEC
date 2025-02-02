@@ -15,7 +15,7 @@ public class DeleteSubCategoryCommand : IRequest<DeletedSubCategoryResponse>, IS
 {
     public int Id { get; set; }
 
-    public string[] Roles => [Admin, Write, SubCategoriesOperationClaims.Delete];
+    public string[] Roles => [Admin, SubCategoriesOperationClaims.Delete];
 
     public class DeleteSubCategoryCommandHandler : IRequestHandler<DeleteSubCategoryCommand, DeletedSubCategoryResponse>
     {

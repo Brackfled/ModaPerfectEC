@@ -17,7 +17,7 @@ public class UpdateBasketCommand : IRequest<UpdatedBasketResponse>, ISecuredRequ
     public required double TotalPrice { get; set; }
     public required bool IsOrderBasket { get; set; }
 
-    public string[] Roles => [Admin, Write, BasketsOperationClaims.Update];
+    public string[] Roles => [Admin];
 
     public class UpdateBasketCommandHandler : IRequestHandler<UpdateBasketCommand, UpdatedBasketResponse>
     {

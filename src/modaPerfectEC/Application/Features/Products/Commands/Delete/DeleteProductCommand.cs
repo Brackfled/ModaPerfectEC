@@ -16,7 +16,7 @@ public class DeleteProductCommand : IRequest<DeletedProductResponse>, ISecuredRe
 {
     public Guid Id { get; set; }
 
-    public string[] Roles => [Admin, Write, ProductsOperationClaims.Delete];
+    public string[] Roles => [Admin, ProductsOperationClaims.Delete];
 
     public class DeleteProductCommandHandler : IRequestHandler<DeleteProductCommand, DeletedProductResponse>
     {

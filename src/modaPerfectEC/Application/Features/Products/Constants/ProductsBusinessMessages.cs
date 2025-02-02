@@ -8,4 +8,5 @@ public static class ProductsBusinessMessages
     public const string ProductExists = "ProductExists";
     public const string TheLastImageCannotBeDeleted = "TheLastImageCannotBeDeleted";
     public const string DecreaseIsNotPossible = "DecreaseIsNotPossible";
+    public const string ProductIsNotActive = "ProductIsNotActive";
 }

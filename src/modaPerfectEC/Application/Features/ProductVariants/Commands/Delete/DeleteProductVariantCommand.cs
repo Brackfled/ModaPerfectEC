@@ -15,7 +15,7 @@ public class DeleteProductVariantCommand : IRequest<DeletedProductVariantRespons
 {
     public Guid Id { get; set; }
 
-    public string[] Roles => [Admin, Write, ProductVariantsOperationClaims.Delete];
+    public string[] Roles => [Admin, ProductVariantsOperationClaims.Delete];
 
     public class DeleteProductVariantCommandHandler : IRequestHandler<DeleteProductVariantCommand, DeletedProductVariantResponse>
     {

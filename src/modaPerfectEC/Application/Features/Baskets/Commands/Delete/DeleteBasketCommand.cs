@@ -15,7 +15,7 @@ public class DeleteBasketCommand : IRequest<DeletedBasketResponse>, ISecuredRequ
 {
     public Guid Id { get; set; }
 
-    public string[] Roles => [Admin, Write, BasketsOperationClaims.Delete];
+    public string[] Roles => [Admin];
 
     public class DeleteBasketCommandHandler : IRequestHandler<DeleteBasketCommand, DeletedBasketResponse>
     {

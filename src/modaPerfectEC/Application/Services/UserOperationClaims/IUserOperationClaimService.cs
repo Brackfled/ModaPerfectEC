@@ -1,5 +1,7 @@
 ﻿using System.Linq.Expressions;
+using Domain.Dtos;
 using Domain.Entities;
+using Domain.Enums;
 using Microsoft.EntityFrameworkCore.Query;
 using NArchitecture.Core.Persistence.Paging;
 
@@ -29,4 +31,5 @@ public interface IUserOperationClaimService
     Task<UserOperationClaim> AddAsync(UserOperationClaim userOperationClaim);
     Task<UserOperationClaim> UpdateAsync(UserOperationClaim userOperationClaim);
     Task<UserOperationClaim> DeleteAsync(UserOperationClaim userOperationClaim, bool permanent = false);
+    Task<UserStateOperationClaimDto> SetUserOperationClaimsAsync(User user, UserState userState);
 }

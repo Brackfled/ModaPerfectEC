@@ -15,7 +15,7 @@ public class UpdateCategoryCommand : IRequest<UpdatedCategoryResponse>, ISecured
     public int Id { get; set; }
     public required string Name { get; set; }
 
-    public string[] Roles => [Admin, Write, CategoriesOperationClaims.Update];
+    public string[] Roles => [Admin, CategoriesOperationClaims.Update];
 
     public class UpdateCategoryCommandHandler : IRequestHandler<UpdateCategoryCommand, UpdatedCategoryResponse>
     {

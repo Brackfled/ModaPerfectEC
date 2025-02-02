@@ -14,6 +14,15 @@ public class BasketItemRepository : EfRepositoryBase<BasketItem, Guid, BaseDbCon
     {
     }
 
+    public async Task<ICollection<BasketItem>> DeleteAllByProductIdAsync(Guid productId)
+    {
+        IQueryable<BasketItem> query = Query();
+        ICollection<BasketItem> findedBasketItems = await query.Where(predicate: bi => bi.ProductId == productId).ToListAsync();
+
+        ICollection<BasketItem> deletedBasketItems = await DeleteRangeAsync(findedBasketItems, true);
+        return deletedBasketItems;
+    }
+
     public async Task<ICollection<BasketItem>> GetAllAsync(Expression<Func<BasketItem, bool>>? predicate = null, Func<IQueryable<BasketItem>, IIncludableQueryable<BasketItem, object>>? include = null)
     {
         IQueryable<BasketItem> query = Query();

@@ -19,7 +19,7 @@ public class CreateProductCommand : IRequest<CreatedProductResponse>, ISecuredRe
 {
     public CreateProductRequest CreateProductRequest { get; set; }
 
-    public string[] Roles => [Admin, Write, ProductsOperationClaims.Create];
+    public string[] Roles => [Admin, ProductsOperationClaims.Create];
 
     public class CreateProductCommandHandler : IRequestHandler<CreateProductCommand, CreatedProductResponse>
     {

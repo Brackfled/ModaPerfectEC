@@ -6,17 +6,21 @@ using Domain.Entities;
 using Domain.Enums;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using NArchitecture.Core.Application.Pipelines.Authorization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using static Application.Features.Products.Constants.ProductsOperationClaims;
 using System.Threading.Tasks;
 
 namespace Application.Features.Products.Queries.GetAllByFiltered;
-public class GetAllByFilteredProductQuery: IRequest<ICollection<GetAllByFilteredProductListItemDto>>
+public class GetAllByFilteredProductQuery: IRequest<ICollection<GetAllByFilteredProductListItemDto>>, ISecuredRequest
 {
 
     public ProductState? ProductState { get; set; }
+
+    public string[] Roles => [Admin, Read];
 
     public class GetAllByFilteredProductQueryHandler: IRequestHandler<GetAllByFilteredProductQuery, ICollection<GetAllByFilteredProductListItemDto>>
     {

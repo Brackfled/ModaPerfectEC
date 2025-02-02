@@ -58,4 +58,10 @@ public class ProductBusinessRules : BaseBusinessRules
         if (product!.ProductImages!.Count() <= 1)
             await throwBusinessException(ProductsBusinessMessages.TheLastImageCannotBeDeleted);
     }
+
+    public async Task ProductShouldBeActive(Product product)
+    {
+        if (product.ProductState == Domain.Enums.ProductState.Passive)
+            await throwBusinessException(ProductsBusinessMessages.ProductIsNotActive);
+    }
 }

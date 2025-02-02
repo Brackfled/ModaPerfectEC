@@ -14,7 +14,7 @@ public class CreateCategoryCommand : IRequest<CreatedCategoryResponse>, ISecured
 {
     public required string Name { get; set; }
 
-    public string[] Roles => [Admin, Write, CategoriesOperationClaims.Create];
+    public string[] Roles => [Admin, CategoriesOperationClaims.Create];
 
     public class CreateCategoryCommandHandler : IRequestHandler<CreateCategoryCommand, CreatedCategoryResponse>
     {

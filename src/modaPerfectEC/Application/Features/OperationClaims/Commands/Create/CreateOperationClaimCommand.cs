@@ -5,6 +5,7 @@ using AutoMapper;
 using Domain.Entities;
 using MediatR;
 using NArchitecture.Core.Application.Pipelines.Authorization;
+using NArchitecture.Core.Security.Constants;
 using static Application.Features.OperationClaims.Constants.OperationClaimsOperationClaims;
 
 namespace Application.Features.OperationClaims.Commands.Create;
@@ -23,7 +24,7 @@ public class CreateOperationClaimCommand : IRequest<CreatedOperationClaimRespons
         Name = name;
     }
 
-    public string[] Roles => new[] { Admin, Write, OperationClaimsOperationClaims.Create };
+    public string[] Roles => new[] { GeneralOperationClaims.Admin };
 
     public class CreateOperationClaimCommandHandler : IRequestHandler<CreateOperationClaimCommand, CreatedOperationClaimResponse>
     {

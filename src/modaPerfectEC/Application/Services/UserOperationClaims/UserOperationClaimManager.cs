@@ -108,7 +108,7 @@ public class UserUserOperationClaimManager : IUserOperationClaimService
 
         UserStateOperationClaimDto userStateOperationClaimDto = new UserStateOperationClaimDto();
 
-        if (user.UserState == UserState.Pending && userState == UserState.Confirmed)
+        if (userState == UserState.Confirmed)
         {
             foreach (int oc in approvedUser)
             {

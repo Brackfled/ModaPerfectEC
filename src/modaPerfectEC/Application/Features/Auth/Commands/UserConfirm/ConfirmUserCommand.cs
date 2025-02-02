@@ -52,7 +52,7 @@ public class ConfirmUserCommand: IRequest<ConfirmedUserResponse>, ISecuredReques
 
             User? user = await _userService.GetAsync(u => u.Id == request.UserId);
 
-            if ((user!.UserState == UserState.Pending || user!.UserState == UserState.BlackList || user!.UserState == UserState.Rejected) && request.UserState == UserState.Confirmed)
+            if ((user!.UserState == UserState.Pending || user!.UserState == UserState.BlackList || user!.UserState == UserState.Rejected || user.UserState == UserState.Admin) && request.UserState == UserState.Confirmed)
             {
                 await _basketBusinessRules.UserShouldNotHasActiveBasket(request.UserId);
 
@@ -73,7 +73,7 @@ public class ConfirmUserCommand: IRequest<ConfirmedUserResponse>, ISecuredReques
 
             }
 
-            if(user.UserState == UserState.Confirmed && (request.UserState == UserState.Rejected || request.UserState == UserState.BlackList || request.UserState == UserState.Pending))
+            if((user.UserState == UserState.Confirmed || user.UserState == UserState.Admin)&& (request.UserState == UserState.Rejected || request.UserState == UserState.BlackList || request.UserState == UserState.Pending))
             {
                 IList<UserOperationClaim> uocs = await _userOperationClaimService.GetUserOperationClaimsByUserIdAsync(user.Id);
 

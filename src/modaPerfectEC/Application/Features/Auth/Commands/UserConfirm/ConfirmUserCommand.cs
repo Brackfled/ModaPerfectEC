@@ -30,17 +30,15 @@ public class ConfirmUserCommand: IRequest<ConfirmedUserResponse>, ISecuredReques
         private readonly UserBusinessRules _userBusinessRules;
         private readonly IBasketService _basketService;
         private readonly BasketBusinessRules _basketBusinessRules;
-        private readonly IUserOperationClaimRepository _userOperationClaimRepository;
         private readonly IUserOperationClaimService _userOperationClaimService;
         private IMapper _mapper;
 
-        public ConfirmUserCommandHandler(IUserService userService, UserBusinessRules userBusinessRules, IBasketService basketService, BasketBusinessRules basketBusinessRules, IUserOperationClaimRepository userOperationClaimRepository, IUserOperationClaimService userOperationClaimService, IMapper mapper)
+        public ConfirmUserCommandHandler(IUserService userService, UserBusinessRules userBusinessRules, IBasketService basketService, BasketBusinessRules basketBusinessRules, IUserOperationClaimService userOperationClaimService, IMapper mapper)
         {
             _userService = userService;
             _userBusinessRules = userBusinessRules;
             _basketService = basketService;
             _basketBusinessRules = basketBusinessRules;
-            _userOperationClaimRepository = userOperationClaimRepository;
             _userOperationClaimService = userOperationClaimService;
             _mapper = mapper;
         }
@@ -65,8 +63,8 @@ public class ConfirmUserCommand: IRequest<ConfirmedUserResponse>, ISecuredReques
 
                 Basket addedBasket = await _basketService.AddAsync(basket);
 
-                IList<UserOperationClaim> uocs = await _userOperationClaimRepository.GetUserOperationClaimsByUserIdAsync(user.Id);
-                await _userOperationClaimRepository.DeleteRangeAsync(uocs, true);
+                IList<UserOperationClaim> uocs = await _userOperationClaimService.GetUserOperationClaimsByUserIdAsync(user.Id);
+                await _userOperationClaimService.DeleteRangeAsync(uocs, true);
 
                 await _userOperationClaimService.SetUserOperationClaimsAsync(user, UserState.Confirmed);
 
@@ -74,9 +72,9 @@ public class ConfirmUserCommand: IRequest<ConfirmedUserResponse>, ISecuredReques
 
             if(user.UserState == UserState.Confirmed && (request.UserState == UserState.Rejected || request.UserState == UserState.BlackList))
             {
-                IList<UserOperationClaim> uocs = await _userOperationClaimRepository.GetUserOperationClaimsByUserIdAsync(user.Id);
+                IList<UserOperationClaim> uocs = await _userOperationClaimService.GetUserOperationClaimsByUserIdAsync(user.Id);
 
-                await _userOperationClaimRepository.DeleteRangeAsync(uocs, true);
+                await _userOperationClaimService.DeleteRangeAsync(uocs, true);
             }
 
             await _userBusinessRules.UserStateIsAccurate(user, request.UserState);

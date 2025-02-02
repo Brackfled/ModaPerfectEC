@@ -129,4 +129,17 @@ public class UserUserOperationClaimManager : IUserOperationClaimService
 
         return userStateOperationClaimDto;
     }
+
+    public async Task<IList<UserOperationClaim>> GetUserOperationClaimsByUserIdAsync(Guid userId)
+    {
+        IList<UserOperationClaim> userOperationClaims = await _userUserOperationClaimRepository.GetUserOperationClaimsByUserIdAsync(userId);
+        return userOperationClaims;
+    }
+
+    public async Task<ICollection<UserOperationClaim>> DeleteRangeAsync(ICollection<UserOperationClaim> userOperationClaims, bool permantly)
+    {
+        ICollection<UserOperationClaim> uocs = await _userUserOperationClaimRepository.DeleteRangeAsync(userOperationClaims, permantly);
+        return uocs;
+
+    }
 }

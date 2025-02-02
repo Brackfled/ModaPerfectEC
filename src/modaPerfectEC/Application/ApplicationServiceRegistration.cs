@@ -27,6 +27,7 @@ using Application.Services.ProductVariants;
 using Application.Services.ProductImages;
 using Application.Services.Baskets;
 using Application.Services.BasketItems;
+using Application.Services.UserOperationClaims;
 
 namespace Application;
 
@@ -61,6 +62,7 @@ public static class ApplicationServiceRegistration
         services.AddScoped<IAuthService, AuthManager>();
         services.AddScoped<IAuthenticatorService, AuthenticatorManager>();
         services.AddScoped<IUserService, UserManager>();
+        services.AddScoped<IUserOperationClaimService, UserUserOperationClaimManager>();
 
         services.AddYamlResourceLocalization();
 

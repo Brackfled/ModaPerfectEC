@@ -15,6 +15,7 @@ using System.Linq;
 using System.Text;
 using static Application.Features.Products.Constants.ProductsOperationClaims;
 using System.Threading.Tasks;
+using System.Linq.Dynamic.Core;
 
 namespace Application.Features.Products.Queries.GetListByDynamic;
 public class GetListByDynamicProductQuery: IRequest<GetListResponse<GetListByDynamicProductListItemDto>>, ISecuredRequest

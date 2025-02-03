@@ -47,8 +47,8 @@ public class RegisterCommand : IRequest<RegisteredResponse>
         public async Task<RegisteredResponse> Handle(RegisterCommand request, CancellationToken cancellationToken)
         {
             await _authBusinessRules.UserEmailShouldBeNotExists(request.RegisterDto.Email);
-            await _authBusinessRules.IdentityNumberIsAccurate(request.RegisterDto.IdentityNumber);
-            await _authBusinessRules.UserIdentityShouldBeNotExists(request.RegisterDto.IdentityNumber);
+            
+            await _authBusinessRules.UserIdentityShouldBeNotExists(request.RegisterDto.IdentityNumber);     
 
             HashingHelper.CreatePasswordHash(
                 request.RegisterDto.Password,
@@ -56,11 +56,7 @@ public class RegisterCommand : IRequest<RegisteredResponse>
                 passwordSalt: out byte[] passwordSalt
             );
 
-            HashingHelper.CreatePasswordHash(
-                    request.RegisterDto.IdentityNumber,
-                    passwordHash: out byte[] identityHash,
-                    passwordSalt: out byte[] identitySalt
-                );
+            
 
             User newUser =
                 new()
@@ -68,8 +64,8 @@ public class RegisterCommand : IRequest<RegisteredResponse>
                     Email = request.RegisterDto.Email,
                     PasswordHash = passwordHash,
                     PasswordSalt = passwordSalt,
-                    IdentityNumberHash = identityHash,
-                    IdentityNumberSalt = identitySalt,
+                    IdentityNumberHash = null,
+                    IdentityNumberSalt = null,
                     TradeName = request.RegisterDto.TradeName,
                     FirstName = request.RegisterDto.FirstName,
                     LastName = request.RegisterDto.LastName,
@@ -85,6 +81,22 @@ public class RegisterCommand : IRequest<RegisteredResponse>
                     CarrierCompanyInfo = request.RegisterDto.CarrierCompanyInfo,
                     UserState = Domain.Enums.UserState.Pending,
                 };
+
+            if (request.RegisterDto.IdentityNumber is not null)
+            {
+
+                await _authBusinessRules.IdentityNumberIsAccurate(request.RegisterDto.IdentityNumber);
+
+                HashingHelper.CreatePasswordHash(
+                    request.RegisterDto.IdentityNumber,
+                    passwordHash: out byte[] identityHash,
+                    passwordSalt: out byte[] identitySalt
+                );
+
+                newUser.IdentityNumberHash = identityHash;
+                newUser.IdentityNumberSalt = identitySalt;
+            }
+
             User createdUser = await _userRepository.AddAsync(newUser);
 
 

@@ -20,7 +20,7 @@ public class RegisterDto
     public string GsmNumber { get; set; }
     public string? TaxOffice { get; set; }
     public string? TaxNumber { get; set; }
-    public string IdentityNumber { get; set; }
+    public string? IdentityNumber { get; set; }
     public string Reference { get; set; }
     public string? CustomerCode { get; set; }
     public string? CarrierCompanyInfo { get; set; }

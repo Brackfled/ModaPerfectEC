@@ -21,7 +21,7 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
         builder.Property(u => u.LastName).HasColumnName("LastName").IsRequired();
         builder.Property(u => u.Country).HasColumnName("Country").IsRequired();
         builder.Property(u => u.City).HasColumnName("City").IsRequired();
-        builder.Property(u => u.District).HasColumnName("District").IsRequired();
+        builder.Property(u => u.District).HasColumnName("District");
         builder.Property(u => u.Address).HasColumnName("Address").IsRequired();
         builder.Property(u => u.GsmNumber).HasColumnName("GsmNumber").IsRequired();
         builder.Property(u => u.TaxOffice).HasColumnName("TaxOffice");

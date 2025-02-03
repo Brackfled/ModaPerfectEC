@@ -43,6 +43,7 @@ public class GetListUserQuery : IRequest<GetListResponse<GetListUserListItemDto>
         )
         {
             IPaginate<User> users = await _userRepository.GetListAsync(
+                predicate: u => u.UserState != Domain.Enums.UserState.Admin,
                 index: request.PageRequest.PageIndex,
                 size: request.PageRequest.PageSize,
                 enableTracking: false,

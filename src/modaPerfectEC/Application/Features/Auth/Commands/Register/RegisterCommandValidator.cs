@@ -26,6 +26,7 @@ public class RegisterCommandValidator : AbstractValidator<RegisterCommand>
         RuleFor(c => c.RegisterDto.TaxNumber);
         RuleFor(c => c.RegisterDto.TaxOffice);
         RuleFor(c => c.RegisterDto.Reference).NotEmpty();
+        RuleFor(c => c.RegisterDto.CustomerCode).MinimumLength(6);
     }
 
     private bool StrongPassword(string value)

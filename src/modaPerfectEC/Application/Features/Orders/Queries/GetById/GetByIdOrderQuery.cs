@@ -34,18 +34,19 @@ public class GetByIdOrderQuery : IRequest<GetByIdOrderResponse>//, ISecuredReque
 
         public async Task<GetByIdOrderResponse> Handle(GetByIdOrderQuery request, CancellationToken cancellationToken)
         {
-            Order? order = await _orderRepository.GetAsync(
-                predicate: o => o.Id == request.Id,
-                include:opt => opt.Include(o => o.User)!.Include(o => o.Basket).ThenInclude(b => b.BasketItems)!,
-                cancellationToken:cancellationToken
-                );
-
+            var order = await _orderRepository
+                .Query()
+                .Where(o => o.Id == request.Id)
+                .Include(o => o.User)
+                .Include(o => o.Basket)
+                    .ThenInclude(b => b.BasketItems)!
+                        .ThenInclude(bi => bi.Product)!
+                            .ThenInclude(p => p.ProductImages)
+                .Include(o => o.Basket)
+                    .ThenInclude(b => b.BasketItems)!
+                        .ThenInclude(bi => bi.ProductVariant)
+                .FirstOrDefaultAsync(cancellationToken);
             await _orderBusinessRules.OrderShouldExistWhenSelected(order);
-
-            ICollection<BasketItem> basketItems = await _basketItemService.GetAllAsync(
-                predicate: b => b.BasketId == order!.BasketId,
-                include: opt => opt.Include(o => o.Product)!.ThenInclude(p => p.ProductImages).Include(o => o.ProductVariant)!
-                );
 
             GetByIdOrderResponse response = _mapper.Map<GetByIdOrderResponse>(order);
             return response;

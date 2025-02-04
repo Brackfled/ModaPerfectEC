@@ -31,5 +31,32 @@ public class GetByIdOrderResponse : IResponse
     public bool IsInvoiceSended { get; set; }
     public bool IsUsdPrice { get; set; }
     public OrderState OrderState { get; set; }
-    public virtual ICollection<BasketItem> BasketBasketItems { get; set; }
+    public ICollection<BasketItemDto> BasketBasketItems { get; set; }
+}
+
+public class BasketItemDto
+{
+    public Guid BasketItemId { get; set; }
+    public int ProductAmount { get; set; }
+    public int RemainingAfterDelivery { get; set; }
+    public bool IsReturned { get; set; }
+    public ProductDto Product { get; set; }
+}
+
+public class ProductDto
+{
+    public string Name { get; set; }
+    public double Price { get; set; }
+    public double PriceUSD { get; set; }
+    public string Description { get; set; }
+    public List<string> ProductImages { get; set; }
+    public ProductVariantDto ProductVariant { get; set; }
+}
+
+public class ProductVariantDto
+{
+    public string Color { get; set; }
+    public string Hex { get; set; }
+    public int StockAmount { get; set; }
+    public int[] Sizes { get; set; }
 }

@@ -69,7 +69,7 @@ public class MPFileBusinessRules:BaseBusinessRules
         {
             using (var image = System.Drawing.Image.FromStream(stream))
             {
-                if (image.Width <= maxWidth || image.Height <= maxHeight)
+                if (image.Width > maxWidth || image.Height > maxHeight)
                     await throwBusinessException(MPFileBusinessMessages.FileIsIncorrect);
             }
         }

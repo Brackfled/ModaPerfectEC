@@ -13,4 +13,5 @@ public class CreatedOrderResponse : IResponse
     public string? TrackingNumber { get; set; }
     public bool IsInvoiceSended { get; set; }
     public OrderState OrderState { get; set; }
+    public DateTime CreatedDate { get; set; }
 }

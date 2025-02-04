@@ -39,4 +39,19 @@ public class OrderBusinessRules : BaseBusinessRules
         );
         await OrderShouldExistWhenSelected(order);
     }
+
+    public async Task BasketTotalPricesAndOrderTotalPriceMustBeEqual(double basketTotalPrice, double basketTotalPriceUsd, double orderPrice, bool isPriceUsd)
+    {
+        if (isPriceUsd)
+        {
+            if (basketTotalPriceUsd != orderPrice)
+                await throwBusinessException(OrdersBusinessMessages.PricesNotMatched);
+        }
+
+        if (!isPriceUsd)
+        {
+            if (basketTotalPrice != orderPrice)
+                await throwBusinessException(OrdersBusinessMessages.PricesNotMatched);
+        }
+    }
 }

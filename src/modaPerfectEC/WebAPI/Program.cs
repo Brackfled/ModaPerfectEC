@@ -51,6 +51,13 @@ builder.Services.AddSingleton<IAmazonS3>(provider =>
     return new AmazonS3Client(credentials, config);
 });
 
+
+builder.Services.AddControllers().AddJsonOptions(options =>
+{
+    options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.Preserve;
+    options.JsonSerializerOptions.WriteIndented = true; // Daha okunaklý JSON çýktýsý için
+});
+
 const string tokenOptionsConfigurationSection = "TokenOptions";
 TokenOptions tokenOptions =
     builder.Configuration.GetSection(tokenOptionsConfigurationSection).Get<TokenOptions>()

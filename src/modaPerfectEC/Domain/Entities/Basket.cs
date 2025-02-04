@@ -15,6 +15,7 @@ public class Basket: Entity<Guid>
 
     public virtual User? User { get; set; }
     public ICollection<BasketItem>? BasketItems { get; set; }
+    public ICollection<Order> Orders { get; set; } = default!;
 
     public Basket()
     {

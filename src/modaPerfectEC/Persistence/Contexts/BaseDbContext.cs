@@ -22,6 +22,7 @@ public class BaseDbContext : DbContext
     public DbSet<ProductVariant> ProductVariants { get; set; }
     public DbSet<Basket> Baskets { get; set; }
     public DbSet<BasketItem> BasketItems { get; set; }
+    public DbSet<Order> Orders { get; set; }
 
     public BaseDbContext(DbContextOptions dbContextOptions, IConfiguration configuration)
         : base(dbContextOptions)

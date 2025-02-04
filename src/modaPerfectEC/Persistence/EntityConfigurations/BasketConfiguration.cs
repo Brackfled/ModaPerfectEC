@@ -21,6 +21,7 @@ public class BasketConfiguration : IEntityTypeConfiguration<Basket>
 
         builder.HasOne(b => b.User);
         builder.HasMany(b => b.BasketItems).WithOne(bi => bi.Basket).HasForeignKey(bi => bi.BasketId).OnDelete(DeleteBehavior.Cascade);
+        builder.HasMany(b => b.Orders).WithOne(bi => bi.Basket).HasForeignKey(bi => bi.BasketId).OnDelete(DeleteBehavior.Cascade);
 
         builder.HasQueryFilter(b => !b.DeletedDate.HasValue);
     }

@@ -13,6 +13,8 @@ using Application.Features.ProductVariants.Constants;
 using Application.Features.MPFile.Constants;
 using Application.Features.Baskets.Constants;
 using Application.Features.BasketItems.Constants;
+using Application.Features.Orders.Constants;
+
 
 
 
@@ -202,6 +204,20 @@ public class OperationClaimConfiguration : IEntityTypeConfiguration<OperationCla
                 new() { Id = ++lastId, Name = BasketItemsOperationClaims.Create },
                 new() { Id = ++lastId, Name = BasketItemsOperationClaims.Update },
                 new() { Id = ++lastId, Name = BasketItemsOperationClaims.Delete },
+            ]
+        );
+        #endregion
+        
+        
+        #region Orders CRUD
+        featureOperationClaims.AddRange(
+            [
+                new() { Id = ++lastId, Name = OrdersOperationClaims.Admin },
+                new() { Id = ++lastId, Name = OrdersOperationClaims.Read },
+                new() { Id = ++lastId, Name = OrdersOperationClaims.Write },
+                new() { Id = ++lastId, Name = OrdersOperationClaims.Create },
+                new() { Id = ++lastId, Name = OrdersOperationClaims.Update },
+                new() { Id = ++lastId, Name = OrdersOperationClaims.Delete },
             ]
         );
         #endregion

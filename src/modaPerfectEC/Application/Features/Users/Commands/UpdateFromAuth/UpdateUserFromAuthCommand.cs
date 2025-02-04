@@ -5,11 +5,12 @@ using AutoMapper;
 using Domain.Dtos;
 using Domain.Entities;
 using MediatR;
+using NArchitecture.Core.Application.Pipelines.Transaction;
 using NArchitecture.Core.Security.Hashing;
 
 namespace Application.Features.Users.Commands.UpdateFromAuth;
 
-public class UpdateUserFromAuthCommand : IRequest<UpdatedUserFromAuthResponse>
+public class UpdateUserFromAuthCommand : IRequest<UpdatedUserFromAuthResponse>,ITransactionalRequest
 {
     public Guid Id { get; set; }
     public UserUpdateFromAuthRequestDto UserUpdateFromAuthRequestDto { get; set; }

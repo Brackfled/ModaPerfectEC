@@ -8,6 +8,7 @@ using NArchitecture.Core.Application.Responses;
 using Domain.Entities;
 using NArchitecture.Core.Persistence.Paging;
 using Application.Features.BasketItems.Queries.GetFromAuth;
+using Application.Features.BasketItems.Commands.UpdateRemainingAfterDelivery;
 
 namespace Application.Features.BasketItems.Profiles;
 
@@ -32,5 +33,7 @@ public class MappingProfiles : Profile
         CreateMap<BasketItem, GetByBasketIdBasketItemListItemDto>()
             .ForMember(bi => bi.ProductProductImages , memberOptions: opt => opt.MapFrom(c => c.Product!.ProductImages))
             ;
+
+        CreateMap<BasketItem, UpdatedRemainingAfterDeliveryResponse>();
     }
 }

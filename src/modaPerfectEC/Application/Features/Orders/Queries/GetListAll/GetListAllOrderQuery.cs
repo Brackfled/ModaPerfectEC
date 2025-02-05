@@ -1,19 +1,24 @@
 ﻿using Amazon.Runtime.Internal;
+using Application.Features.Orders.Constants;
 using Application.Services.BasketItems;
 using Application.Services.Repositories;
 using AutoMapper;
 using Domain.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using NArchitecture.Core.Application.Pipelines.Authorization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Application.Features.Orders.Constants.OrdersOperationClaims;
 
 namespace Application.Features.Orders.Queries.GetListAll;
-public class GetListAllOrderQuery: IRequest<ICollection<GetListAllOrderListItemDto>>
+public class GetListAllOrderQuery: IRequest<ICollection<GetListAllOrderListItemDto>>, ISecuredRequest
 {
+    public string[] Roles => [Admin, Read];
+
     public class GetListAllOrderQueryHandler: IRequestHandler<GetListAllOrderQuery, ICollection<GetListAllOrderListItemDto>>
     {
         private readonly IOrderRepository _orderRepository;

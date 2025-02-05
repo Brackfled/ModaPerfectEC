@@ -14,12 +14,12 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Application.Features.Orders.Commands.Create;
 
-public class CreateOrderCommand : IRequest<CreatedOrderResponse>, ITransactionalRequest //, ISecuredRequest
+public class CreateOrderCommand : IRequest<CreatedOrderResponse>, ITransactionalRequest , ISecuredRequest
 {
     public Guid UserId { get; set; }
     public CreateOrderRequest CreateOrderRequest { get; set; }
 
-    //public string[] Roles => [Admin, Write, OrdersOperationClaims.Create];
+    public string[] Roles => [Admin, OrdersOperationClaims.Create];
 
     public class CreateOrderCommandHandler : IRequestHandler<CreateOrderCommand, CreatedOrderResponse>
     {

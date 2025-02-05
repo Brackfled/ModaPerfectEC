@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using Application.Features.Baskets.Queries.GetFromAuth;
 using System.Diagnostics;
 using Application.Features.BasketItems.Queries.GetFromAuth;
+using Application.Features.BasketItems.Commands.UpdateRemainingAfterDelivery;
 
 namespace WebAPI.Controllers;
 
@@ -69,6 +70,13 @@ public class BasketItemsController : BaseController
     {
         GetByBasketIdBasketItemQuery query = new() { BasketId = basketId };
         ICollection<GetByBasketIdBasketItemListItemDto> result = await Mediator.Send(query);
+        return Ok(result);
+    }
+
+    [HttpPut("UpdateRemainingAfterDelivery")]
+    public async Task<IActionResult> UpdateRemainingAfterDeliver([FromBody] UpdateRemainingAfterDeliveryCommand command)
+    {
+        UpdatedRemainingAfterDeliveryResponse result = await Mediator.Send(command);
         return Ok(result);
     }
 }

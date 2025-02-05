@@ -1,2 +1,3 @@
 BasketItemNotExists: Basket item don't exists.
 ProductAmountGreatherThenZero: Product amount greather then zero.
+DeliveredAmountIsImpossible: Delivered amount is imposible.

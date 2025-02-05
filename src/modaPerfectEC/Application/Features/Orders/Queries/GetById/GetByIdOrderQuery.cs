@@ -11,11 +11,11 @@ using Application.Services.BasketItems;
 
 namespace Application.Features.Orders.Queries.GetById;
 
-public class GetByIdOrderQuery : IRequest<GetByIdOrderResponse>//, ISecuredRequest
+public class GetByIdOrderQuery : IRequest<GetByIdOrderResponse>, ISecuredRequest
 {
     public Guid Id { get; set; }
 
-    public string[] Roles => [Admin, Read];
+    public string[] Roles => [Admin, OrdersOperationClaims.GetById];
 
     public class GetByIdOrderQueryHandler : IRequestHandler<GetByIdOrderQuery, GetByIdOrderResponse>
     {

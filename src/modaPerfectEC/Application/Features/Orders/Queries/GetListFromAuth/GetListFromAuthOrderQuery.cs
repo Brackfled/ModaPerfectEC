@@ -1,20 +1,26 @@
 ﻿using Amazon.Runtime.Internal;
+using Application.Features.Orders.Constants;
 using Application.Features.Orders.Queries.GetListAll;
 using Application.Services.Repositories;
 using AutoMapper;
 using Domain.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using NArchitecture.Core.Application.Pipelines.Authorization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Application.Features.Orders.Constants.OrdersOperationClaims;
+
 
 namespace Application.Features.Orders.Queries.GetListFromAuth;
-public class GetListFromAuthOrderQuery: IRequest<ICollection<GetListFromAuthOrderListItemDto>>
+public class GetListFromAuthOrderQuery: IRequest<ICollection<GetListFromAuthOrderListItemDto>>, ISecuredRequest
 {
     public Guid UserId { get; set; }
+
+    public string[] Roles => [Admin, OrdersOperationClaims.GetListFromAuth];
 
     public class GetListFromAuthOrderQueryHandler: IRequestHandler<GetListFromAuthOrderQuery, ICollection<GetListFromAuthOrderListItemDto>>
     {

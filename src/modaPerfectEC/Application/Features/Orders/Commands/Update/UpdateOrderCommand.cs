@@ -17,7 +17,7 @@ public class UpdateOrderCommand : IRequest<UpdatedOrderResponse>, ISecuredReques
     public string? OrderNo { get; set; }
     public string? TrackingNumber { get; set; }
     public OrderState? OrderState { get; set; }
-    public string[] Roles => [Admin, Write, OrdersOperationClaims.Update];
+    public string[] Roles => [Admin, OrdersOperationClaims.Update];
 
     public class UpdateOrderCommandHandler : IRequestHandler<UpdateOrderCommand, UpdatedOrderResponse>
     {

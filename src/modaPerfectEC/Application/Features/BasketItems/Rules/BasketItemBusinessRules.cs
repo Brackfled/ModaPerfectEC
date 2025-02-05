@@ -45,4 +45,10 @@ public class BasketItemBusinessRules : BaseBusinessRules
         if (productAmount <= 0)
             await throwBusinessException(BasketItemsBusinessMessages.ProductAmountGreatherThenZero);
     }
+
+    public async Task DeliveredAmountIsCorrect(BasketItem basketItem, int deliveredAmount)
+    {
+        if (deliveredAmount > 0 && (deliveredAmount > basketItem.ProductAmount || deliveredAmount + basketItem.RemainingAfterDelivery > basketItem.ProductAmount))
+            await throwBusinessException(BasketItemsBusinessMessages.DeliveredAmountIsImpossible);
+    }
 }

@@ -218,6 +218,8 @@ public class OperationClaimConfiguration : IEntityTypeConfiguration<OperationCla
                 new() { Id = ++lastId, Name = OrdersOperationClaims.Create },
                 new() { Id = ++lastId, Name = OrdersOperationClaims.Update },
                 new() { Id = ++lastId, Name = OrdersOperationClaims.Delete },
+                new() { Id = ++lastId, Name = OrdersOperationClaims.GetById },
+                new() { Id = ++lastId, Name = OrdersOperationClaims.GetListFromAuth },
             ]
         );
         #endregion

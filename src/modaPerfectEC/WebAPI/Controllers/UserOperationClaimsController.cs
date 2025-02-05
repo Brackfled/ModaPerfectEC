@@ -1,6 +1,7 @@
 ﻿using Application.Features.UserOperationClaims.Commands.ConfirmAdmin;
 using Application.Features.UserOperationClaims.Commands.Create;
 using Application.Features.UserOperationClaims.Commands.Delete;
+using Application.Features.UserOperationClaims.Commands.Refresh;
 using Application.Features.UserOperationClaims.Commands.Update;
 using Application.Features.UserOperationClaims.Queries.GetById;
 using Application.Features.UserOperationClaims.Queries.GetList;
@@ -55,5 +56,12 @@ public class UserOperationClaimsController : BaseController
     {
         ConfirmAdminUserOperationClaimResponse response = await Mediator.Send(command);
         return Ok(response);
+    }
+
+    [HttpGet("RefreshUOCS")]
+    public async Task<IActionResult> RefreshUserOperationClaim()
+    {
+        RefreshedUserOperationClaimResponse result = await Mediator.Send(new RefreshUserOperationClaimCommand());
+        return Ok(result);
     }
 }

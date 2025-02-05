@@ -8,6 +8,7 @@ using NArchitecture.Core.Application.Responses;
 using Microsoft.AspNetCore.Mvc;
 using Domain.Entities;
 using Application.Features.Orders.Queries.GetListAll;
+using Application.Features.Orders.Queries.GetListFromAuth;
 
 namespace WebAPI.Controllers;
 
@@ -66,6 +67,14 @@ public class OrdersController : BaseController
     public async Task<IActionResult> GetListAllOrders()
     {
         ICollection<GetListAllOrderListItemDto> result = await Mediator.Send(new GetListAllOrderQuery());
+        return Ok(result);
+    }
+
+    [HttpGet("GetListFromAuth")]
+    public async Task<IActionResult> GetListFromAuth()
+    {
+        GetListFromAuthOrderQuery query = new() { UserId = getUserIdFromRequest() };
+        ICollection<GetListFromAuthOrderListItemDto> result = await Mediator.Send(query);
         return Ok(result);
     }
 }

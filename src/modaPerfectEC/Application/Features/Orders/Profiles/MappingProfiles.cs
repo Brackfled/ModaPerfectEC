@@ -8,6 +8,7 @@ using NArchitecture.Core.Application.Responses;
 using Domain.Entities;
 using NArchitecture.Core.Persistence.Paging;
 using Application.Features.Orders.Queries.GetListAll;
+using Application.Features.Orders.Queries.GetListFromAuth;
 
 namespace Application.Features.Orders.Profiles;
 
@@ -32,5 +33,7 @@ public class MappingProfiles : Profile
         CreateMap<IPaginate<Order>, GetListResponse<GetListOrderListItemDto>>();
 
         CreateMap<Order, GetListAllOrderListItemDto>();
+
+        CreateMap<Order, GetListFromAuthOrderListItemDto>();
     }
 }

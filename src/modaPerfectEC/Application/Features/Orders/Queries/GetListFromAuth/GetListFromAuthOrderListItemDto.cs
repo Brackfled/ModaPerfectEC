@@ -1,4 +1,4 @@
-﻿using Domain.Entities;
+﻿using Application.Features.Orders.Queries.GetListAll;
 using Domain.Enums;
 using System;
 using System.Collections.Generic;
@@ -6,8 +6,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.Features.Orders.Queries.GetListAll;
-public class GetListAllOrderListItemDto
+namespace Application.Features.Orders.Queries.GetListFromAuth;
+public class GetListFromAuthOrderListItemDto
 {
     public Guid Id { get; set; }
     public string? OrderNo { get; set; }
@@ -20,14 +20,4 @@ public class GetListAllOrderListItemDto
     public DateTime? UpdatedDate { get; set; }
     public DateTime? DeleteDDate { get; set; }
     public ICollection<BasketItemDto> BasketItems { get; set; }
-}
-
-public class BasketItemDto
-{
-    public Guid Id { get; set; }
-    public int ProductAmount { get; set; }
-    public int RemainingAfterDelivery { get; set; }
-    public string ProductName { get; set; }
-    public string Color { get; set; }
-    public string Hex { get; set; }
 }

@@ -1,5 +1,5 @@
 ﻿using Amazon.Runtime.Internal;
-using Application.Services.BasketItems;
+using Application.Features.Orders.Queries.GetListAll;
 using Application.Services.Repositories;
 using AutoMapper;
 using Domain.Entities;
@@ -11,23 +11,23 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.Features.Orders.Queries.GetListAll;
-public class GetListAllOrderQuery: IRequest<ICollection<GetListAllOrderListItemDto>>
+namespace Application.Features.Orders.Queries.GetListFromAuth;
+public class GetListFromAuthOrderQuery: IRequest<ICollection<GetListFromAuthOrderListItemDto>>
 {
-    public class GetListAllOrderQueryHandler: IRequestHandler<GetListAllOrderQuery, ICollection<GetListAllOrderListItemDto>>
+    public Guid UserId { get; set; }
+
+    public class GetListFromAuthOrderQueryHandler: IRequestHandler<GetListFromAuthOrderQuery, ICollection<GetListFromAuthOrderListItemDto>>
     {
         private readonly IOrderRepository _orderRepository;
-        private readonly IBasketItemService _basketItemService;
         private IMapper _mapper;
 
-        public GetListAllOrderQueryHandler(IOrderRepository orderRepository, IBasketItemService basketItemService, IMapper mapper)
+        public GetListFromAuthOrderQueryHandler(IOrderRepository orderRepository, IMapper mapper)
         {
             _orderRepository = orderRepository;
-            _basketItemService = basketItemService;
             _mapper = mapper;
         }
 
-        public async Task<ICollection<GetListAllOrderListItemDto>> Handle(GetListAllOrderQuery request, CancellationToken cancellationToken)
+        public async Task<ICollection<GetListFromAuthOrderListItemDto>> Handle(GetListFromAuthOrderQuery request, CancellationToken cancellationToken)
         {
             ICollection<Order>? orders = await _orderRepository.GetAllAsync(
                 include: opt => opt
@@ -39,7 +39,7 @@ public class GetListAllOrderQuery: IRequest<ICollection<GetListAllOrderListItemD
                             .ThenInclude(bi => bi.ProductVariant)! // ProductVariant için Include
             );
 
-            var response = orders.Select(order => new GetListAllOrderListItemDto
+            var response = orders.Select(order => new GetListFromAuthOrderListItemDto
             {
                 Id = order.Id,
                 OrderNo = order.OrderNo,

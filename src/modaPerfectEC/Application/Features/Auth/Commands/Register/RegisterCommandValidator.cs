@@ -20,7 +20,7 @@ public class RegisterCommandValidator : AbstractValidator<RegisterCommand>
         RuleFor(c => c.RegisterDto.LastName).NotEmpty();
         RuleFor(c => c.RegisterDto.Country).NotEmpty();
         RuleFor(c => c.RegisterDto.City).NotEmpty();
-        RuleFor(c => c.RegisterDto.District).NotEmpty();
+        RuleFor(c => c.RegisterDto.District);
         RuleFor(c => c.RegisterDto.Address).NotEmpty();
         RuleFor(c => c.RegisterDto.GsmNumber).NotEmpty();
         RuleFor(c => c.RegisterDto.TaxNumber);

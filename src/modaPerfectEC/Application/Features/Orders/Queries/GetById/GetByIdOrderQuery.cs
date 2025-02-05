@@ -34,21 +34,20 @@ public class GetByIdOrderQuery : IRequest<GetByIdOrderResponse>//, ISecuredReque
 
         public async Task<GetByIdOrderResponse> Handle(GetByIdOrderQuery request, CancellationToken cancellationToken)
         {
-            var order = await _orderRepository
-                .Query()
-                .Where(o => o.Id == request.Id)
-                .Include(o => o.User)
-                .Include(o => o.Basket)
-                    .ThenInclude(b => b.BasketItems)!
-                        .ThenInclude(bi => bi.Product)!
-                            .ThenInclude(p => p.ProductImages)
-                .Include(o => o.Basket)
-                    .ThenInclude(b => b.BasketItems)!
-                        .ThenInclude(bi => bi.ProductVariant)
-                .FirstOrDefaultAsync(cancellationToken);
+            Order? order = await _orderRepository.GetAsync(
+                    predicate: o => o.Id == request.Id,
+                    include: opt => opt.Include(o => o.User)!.Include(o => o.Basket).ThenInclude(b => b.BasketItems)!
+                );
+
             await _orderBusinessRules.OrderShouldExistWhenSelected(order);
 
+            ICollection<BasketItem> basketItems = await _basketItemService.GetAllAsync(
+                    predicate: bi => bi.BasketId == order!.BasketId,
+                    include:bi => bi.Include(bi => bi.ProductVariant)!.Include(bi => bi.Product).ThenInclude(p => p.ProductImages)!
+                );
+
             GetByIdOrderResponse response = _mapper.Map<GetByIdOrderResponse>(order);
+            response.BasketItems = basketItems;
             return response;
         }
     }

@@ -17,6 +17,7 @@ public class ProductVariant: Entity<Guid>
 
     [JsonIgnore]
     public virtual Product? Product { get; set; }
+    [JsonIgnore]
     public virtual ICollection<BasketItem> BasketItems { get; set; } = default!;
 
     public ProductVariant()

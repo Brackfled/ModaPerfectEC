@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Domain.Entities;
-public class Order: Entity<Guid>
+public class Order : Entity<Guid>
 {
     public Guid UserId { get; set; }
     public Guid BasketId { get; set; }
@@ -20,4 +20,24 @@ public class Order: Entity<Guid>
 
     public virtual Basket Basket { get; set; } = default!;
     public virtual User User { get; set; } = default!;
+
+    public Order()
+    {
+        OrderNo = default!;
+        TrackingNumber = default!;
+    }
+
+    public Order(Guid userId, Guid basketId, string? orderNo, double orderPrice, string? trackingNumber, bool ısInvoiceSended, bool ısUsdPrice, OrderState orderState, Basket basket, User user)
+    {
+        UserId = userId;
+        BasketId = basketId;
+        OrderNo = orderNo;
+        OrderPrice = orderPrice;
+        TrackingNumber = trackingNumber;
+        IsInvoiceSended = ısInvoiceSended;
+        IsUsdPrice = ısUsdPrice;
+        OrderState = orderState;
+        Basket = basket;
+        User = user;
+    }
 }

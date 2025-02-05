@@ -47,7 +47,7 @@ public class User : NArchitecture.Core.Security.Entities.User<Guid>
         CarrierCompanyInfo = null;
     }
 
-    public User(string tradeName, string firstName, string lastName, string country, string city, string district, string address, string gsmNumber, string? taxOffice, string? taxNumber, byte[]? ıdentityNumberSalt, byte[]? ıdentityNumberHash, string reference, string? customerCode, string? carrierCompanyInfo, UserState userState, ICollection<UserOperationClaim> userOperationClaims, ICollection<RefreshToken> refreshTokens, ICollection<OtpAuthenticator> otpAuthenticators, ICollection<EmailAuthenticator> emailAuthenticators, ICollection<Basket> baskets)
+    public User(string tradeName, string firstName, string lastName, string country, string city, string? district, string address, string gsmNumber, string? taxOffice, string? taxNumber, byte[]? ıdentityNumberSalt, byte[]? ıdentityNumberHash, string reference, string? customerCode, string? carrierCompanyInfo, UserState userState, ICollection<UserOperationClaim> userOperationClaims, ICollection<RefreshToken> refreshTokens, ICollection<OtpAuthenticator> otpAuthenticators, ICollection<EmailAuthenticator> emailAuthenticators, ICollection<Basket> baskets, ICollection<Order> orders)
     {
         TradeName = tradeName;
         FirstName = firstName;
@@ -70,5 +70,6 @@ public class User : NArchitecture.Core.Security.Entities.User<Guid>
         OtpAuthenticators = otpAuthenticators;
         EmailAuthenticators = emailAuthenticators;
         Baskets = baskets;
+        Orders = orders;
     }
 }

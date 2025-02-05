@@ -7,6 +7,7 @@ using AutoMapper;
 using NArchitecture.Core.Application.Responses;
 using Domain.Entities;
 using NArchitecture.Core.Persistence.Paging;
+using Application.Features.Orders.Queries.GetListAll;
 
 namespace Application.Features.Orders.Profiles;
 
@@ -24,19 +25,12 @@ public class MappingProfiles : Profile
         CreateMap<Order, DeletedOrderResponse>();
 
         CreateMap<Order, GetByIdOrderResponse>()
-            .ForMember(dest => dest.UserFirstName, opt => opt.MapFrom(src => src.User.FirstName))
-            .ForMember(dest => dest.UserLastName, opt => opt.MapFrom(src => src.User.LastName))
-            .ForMember(dest => dest.BasketBasketItems, opt => opt.MapFrom(src => src.Basket.BasketItems));
-
-        CreateMap<BasketItem, BasketItemDto>();
-
-        CreateMap<Product, ProductDto>()
-            .ForMember(dest => dest.ProductImages, opt => opt.MapFrom(src => src.ProductImages.Select(i => i.FileUrl).ToList()));
-
-        CreateMap<ProductVariant, ProductVariantDto>();
-
+            .ForMember(o => o.UserFirstName, memberOptions: o => o.MapFrom(o => o.User!.FirstName))
+            ;
 
         CreateMap<Order, GetListOrderListItemDto>();
         CreateMap<IPaginate<Order>, GetListResponse<GetListOrderListItemDto>>();
+
+        CreateMap<Order, GetListAllOrderListItemDto>();
     }
 }

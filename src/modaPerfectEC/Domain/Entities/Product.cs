@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace Domain.Entities;
@@ -21,6 +22,7 @@ public class Product: Entity<Guid>
     public virtual SubCategory? SubCategory { get; set; }
     public virtual ICollection<ProductVariant>? ProductVariants { get; set; }
     public virtual ICollection<ProductImage>? ProductImages { get; set; }
+    [JsonIgnore]
     public virtual ICollection<BasketItem> BasketItems { get; set; } = default!;
 
     public Product()

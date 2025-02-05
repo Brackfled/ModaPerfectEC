@@ -6,6 +6,8 @@ using Application.Features.Orders.Queries.GetList;
 using NArchitecture.Core.Application.Requests;
 using NArchitecture.Core.Application.Responses;
 using Microsoft.AspNetCore.Mvc;
+using Domain.Entities;
+using Application.Features.Orders.Queries.GetListAll;
 
 namespace WebAPI.Controllers;
 
@@ -16,7 +18,7 @@ public class OrdersController : BaseController
     [HttpPost]
     public async Task<ActionResult<CreatedOrderResponse>> Add([FromBody] CreateOrderRequest createOrderRequest)
     {
-        CreateOrderCommand command = new() { CreateOrderRequest = createOrderRequest , UserId = getUserIdFromRequest()};
+        CreateOrderCommand command = new() { CreateOrderRequest = createOrderRequest, UserId = getUserIdFromRequest() };
         CreatedOrderResponse response = await Mediator.Send(command);
 
         return CreatedAtAction(nameof(GetById), new { response.Id }, response);
@@ -50,13 +52,20 @@ public class OrdersController : BaseController
         return Ok(response);
     }
 
-    [HttpGet]
-    public async Task<ActionResult<GetListResponse<GetListOrderListItemDto>>> GetList([FromQuery] PageRequest pageRequest)
+    //[HttpGet]
+    //public async Task<ActionResult<GetListResponse<GetListOrderListItemDto>>> GetList([FromQuery] PageRequest pageRequest)
+    //{
+    //    GetListOrderQuery query = new() { PageRequest = pageRequest };
+
+    //    GetListResponse<GetListOrderListItemDto> response = await Mediator.Send(query);
+
+    //    return Ok(response);
+    //}
+
+    [HttpGet("GetListAll")]
+    public async Task<IActionResult> GetListAllOrders()
     {
-        GetListOrderQuery query = new() { PageRequest = pageRequest };
-
-        GetListResponse<GetListOrderListItemDto> response = await Mediator.Send(query);
-
-        return Ok(response);
+        ICollection<GetListAllOrderListItemDto> result = await Mediator.Send(new GetListAllOrderQuery());
+        return Ok(result);
     }
 }

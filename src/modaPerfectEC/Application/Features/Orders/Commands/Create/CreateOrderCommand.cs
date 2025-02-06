@@ -11,6 +11,7 @@ using static Application.Features.Orders.Constants.OrdersOperationClaims;
 using Application.Services.Baskets;
 using Application.Features.Baskets.Rules;
 using Microsoft.EntityFrameworkCore;
+using Application.Features.ProductVariants.Rules;
 
 namespace Application.Features.Orders.Commands.Create;
 
@@ -28,14 +29,18 @@ public class CreateOrderCommand : IRequest<CreatedOrderResponse>, ITransactional
         private readonly OrderBusinessRules _orderBusinessRules;
         private readonly IBasketService _basketService;
         private readonly BasketBusinessRules _basketBusinessRules;
+        private readonly IProductVariantRepository _productVariantRepository;
+        private readonly ProductVariantBusinessRules _productVariantBusinessRules;
 
-        public CreateOrderCommandHandler(IMapper mapper, IOrderRepository orderRepository, OrderBusinessRules orderBusinessRules, IBasketService basketService, BasketBusinessRules basketBusinessRules)
+        public CreateOrderCommandHandler(IMapper mapper, IOrderRepository orderRepository, OrderBusinessRules orderBusinessRules, IBasketService basketService, BasketBusinessRules basketBusinessRules, IProductVariantRepository productVariantRepository, ProductVariantBusinessRules productVariantBusinessRules)
         {
             _mapper = mapper;
             _orderRepository = orderRepository;
             _orderBusinessRules = orderBusinessRules;
             _basketService = basketService;
             _basketBusinessRules = basketBusinessRules;
+            _productVariantRepository = productVariantRepository;
+            _productVariantBusinessRules = productVariantBusinessRules;
         }
 
         public async Task<CreatedOrderResponse> Handle(CreateOrderCommand request, CancellationToken cancellationToken)
@@ -64,6 +69,15 @@ public class CreateOrderCommand : IRequest<CreatedOrderResponse>, ITransactional
             };
 
             Order addedOrder = await _orderRepository.AddAsync(order);
+
+            foreach(BasketItem basketItem in basket.BasketItems!)
+            {
+                ProductVariant? productVariant = await _productVariantRepository.GetAsync(pv => pv.Id == basketItem.Id);
+                await _productVariantBusinessRules.ProductVariantShouldExistWhenSelected(productVariant);
+
+                productVariant!.StockAmount -= basketItem.ProductAmount;
+                await _productVariantRepository.UpdateAsync(productVariant);
+            }
 
             basket.IsOrderBasket = true;
             await _basketService.UpdateAsync(basket);

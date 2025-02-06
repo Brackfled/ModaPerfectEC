@@ -16,6 +16,7 @@ public class UpdateOrderCommand : IRequest<UpdatedOrderResponse>, ISecuredReques
     public Guid Id { get; set; }
     public string? OrderNo { get; set; }
     public string? TrackingNumber { get; set; }
+    public bool? IsInvoiceSended { get; set; }
     public OrderState? OrderState { get; set; }
     public string[] Roles => [Admin, OrdersOperationClaims.Update];
 
@@ -44,6 +45,8 @@ public class UpdateOrderCommand : IRequest<UpdatedOrderResponse>, ISecuredReques
                 order!.TrackingNumber = request.TrackingNumber;
             if(request.OrderState is not null)
                 order!.OrderState = (OrderState)request.OrderState;
+            if(request.IsInvoiceSended is not null)
+                order!.IsInvoiceSended = (bool)request.IsInvoiceSended;
 
             await _orderRepository.UpdateAsync(order!);
 

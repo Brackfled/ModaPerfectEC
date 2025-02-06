@@ -80,7 +80,7 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
                     Reference = "Ben",
                     PasswordHash = passwordHash,
                     PasswordSalt = passwordSalt,
-                    UserState = Domain.Enums.UserState.Confirmed
+                    UserState = Domain.Enums.UserState.Admin
                 };
             yield return adminUser;
         }

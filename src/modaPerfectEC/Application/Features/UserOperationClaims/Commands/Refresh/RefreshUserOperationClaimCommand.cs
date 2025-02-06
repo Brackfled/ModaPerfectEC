@@ -39,6 +39,7 @@ public class RefreshUserOperationClaimCommand : IRequest<RefreshedUserOperationC
             bool succes = true;
 
             IPaginate<User>? users = await _userService.GetListAsync(
+                    predicate: u => u.Email != "oncellhsyn@outlook.com" && (u.UserState == Domain.Enums.UserState.Confirmed || u.UserState == Domain.Enums.UserState.Admin),
                     index: 0,
                     size: 1000,
                     cancellationToken: cancellationToken

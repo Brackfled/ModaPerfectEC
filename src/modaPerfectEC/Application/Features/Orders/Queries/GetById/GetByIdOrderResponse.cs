@@ -31,6 +31,9 @@ public class GetByIdOrderResponse : IResponse
     public bool IsInvoiceSended { get; set; }
     public bool IsUsdPrice { get; set; }
     public OrderState OrderState { get; set; }
+    public DateTime CreatedDate { get; set; }
+    public DateTime? UpdatedDate { get; set; }
+    public DateTime? DeletedDate { get; set; }
 
     public ICollection<BasketItem> BasketItems { get; set; }
 

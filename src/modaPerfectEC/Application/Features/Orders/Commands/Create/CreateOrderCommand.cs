@@ -72,7 +72,7 @@ public class CreateOrderCommand : IRequest<CreatedOrderResponse>, ITransactional
 
             foreach(BasketItem basketItem in basket.BasketItems!)
             {
-                ProductVariant? productVariant = await _productVariantRepository.GetAsync(pv => pv.Id == basketItem.Id);
+                ProductVariant? productVariant = await _productVariantRepository.GetAsync(pv => pv.Id == basketItem.ProductVariantId);
                 await _productVariantBusinessRules.ProductVariantShouldExistWhenSelected(productVariant);
 
                 productVariant!.StockAmount -= basketItem.ProductAmount;

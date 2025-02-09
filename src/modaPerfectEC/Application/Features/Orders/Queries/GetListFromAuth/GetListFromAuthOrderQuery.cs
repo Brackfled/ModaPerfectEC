@@ -36,6 +36,7 @@ public class GetListFromAuthOrderQuery: IRequest<ICollection<GetListFromAuthOrde
         public async Task<ICollection<GetListFromAuthOrderListItemDto>> Handle(GetListFromAuthOrderQuery request, CancellationToken cancellationToken)
         {
             ICollection<Order>? orders = await _orderRepository.GetAllAsync(
+                predicate:o => o.UserId == request.UserId,
                 include: opt => opt
                     .Include(o => o.Basket)!
                         .ThenInclude(b => b.BasketItems)!

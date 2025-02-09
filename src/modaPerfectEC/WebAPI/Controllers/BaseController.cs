@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using NArchitecture.Core.CrossCuttingConcerns.Exception.Types;
 using NArchitecture.Core.Security.Extensions;
 
 namespace WebAPI.Controllers;
@@ -24,7 +25,13 @@ public class BaseController : ControllerBase
 
     protected Guid getUserIdFromRequest() //todo authentication behavior?
     {
+        string? userIdString = HttpContext.User.GetIdClaim();
+
+        if (userIdString is null)
+            throw new AuthorizationException("You are not authenticated.");
+
         var userId = Guid.Parse(HttpContext.User.GetIdClaim()!);
+
         return userId;
     }
 }

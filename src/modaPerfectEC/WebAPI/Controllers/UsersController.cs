@@ -8,6 +8,7 @@ using Domain.Dtos;
 using Microsoft.AspNetCore.Mvc;
 using NArchitecture.Core.Application.Requests;
 using NArchitecture.Core.Application.Responses;
+using NArchitecture.Core.CrossCuttingConcerns.Exception.Types;
 
 namespace WebAPI.Controllers;
 
@@ -25,6 +26,7 @@ public class UsersController : BaseController
     [HttpGet("GetFromAuth")]
     public async Task<IActionResult> GetFromAuth()
     {
+        Guid userId = getUserIdFromRequest();
         GetByIdUserQuery getByIdUserQuery = new() { Id = getUserIdFromRequest() };
         GetByIdUserResponse result = await Mediator.Send(getByIdUserQuery);
         return Ok(result);

@@ -103,8 +103,8 @@ public class UserUserOperationClaimManager : IUserOperationClaimService
 
     public async Task<UserStateOperationClaimDto> SetUserOperationClaimsAsync(User user, UserState userState)
     {
-        int[] approvedUser = [516, 518, 517, 514, 508, 493, 499, 522, 525, 526];
-        int[] adminUser = [516, 518, 517, 514, 508, 513, 507, 480, 483, 485, 484, 486, 489, 490, 491, 504, 505, 506, 492, 495, 496, 497, 493, 498, 501, 502, 503, 499, 479 ,474, 522, 523, 520, 525, 526];
+        int[] approvedUser = [516, 518, 517, 514, 508, 493, 499, 522, 525, 526, 527];
+        int[] adminUser = [516, 518, 517, 514, 508, 513, 507, 480, 483, 485, 484, 486, 489, 490, 491, 504, 505, 506, 492, 495, 496, 497, 493, 498, 501, 502, 503, 499, 479 ,474, 522, 523, 520, 525, 526, 527];
 
         UserStateOperationClaimDto userStateOperationClaimDto = new UserStateOperationClaimDto();
 

@@ -8,11 +8,11 @@ using NArchitecture.Core.Application.Pipelines.Authorization;
 
 namespace Application.Features.Users.Queries.GetById;
 
-public class GetByIdUserQuery : IRequest<GetByIdUserResponse> //ISecuredRequest
+public class GetByIdUserQuery : IRequest<GetByIdUserResponse> , ISecuredRequest
 {
     public Guid Id { get; set; }
 
-    //public string[] Roles => [UsersOperationClaims.Read];
+    public string[] Roles => [UsersOperationClaims.Admin, UsersOperationClaims.Read];
 
     public class GetByIdUserQueryHandler : IRequestHandler<GetByIdUserQuery, GetByIdUserResponse>
     {

@@ -9,6 +9,8 @@ using Microsoft.AspNetCore.Mvc;
 using Domain.Entities;
 using Application.Features.Orders.Queries.GetListAll;
 using Application.Features.Orders.Queries.GetListFromAuth;
+using NArchitecture.Core.Mailing;
+using MimeKit;
 
 namespace WebAPI.Controllers;
 
@@ -16,6 +18,13 @@ namespace WebAPI.Controllers;
 [ApiController]
 public class OrdersController : BaseController
 {
+    private readonly IMailService _mailService;
+
+    public OrdersController(IMailService mailService)
+    {
+        _mailService = mailService;
+    }
+
     [HttpPost]
     public async Task<ActionResult<CreatedOrderResponse>> Add([FromBody] CreateOrderRequest createOrderRequest)
     {
@@ -76,5 +85,20 @@ public class OrdersController : BaseController
         GetListFromAuthOrderQuery query = new() { UserId = getUserIdFromRequest() };
         ICollection<GetListFromAuthOrderListItemDto> result = await Mediator.Send(query);
         return Ok(result);
+    }
+
+    [HttpGet("MailDeneme")]
+    public async Task<ActionResult<bool>> MailDeneme()
+    {
+        List<MailboxAddress> mails = new List<MailboxAddress> { new MailboxAddress(name:"oncellhsyn@outlook.com", "oncellhsyn@outlook.com") };
+
+       await _mailService.SendEmailAsync( new Mail
+       {
+           ToList = mails,
+           Subject = "Deneme",
+           HtmlBody="<b>Merhabalar</b> Efenim"
+       });
+
+        return Ok(true);
     }
 }

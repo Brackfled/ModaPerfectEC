@@ -223,6 +223,8 @@ public class OperationClaimConfiguration : IEntityTypeConfiguration<OperationCla
             ]
         );
         #endregion
+
+        featureOperationClaims.Add(new() { Id = ++lastId, Name = UsersOperationClaims.GetFromAuth });
         
         return featureOperationClaims;
     }

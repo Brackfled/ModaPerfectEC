@@ -12,7 +12,7 @@ public class GetByIdUserQuery : IRequest<GetByIdUserResponse> , ISecuredRequest
 {
     public Guid Id { get; set; }
 
-    public string[] Roles => [UsersOperationClaims.Admin, UsersOperationClaims.Read];
+    public string[] Roles => [UsersOperationClaims.Admin, UsersOperationClaims.GetFromAuth];
 
     public class GetByIdUserQueryHandler : IRequestHandler<GetByIdUserQuery, GetByIdUserResponse>
     {

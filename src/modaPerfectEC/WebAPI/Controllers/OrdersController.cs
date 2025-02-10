@@ -11,6 +11,7 @@ using Application.Features.Orders.Queries.GetListAll;
 using Application.Features.Orders.Queries.GetListFromAuth;
 using NArchitecture.Core.Mailing;
 using MimeKit;
+using Application.Features.Orders.Queries.GetAnalytics;
 
 namespace WebAPI.Controllers;
 
@@ -100,5 +101,12 @@ public class OrdersController : BaseController
        });
 
         return Ok(true);
+    }
+
+    [HttpGet("GetAnalytics")]
+    public async Task<IActionResult> GetAnalyticsOrders()
+    {
+        GetAnalyticsOrderResponse result = await Mediator.Send(new GetAnalyticsOrderQuery());
+        return Ok(result);  
     }
 }

@@ -7,6 +7,7 @@ using NArchitecture.Core.Application.Requests;
 using NArchitecture.Core.Application.Responses;
 using Microsoft.AspNetCore.Mvc;
 using Application.Features.ProductVariants.Commands.UpdateStockAmount;
+using Application.Features.ProductVariants.Queries.GetAllDecrasing;
 
 namespace WebAPI.Controllers;
 
@@ -69,5 +70,12 @@ public class ProductVariantsController : BaseController
         UpdateStockAmountProductVariantCommand command = new() {UpdateStockAmountProductVariantRequest = updateStockAmountProductVariantRequest};
         UpdatedStockAmountProductVariantResponse response = await Mediator.Send(command);
         return Ok(response);
+    }
+
+    [HttpGet("GetAllDecrasing")]
+    public async Task<IActionResult> GetAllDecrasing()
+    {
+        ICollection<GetAllDecrasingProductVariantListItemDto> result = await Mediator.Send(new GetAllDecrasingProductVariantQuery());
+        return Ok(result);
     }
 }

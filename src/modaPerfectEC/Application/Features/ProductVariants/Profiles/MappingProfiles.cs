@@ -8,6 +8,7 @@ using NArchitecture.Core.Application.Responses;
 using Domain.Entities;
 using NArchitecture.Core.Persistence.Paging;
 using Application.Features.ProductVariants.Commands.UpdateStockAmount;
+using Application.Features.ProductVariants.Queries.GetAllDecrasing;
 
 namespace Application.Features.ProductVariants.Profiles;
 
@@ -38,5 +39,7 @@ public class MappingProfiles : Profile
         CreateMap<IPaginate<ProductVariant>, GetListResponse<GetListProductVariantListItemDto>>();
 
         CreateMap<ProductVariant, UpdatedStockAmountProductVariantResponse>();
+
+        CreateMap<ProductVariant, GetAllDecrasingProductVariantListItemDto>();
     }
 }

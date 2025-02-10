@@ -1,8 +1,11 @@
-using NArchitecture.Core.Application.Responses;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace Application.Features.ProductVariants.Queries.GetById;
-
-public class GetByIdProductVariantResponse : IResponse
+namespace Application.Features.ProductVariants.Queries.GetAllDecrasing;
+public class GetAllDecrasingProductVariantListItemDto
 {
     public Guid Id { get; set; }
     public Guid ProductId { get; set; }
@@ -12,3 +15,4 @@ public class GetByIdProductVariantResponse : IResponse
     public int StockAmount { get; set; }
     public int[] Sizes { get; set; }
 }
+

@@ -5,6 +5,7 @@ using AutoMapper;
 using Domain.Entities;
 using Domain.Enums;
 using MediatR;
+using NArchitecture.Core.Application.Pipelines.Transaction;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +13,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Application.Features.MPFile.Commands.UpdateCollectionStateCollectionVideo;
-public class UpdateCollectionStateCollectionVideoCommand: IRequest<UpdatedCollectionStateCollectionVideoResponse>
+public class UpdateCollectionStateCollectionVideoCommand: IRequest<UpdatedCollectionStateCollectionVideoResponse>, ITransactionalRequest
 {
     public Guid Id { get; set; }
     public CollectionState CollectionState { get; set; }

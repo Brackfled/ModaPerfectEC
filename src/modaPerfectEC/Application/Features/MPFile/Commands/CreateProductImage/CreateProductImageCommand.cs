@@ -58,7 +58,7 @@ public class CreateProductImageCommand: IRequest<CreatedProductImageResponse>, I
             {
                 await _mpFileBusinessRules.FileSizeIsCorrect(formFile, 640,960);
 
-                Domain.Dtos.FileOptions fileOptions = await _stroageService.UploadFileAsync(formFile, "hk-image");
+                Domain.Dtos.FileOptions fileOptions = await _stroageService.UploadFileAsync(formFile, "mp-products-images");
 
                 ProductImage productImage = new()
                 {

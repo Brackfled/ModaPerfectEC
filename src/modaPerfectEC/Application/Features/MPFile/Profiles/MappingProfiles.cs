@@ -1,4 +1,8 @@
-﻿using Application.Features.MPFile.Commands.DeleteProductImage;
+﻿using Application.Features.MPFile.Commands.DeleteCollectionVideo;
+using Application.Features.MPFile.Commands.DeleteProductImage;
+using Application.Features.MPFile.Commands.UpdateCollectionStateCollectionVideo;
+using Application.Features.MPFile.Queries.GetAllByActiveCollectionVideo;
+using Application.Features.MPFile.Queries.GetAllCollectionVideo;
 using Application.Features.MPFile.Queries.GetById;
 using Application.Features.MPFile.Queries.GetListByProductId;
 using AutoMapper;
@@ -19,5 +23,13 @@ public class MappingProfiles: Profile
         CreateMap<ProductImage, GetByIdProductImageResponse>();
 
         CreateMap<ProductImage, GetListByProductIdProductImageListItemDto>();
+
+        CreateMap<CollectionVideo, DeletedCollectionVideoResponse>();
+
+        CreateMap<CollectionVideo, GetAllCollectionVideoListItemDto>();
+
+        CreateMap<CollectionVideo, UpdatedCollectionStateCollectionVideoResponse>();
+
+        CreateMap<CollectionVideo, GetAllByActiveCollectionVideoListItemDto>();
     }
 }

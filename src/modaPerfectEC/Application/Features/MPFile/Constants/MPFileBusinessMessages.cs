@@ -14,4 +14,6 @@ public class MPFileBusinessMessages
     public const string FilesCountMusBeBetweenTwoAndSix = "FilesCountMusBeBetweenTwoAndSix";
     public const string ImageOverload = "ImageOverload";
     public const string FileIsIncorrect = "FileIsIncorrect";
+    public const string FileIsNotVideoFile = "FileIsNotVideoFile";
+    public const string CollectionVideoFileSizeIsOver = "CollectionVideoFileSizeIsOver";
 }

@@ -1,4 +1,5 @@
 ﻿using Amazon.Runtime.Internal;
+using Application.Features.MPFile.Constants;
 using Application.Features.MPFile.Rules;
 using Application.Services.CollectionVideos;
 using Application.Services.Repositories;
@@ -8,6 +9,7 @@ using Domain.Dtos;
 using Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Http;
+using NArchitecture.Core.Application.Pipelines.Authorization;
 using NArchitecture.Core.Application.Pipelines.Transaction;
 using System;
 using System.Collections.Generic;
@@ -16,9 +18,11 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Application.Features.MPFile.Commands.CreateCollectionVideo;
-public class CreateCollectionVideoCommand: IRequest<CreatedCollectionVideoResponse>, ITransactionalRequest
+public class CreateCollectionVideoCommand: IRequest<CreatedCollectionVideoResponse>, ITransactionalRequest, ISecuredRequest
 {
     public CreatedCollectionVideoRequest CreatedCollectionVideoRequest { get; set; }
+
+    public string[] Roles => [ MPFilesOperationClaims.Create];
 
     public class CreateCollectionVideoCommandHandler: IRequestHandler<CreateCollectionVideoCommand, CreatedCollectionVideoResponse>
     {
@@ -37,10 +41,15 @@ public class CreateCollectionVideoCommand: IRequest<CreatedCollectionVideoRespon
 
         public async Task<CreatedCollectionVideoResponse> Handle(CreateCollectionVideoCommand request, CancellationToken cancellationToken)
         {
+            await _mPFileBusinessRules.CollectionVideoRequestCountMustBeCorrectCount(request.CreatedCollectionVideoRequest.FormFiles, 1);
+
             IList<CollectionVideo> collectionVideos = new List<CollectionVideo>();  
 
             foreach (IFormFile formFile in request.CreatedCollectionVideoRequest.FormFiles)
             {
+               // await _mPFileBusinessRules.FileIsVideoFile(formFile);
+              //  await _mPFileBusinessRules.VideoFileIsCorrect(formFile, 480, 848, 10);
+
                 Domain.Dtos.FileOptions fileOptions = await _stroageService.UploadFileAsync(formFile, "mp-collection-videos");
 
                 CollectionVideo collectionVideo = new()

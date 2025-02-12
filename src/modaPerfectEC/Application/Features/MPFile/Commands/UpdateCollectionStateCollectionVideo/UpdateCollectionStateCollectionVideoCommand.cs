@@ -1,10 +1,12 @@
 ﻿using Amazon.Runtime.Internal;
+using Application.Features.MPFile.Constants;
 using Application.Features.MPFile.Rules;
 using Application.Services.Repositories;
 using AutoMapper;
 using Domain.Entities;
 using Domain.Enums;
 using MediatR;
+using NArchitecture.Core.Application.Pipelines.Authorization;
 using NArchitecture.Core.Application.Pipelines.Transaction;
 using System;
 using System.Collections.Generic;
@@ -13,10 +15,12 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Application.Features.MPFile.Commands.UpdateCollectionStateCollectionVideo;
-public class UpdateCollectionStateCollectionVideoCommand: IRequest<UpdatedCollectionStateCollectionVideoResponse>, ITransactionalRequest
+public class UpdateCollectionStateCollectionVideoCommand: IRequest<UpdatedCollectionStateCollectionVideoResponse>, ITransactionalRequest, ISecuredRequest
 {
     public Guid Id { get; set; }
     public CollectionState CollectionState { get; set; }
+
+    public string[] Roles => [MPFilesOperationClaims.Create];
 
     public class UpdateCollectionStateCollectionVideoCommandHandler: IRequestHandler<UpdateCollectionStateCollectionVideoCommand, UpdatedCollectionStateCollectionVideoResponse>
     {
@@ -34,6 +38,8 @@ public class UpdateCollectionStateCollectionVideoCommand: IRequest<UpdatedCollec
         public async Task<UpdatedCollectionStateCollectionVideoResponse> Handle(UpdateCollectionStateCollectionVideoCommand request, CancellationToken cancellationToken)
         {
             CollectionVideo? collectionVideo = await _collectionVideoRepository.GetAsync(cv => cv.Id == request.Id);
+            await _mPFileBusinessRules.CollectionVideoShouldExistsWhenSelected(collectionVideo!);
+
 
             collectionVideo!.CollectionState = request.CollectionState;
             CollectionVideo updatedCollectionVideo = await _collectionVideoRepository.UpdateAsync(collectionVideo);

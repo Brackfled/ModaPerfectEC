@@ -1,8 +1,10 @@
 ﻿using Amazon.Runtime.Internal;
+using Application.Features.MPFile.Constants;
 using Application.Services.Repositories;
 using AutoMapper;
 using Domain.Entities;
 using MediatR;
+using NArchitecture.Core.Application.Pipelines.Authorization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,8 +12,10 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Application.Features.MPFile.Queries.GetAllCollectionVideo;
-public class GetAllCollectionVideoQuery: IRequest<ICollection<GetAllCollectionVideoListItemDto>>
+public class GetAllCollectionVideoQuery: IRequest<ICollection<GetAllCollectionVideoListItemDto>>, ISecuredRequest
 {
+    public string[] Roles => [MPFilesOperationClaims.Read];
+
     public class GetAllCollectionVideoQueryHandler: IRequestHandler<GetAllCollectionVideoQuery, ICollection<GetAllCollectionVideoListItemDto>>
     {
         private readonly ICollectionVideoRepository _collectionVideoRepository;

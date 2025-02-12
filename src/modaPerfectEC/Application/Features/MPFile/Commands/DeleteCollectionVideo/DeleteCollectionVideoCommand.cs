@@ -1,4 +1,5 @@
 ﻿using Amazon.Runtime.Internal;
+using Application.Features.MPFile.Constants;
 using Application.Features.MPFile.Rules;
 using Application.Services.Repositories;
 using Application.Services.Stroage;
@@ -6,6 +7,7 @@ using AutoMapper;
 using Domain.Dtos;
 using Domain.Entities;
 using MediatR;
+using NArchitecture.Core.Application.Pipelines.Authorization;
 using NArchitecture.Core.Application.Pipelines.Transaction;
 using System;
 using System.Collections.Generic;
@@ -14,9 +16,11 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Application.Features.MPFile.Commands.DeleteCollectionVideo;
-public class DeleteCollectionVideoCommand: IRequest<DeletedCollectionVideoResponse>, ITransactionalRequest
+public class DeleteCollectionVideoCommand: IRequest<DeletedCollectionVideoResponse>, ITransactionalRequest, ISecuredRequest
 {
     public Guid Id { get; set; }
+
+    public string[] Roles => [MPFilesOperationClaims.Deleted];
 
     public class DeleteCollectionVideoCommandHandler: IRequestHandler<DeleteCollectionVideoCommand, DeletedCollectionVideoResponse>
     {
@@ -36,6 +40,8 @@ public class DeleteCollectionVideoCommand: IRequest<DeletedCollectionVideoRespon
         public async Task<DeletedCollectionVideoResponse> Handle(DeleteCollectionVideoCommand request, CancellationToken cancellationToken)
         {
             CollectionVideo? collectionVideo = await _collectionVideoRepository.GetAsync(cv => cv.Id == request.Id);
+
+            await _mPFileBusinessRules.CollectionVideoShouldExistsWhenSelected(collectionVideo!);
 
             var fileOptions = await _stroageService.DeleteFileAsync(bucketName: collectionVideo!.FilePath, fileName: collectionVideo.FileName);
 

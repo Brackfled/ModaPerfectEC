@@ -3,3 +3,5 @@ FileIsNotImageFile: File is not a image file.
 FilesCountMusBeBetweenTwoAndSix: Number of files must be between 2 and 6.
 ImageOverload: Image overload. Product image count exceeds maximum
 FileIsIncorrect: Image lengths are not correct.
+FileIsNotVideoFile: File type must be mp4.
+CollectionVideoFileSizeIsOver: Video size is over.

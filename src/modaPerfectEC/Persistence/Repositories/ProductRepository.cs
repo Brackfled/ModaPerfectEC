@@ -26,4 +26,15 @@ public class ProductRepository : EfRepositoryBase<Product, Guid, BaseDbContext>,
         query = query.AsNoTracking();
         return await query.ToListAsync();
     }
+
+    public async Task<ICollection<Product>> GetMatching(IList<Product> products, string? hex , int? size)
+    {
+        return products
+        .Where(p => p.ProductVariants
+            .Any(v =>
+                (hex == null || v.Hex == hex) && 
+                (size == null || v.Sizes.Contains(size.Value))
+            ))
+        .ToList();
+    }
 }

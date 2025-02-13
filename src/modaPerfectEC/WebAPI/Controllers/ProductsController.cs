@@ -88,10 +88,10 @@ public class ProductsController : BaseController
     }
 
     [HttpPost("GetListByDynamic")]
-    public async Task<IActionResult> GetListByDynamicProducts([FromQuery] PageRequest pageRequest, DynamicQuery dynamicQuery)
+    public async Task<IActionResult> GetListByDynamicProducts( GetListByDynamicProductRequest getListByDynamicProductRequest)
     {
-        GetListByDynamicProductQuery query = new() { PageRequest = pageRequest, DynamicQuery = dynamicQuery };
-        GetListResponse<GetListByDynamicProductListItemDto> result = await Mediator.Send(query);
+        GetListByDynamicProductQuery query = new() { GetListByDynamicProductRequest = getListByDynamicProductRequest};
+        ICollection<GetListByDynamicProductListItemDto> result = await Mediator.Send(query);
         return Ok(result);
     }
 

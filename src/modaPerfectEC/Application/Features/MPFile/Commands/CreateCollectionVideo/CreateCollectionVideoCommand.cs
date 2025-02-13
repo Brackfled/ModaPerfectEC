@@ -18,7 +18,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Application.Features.MPFile.Commands.CreateCollectionVideo;
-public class CreateCollectionVideoCommand: IRequest<CreatedCollectionVideoResponse>, ITransactionalRequest//, ISecuredRequest
+public class CreateCollectionVideoCommand: IRequest<CreatedCollectionVideoResponse>, ITransactionalRequest, ISecuredRequest
 {
     public CreatedCollectionVideoRequest CreatedCollectionVideoRequest { get; set; }
 

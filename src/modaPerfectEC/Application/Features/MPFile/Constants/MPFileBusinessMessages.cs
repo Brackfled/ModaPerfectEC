@@ -16,4 +16,5 @@ public class MPFileBusinessMessages
     public const string FileIsIncorrect = "FileIsIncorrect";
     public const string FileIsNotVideoFile = "FileIsNotVideoFile";
     public const string CollectionVideoFileSizeIsOver = "CollectionVideoFileSizeIsOver";
+    public const string VideoFileIsIncorrect = "VideoFileIsIncorrect";
 }

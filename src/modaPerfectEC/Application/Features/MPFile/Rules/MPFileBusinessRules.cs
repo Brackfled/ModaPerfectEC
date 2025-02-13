@@ -12,9 +12,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using static System.Net.Mime.MediaTypeNames;
+using System.Runtime.InteropServices;
 using System.Drawing;
-using MediaToolkit.Model;
-using MediaToolkit;
+using System.Drawing.Imaging;
 
 namespace Application.Features.MPFile.Rules;
 public class MPFileBusinessRules:BaseBusinessRules
@@ -98,16 +98,5 @@ public class MPFileBusinessRules:BaseBusinessRules
         bool isSuccess = extensionList.Any(extensions => extensions.Contains(formFile.FileName.Substring(formFile.FileName.LastIndexOf("."))));
         if (!isSuccess)
             await throwBusinessException(MPFileBusinessMessages.FileIsNotVideoFile);
-    }
-
-    public async Task VideoFileIsCorrect(IFormFile formFile, int maxWidth, int maxHeight, int maxSize)
-    {
-        FileInfo fileInfo = new FileInfo(formFile.FileName);
-        long fileSizeMb = fileInfo.Length / (1024 * 1024);
-
-        if (fileSizeMb > maxSize)
-            await throwBusinessException(MPFileBusinessMessages.CollectionVideoFileSizeIsOver);
-
-        
     }
 }

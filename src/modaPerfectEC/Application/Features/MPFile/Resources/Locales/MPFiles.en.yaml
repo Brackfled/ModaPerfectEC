@@ -5,3 +5,4 @@ ImageOverload: Image overload. Product image count exceeds maximum
 FileIsIncorrect: Image lengths are not correct.
 FileIsNotVideoFile: File type must be mp4.
 CollectionVideoFileSizeIsOver: Video size is over.
+VideoFileIsIncorrect: Video file is incorrect.

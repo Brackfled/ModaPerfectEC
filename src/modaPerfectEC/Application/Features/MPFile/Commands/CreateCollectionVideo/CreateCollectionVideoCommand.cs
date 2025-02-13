@@ -18,7 +18,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Application.Features.MPFile.Commands.CreateCollectionVideo;
-public class CreateCollectionVideoCommand: IRequest<CreatedCollectionVideoResponse>, ITransactionalRequest, ISecuredRequest
+public class CreateCollectionVideoCommand: IRequest<CreatedCollectionVideoResponse>, ITransactionalRequest//, ISecuredRequest
 {
     public CreatedCollectionVideoRequest CreatedCollectionVideoRequest { get; set; }
 
@@ -47,8 +47,7 @@ public class CreateCollectionVideoCommand: IRequest<CreatedCollectionVideoRespon
 
             foreach (IFormFile formFile in request.CreatedCollectionVideoRequest.FormFiles)
             {
-               // await _mPFileBusinessRules.FileIsVideoFile(formFile);
-              //  await _mPFileBusinessRules.VideoFileIsCorrect(formFile, 480, 848, 10);
+                await _mPFileBusinessRules.FileIsVideoFile(formFile);
 
                 Domain.Dtos.FileOptions fileOptions = await _stroageService.UploadFileAsync(formFile, "mp-collection-videos");
 

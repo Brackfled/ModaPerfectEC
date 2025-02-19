@@ -1,4 +1,5 @@
-﻿using Application.Features.Users.Commands.Create;
+﻿using Application.Features.Users.Commands.Contact;
+using Application.Features.Users.Commands.Create;
 using Application.Features.Users.Commands.Delete;
 using Application.Features.Users.Commands.Update;
 using Application.Features.Users.Commands.UpdateFromAuth;
@@ -66,6 +67,13 @@ public class UsersController : BaseController
     public async Task<IActionResult> Delete([FromBody] DeleteUserCommand deleteUserCommand)
     {
         DeletedUserResponse result = await Mediator.Send(deleteUserCommand);
+        return Ok(result);
+    }
+
+    [HttpPost("Contact")]
+    public async Task<IActionResult> Contact(ContactCommand command)
+    {
+        bool result = await Mediator.Send(command);
         return Ok(result);
     }
 }

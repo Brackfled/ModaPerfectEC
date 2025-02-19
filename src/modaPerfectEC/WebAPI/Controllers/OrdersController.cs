@@ -88,21 +88,6 @@ public class OrdersController : BaseController
         return Ok(result);
     }
 
-    [HttpGet("MailDeneme")]
-    public async Task<ActionResult<bool>> MailDeneme()
-    {
-        List<MailboxAddress> mails = new List<MailboxAddress> { new MailboxAddress(name:"oncellhsyn@outlook.com", "oncellhsyn@outlook.com") };
-
-       await _mailService.SendEmailAsync( new Mail
-       {
-           ToList = mails,
-           Subject = "Deneme",
-           HtmlBody="<b>Merhabalar</b> Efenim"
-       });
-
-        return Ok(true);
-    }
-
     [HttpGet("GetAnalytics")]
     public async Task<IActionResult> GetAnalyticsOrders()
     {

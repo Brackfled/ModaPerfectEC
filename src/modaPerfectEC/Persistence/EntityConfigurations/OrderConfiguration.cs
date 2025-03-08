@@ -25,6 +25,7 @@ public class OrderConfiguration : IEntityTypeConfiguration<Order>
 
         builder.HasOne(o => o.Basket);
         builder.HasOne(o => o.User).WithMany(o => o.Orders).HasForeignKey(o => o.UserId);
+        builder.HasMany(o => o.ProductReturns).WithOne(pr => pr.Order).HasForeignKey(pr => pr.OrderId).OnDelete(DeleteBehavior.Restrict);
 
         builder.HasQueryFilter(o => !o.DeletedDate.HasValue);
     }

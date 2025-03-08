@@ -18,6 +18,7 @@ public class BasketItem: Entity<Guid>
     public virtual Basket? Basket { get; set; }
     public virtual Product? Product { get; set; }
     public virtual ProductVariant? ProductVariant { get; set; }
+    public virtual ICollection<ProductReturn> ProductReturns { get; set; } = default!;
 
     public BasketItem()
     {

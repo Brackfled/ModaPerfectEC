@@ -20,6 +20,7 @@ public class Order : Entity<Guid>
 
     public virtual Basket Basket { get; set; } = default!;
     public virtual User User { get; set; } = default!;
+    public virtual ICollection<ProductReturn> ProductReturns { get; set; } = default!;
 
     public Order()
     {

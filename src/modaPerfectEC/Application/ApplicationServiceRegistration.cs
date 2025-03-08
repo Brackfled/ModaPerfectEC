@@ -30,6 +30,7 @@ using Application.Services.BasketItems;
 using Application.Services.UserOperationClaims;
 using Application.Services.Orders;
 using Application.Services.CollectionVideos;
+using Application.Services.ProductReturns;
 
 namespace Application;
 
@@ -79,6 +80,7 @@ public static class ApplicationServiceRegistration
         services.AddScoped<IBasketItemService, BasketItemManager>();
         services.AddScoped<IOrderService, OrderManager>();
         services.AddScoped<ICollectionVideoService, CollectionVideoManager>();  
+        services.AddScoped<IProductReturnService, ProductReturnManager>();
         return services;
     }
 

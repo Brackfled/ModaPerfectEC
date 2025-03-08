@@ -9,6 +9,8 @@ using NArchitecture.Core.Application.Pipelines.Transaction;
 using MediatR;
 using static Application.Features.Products.Constants.ProductsOperationClaims;
 using Microsoft.EntityFrameworkCore;
+using Application.Services.BasketItems;
+using Application.Features.BasketItems.Rules;
 
 namespace Application.Features.Products.Commands.Delete;
 
@@ -23,13 +25,16 @@ public class DeleteProductCommand : IRequest<DeletedProductResponse>, ISecuredRe
         private readonly IMapper _mapper;
         private readonly IProductRepository _productRepository;
         private readonly ProductBusinessRules _productBusinessRules;
+        private readonly IBasketItemService _basketItemService;
+        private readonly BasketItemBusinessRules _basketItemBusinessRules;
 
-        public DeleteProductCommandHandler(IMapper mapper, IProductRepository productRepository,
-                                         ProductBusinessRules productBusinessRules)
+        public DeleteProductCommandHandler(IMapper mapper, IProductRepository productRepository, ProductBusinessRules productBusinessRules, IBasketItemService basketItemService, BasketItemBusinessRules basketItemBusinessRules)
         {
             _mapper = mapper;
             _productRepository = productRepository;
             _productBusinessRules = productBusinessRules;
+            _basketItemService = basketItemService;
+            _basketItemBusinessRules = basketItemBusinessRules;
         }
 
         public async Task<DeletedProductResponse> Handle(DeleteProductCommand request, CancellationToken cancellationToken)
@@ -40,7 +45,15 @@ public class DeleteProductCommand : IRequest<DeletedProductResponse>, ISecuredRe
                 cancellationToken: cancellationToken);
             await _productBusinessRules.ProductShouldExistWhenSelected(product);
 
+            ICollection<BasketItem> basketItems = await _basketItemService.GetAllAsync(bi => bi.ProductId == product!.Id);
 
+            foreach (BasketItem bItem in basketItems)
+            {
+                bItem.ProductId = null;
+                bItem.ProductVariantId = null;
+
+                await _basketItemService.UpdateAsync(bItem);
+            }
 
             await _productRepository.DeleteAsync(product!, true);
 

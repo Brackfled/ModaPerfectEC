@@ -9,7 +9,7 @@ public class UpdateProductVariantCommandValidator : AbstractValidator<UpdateProd
         RuleFor(c => c.UpdateProductVariantRequest.Id).NotEmpty();
         RuleFor(c => c.UpdateProductVariantRequest.Color);
         RuleFor(c => c.UpdateProductVariantRequest.Hex);
-        RuleFor(c => c.UpdateProductVariantRequest.StockAmount);
+        RuleFor(c => c.UpdateProductVariantRequest.StockAmount).GreaterThan(0);
         RuleFor(c => c.UpdateProductVariantRequest.Sizes);
     }
 }

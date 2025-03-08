@@ -8,6 +8,6 @@ public class CreateProductVariantCommandValidator : AbstractValidator<CreateProd
     {
         RuleFor(c => c.ProductId).NotEmpty();
         RuleFor(c => c.ColorDto.Color).NotEmpty();
-        RuleFor(c => c.ColorDto.StockAmount).NotEmpty();
+        RuleFor(c => c.ColorDto.StockAmount).NotEmpty().GreaterThan(0);
     }
 }

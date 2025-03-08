@@ -22,8 +22,9 @@ public class BasketItemConfiguration : IEntityTypeConfiguration<BasketItem>
         builder.Property(bi => bi.DeletedDate).HasColumnName("DeletedDate");
 
         builder.HasOne(bi => bi.Basket);
-        builder.HasOne(bi => bi.Product);
-        builder.HasOne(bi => bi.ProductVariant);
+        builder.HasOne(bi => bi.Product).WithMany().HasForeignKey(p => p.ProductId).OnDelete(DeleteBehavior.SetNull);
+        builder.HasOne(bi => bi.ProductVariant).WithMany().HasForeignKey(pv => pv.ProductVariantId).OnDelete(DeleteBehavior.SetNull);
+        builder.HasMany(bi => bi.ProductReturns);
 
         builder.HasQueryFilter(bi => !bi.DeletedDate.HasValue);
     }

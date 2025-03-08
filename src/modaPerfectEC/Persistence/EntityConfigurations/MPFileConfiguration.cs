@@ -27,6 +27,7 @@ public class MPFileConfiguration : IEntityTypeConfiguration<MPFile>
         builder.HasDiscriminator<string>("FileType")
             .HasValue<MPFile>("MPFile")
             .HasValue<ProductImage>("ProductImage")
-            .HasValue<CollectionVideo>("CollectionVideo");
+            .HasValue<CollectionVideo>("CollectionVideo")
+            .HasValue<ReturnImage>("ReturnImage");
     }
 }

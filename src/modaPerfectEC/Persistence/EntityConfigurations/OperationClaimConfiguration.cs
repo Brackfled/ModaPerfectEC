@@ -14,6 +14,8 @@ using Application.Features.MPFile.Constants;
 using Application.Features.Baskets.Constants;
 using Application.Features.BasketItems.Constants;
 using Application.Features.Orders.Constants;
+using Application.Features.ProductReturns.Constants;
+
 
 
 
@@ -225,6 +227,20 @@ public class OperationClaimConfiguration : IEntityTypeConfiguration<OperationCla
         #endregion
 
         featureOperationClaims.Add(new() { Id = ++lastId, Name = UsersOperationClaims.GetFromAuth });
+        
+        
+        #region ProductReturns CRUD
+        featureOperationClaims.AddRange(
+            [
+                new() { Id = ++lastId, Name = ProductReturnsOperationClaims.Admin },
+                new() { Id = ++lastId, Name = ProductReturnsOperationClaims.Read },
+                new() { Id = ++lastId, Name = ProductReturnsOperationClaims.Write },
+                new() { Id = ++lastId, Name = ProductReturnsOperationClaims.Create },
+                new() { Id = ++lastId, Name = ProductReturnsOperationClaims.Update },
+                new() { Id = ++lastId, Name = ProductReturnsOperationClaims.Delete },
+            ]
+        );
+        #endregion
         
         return featureOperationClaims;
     }

@@ -59,8 +59,8 @@ public class GetListAllOrderQuery: IRequest<ICollection<GetListAllOrderListItemD
                 BasketItems = order.Basket?.BasketItems.Select(bi => new BasketItemDto
                 {
                     Id = bi.Id,
-                    ProductName = bi.Product!.Name, // Ürün adı
-                    Color = bi.ProductVariant!.Color, // Eğer ProductVariant tek nesne ise direkt adını al
+                    ProductName = bi.Product!.Name ?? "Silinmiş Ürün",
+                    Color = bi.ProductVariant!.Color ?? "Silinmiş Ürün Renk Varyantı",
                     Hex = bi.ProductVariant!.Hex,
                     ProductAmount = bi.ProductAmount,
                     RemainingAfterDelivery = bi.RemainingAfterDelivery,

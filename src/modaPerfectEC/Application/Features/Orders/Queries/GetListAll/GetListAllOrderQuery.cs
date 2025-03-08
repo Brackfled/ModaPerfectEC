@@ -56,7 +56,7 @@ public class GetListAllOrderQuery: IRequest<ICollection<GetListAllOrderListItemD
                 CreatedDate = order.CreatedDate,
                 UpdatedDate = order.UpdatedDate,
                 DeleteDDate = order.DeletedDate,
-                BasketItems = order.Basket?.BasketItems.Select(bi => new BasketItemDto
+                BasketItems = order.Basket?.BasketItems.Where(bi => bi != null).Select(bi => new BasketItemDto
                 {
                     Id = bi.Id,
                     ProductName = bi.Product!.Name ?? "Silinmiş Ürün",

@@ -27,12 +27,13 @@ public class BasketItemRepository : EfRepositoryBase<BasketItem, Guid, BaseDbCon
     {
         IQueryable<BasketItem> query = Query();
 
+        query = query.AsNoTracking();
+
         if (predicate != null)
             query = query.Where(predicate);
         if (include != null)
             query = include(query);
 
-        query = query.AsNoTracking();
         return await query.ToListAsync();
     }
 }

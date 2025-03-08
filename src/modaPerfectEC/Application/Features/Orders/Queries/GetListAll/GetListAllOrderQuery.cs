@@ -59,9 +59,9 @@ public class GetListAllOrderQuery: IRequest<ICollection<GetListAllOrderListItemD
                 BasketItems = order.Basket?.BasketItems.Where(bi => bi != null).Select(bi => new BasketItemDto
                 {
                     Id = bi.Id,
-                    ProductName = bi.Product!.Name ?? "Silinmiş Ürün",
-                    Color = bi.ProductVariant!.Color ?? "Silinmiş Ürün Renk Varyantı",
-                    Hex = bi.ProductVariant!.Hex,
+                    ProductName = bi.Product?.Name ?? "Silinmiş Ürün",
+                    Color = bi.ProductVariant?.Color ?? "Silinmiş Ürün Renk Varyantı",
+                    Hex = bi.ProductVariant?.Hex ?? "Silinmiş Ürün Renk Hex",
                     ProductAmount = bi.ProductAmount,
                     RemainingAfterDelivery = bi.RemainingAfterDelivery,
                 }).ToList() ?? new List<BasketItemDto>()

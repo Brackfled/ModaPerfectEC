@@ -27,7 +27,7 @@ public class BasketItemRepository : EfRepositoryBase<BasketItem, Guid, BaseDbCon
     {
         IQueryable<BasketItem> query = Query();
 
-        query = query.AsNoTracking();
+        query = query.AsNoTrackingWithIdentityResolution();
 
         if (predicate != null)
             query = query.Where(predicate);

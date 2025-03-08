@@ -58,12 +58,12 @@ public class GetListFromAuthOrderQuery: IRequest<ICollection<GetListFromAuthOrde
                 CreatedDate = order.CreatedDate,
                 UpdatedDate = order.UpdatedDate,
                 DeleteDDate = order.DeletedDate,
-                BasketItems = order.Basket?.BasketItems.Select(bi => new BasketItemDto
+                BasketItems = order.Basket?.BasketItems.Where(bi => bi != null).Select(bi => new BasketItemDto
                 {
                     Id = bi.Id,
-                    ProductName = bi.Product!.Name, // Ürün adı
-                    Color = bi.ProductVariant!.Color, // Eğer ProductVariant tek nesne ise direkt adını al
-                    Hex = bi.ProductVariant!.Hex,
+                    ProductName = bi.Product?.Name ?? "Silinmiş Ürün",
+                    Color = bi.ProductVariant?.Color ?? "Silinmiş Ürün Renk Varyantı",
+                    Hex = bi.ProductVariant?.Hex ?? "Silinmiş Ürün Renk Hex",
                     ProductAmount = bi.ProductAmount,
                     RemainingAfterDelivery = bi.RemainingAfterDelivery,
                 }).ToList() ?? new List<BasketItemDto>()

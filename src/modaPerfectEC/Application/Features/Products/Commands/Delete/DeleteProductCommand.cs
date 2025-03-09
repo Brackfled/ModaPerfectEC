@@ -1,5 +1,4 @@
 using Application.Features.Products.Constants;
-using Application.Features.Products.Constants;
 using Application.Features.Products.Rules;
 using Application.Services.Repositories;
 using AutoMapper;
@@ -51,22 +50,41 @@ public class DeleteProductCommand : IRequest<DeletedProductResponse>, ISecuredRe
                 cancellationToken: cancellationToken);
             await _productBusinessRules.ProductShouldExistWhenSelected(product);
 
-            ICollection<BasketItem> basketItems = await _basketItemService.GetAllAsync(bi => bi.ProductId == product!.Id, include:opt => opt.Include(bi => bi.ProductVariant!));
+            // Use AsNoTracking for read-only basket items query
+            var basketItems = await _basketItemService.GetAllAsync(
+                bi => bi.ProductId == product!.Id,
+                include: opt => opt.Include(bi => bi.ProductVariant!));
 
-            foreach (BasketItem bItem in basketItems)
+            foreach (var bItem in basketItems)
             {
-                bItem.ProductId = null;
-                bItem.ProductVariantId = null;
-                await _basketItemService.UpdateAsync(bItem);
-
-                Basket? basket = await _basketService.GetAsync(b => b.Id == bItem.BasketId);
+                // Get the basket without tracking
+                var basket = await _basketService.GetAsync(
+                    b => b.Id == bItem.BasketId);
                 await _basketBusinessRules.BasketShouldExistWhenSelected(basket);
 
-                if (!basket.IsOrderBasket) 
+                // Create a new basket item instance for update
+                var basketItemToUpdate = new BasketItem
                 {
-                    basket!.TotalPrice = Math.Round(basket.TotalPrice - ((bItem!.ProductAmount * product!.Price) * bItem.ProductVariant!.Sizes.Length), 2, MidpointRounding.AwayFromZero);
-                    basket!.TotalPriceUSD = Math.Round(basket.TotalPriceUSD - ((bItem!.ProductAmount * product!.PriceUSD) * bItem.ProductVariant.Sizes.Length), 2, MidpointRounding.AwayFromZero);
-                    await _basketService.UpdateAsync(basket);
+                    Id = bItem.Id,
+                    BasketId = bItem.BasketId,
+                    ProductId = null,
+                    ProductVariantId = null,
+                    ProductAmount = bItem.ProductAmount
+                };
+
+                await _basketItemService.UpdateAsync(basketItemToUpdate);
+
+                if (!basket!.IsOrderBasket)
+                {
+                    var basketToUpdate = new Basket
+                    {
+                        Id = basket.Id,
+                        TotalPrice = Math.Round(basket.TotalPrice - ((bItem.ProductAmount * product!.Price) * bItem.ProductVariant!.Sizes.Length), 2, MidpointRounding.AwayFromZero),
+                        TotalPriceUSD = Math.Round(basket.TotalPriceUSD - ((bItem.ProductAmount * product!.PriceUSD) * bItem.ProductVariant.Sizes.Length), 2, MidpointRounding.AwayFromZero),
+                        IsOrderBasket = basket.IsOrderBasket
+                    };
+
+                    await _basketService.UpdateAsync(basketToUpdate);
                 }
             }
 

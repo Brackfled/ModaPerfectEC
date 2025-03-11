@@ -2,10 +2,7 @@ using Amazon;
 using Amazon.Runtime;
 using Amazon.S3;
 using Application;
-using Application.Services.BackgroundWorkers;
-using Hangfire;
 using Infrastructure;
-using Infrastructure.Adapters.BackgroundWorkers.Hangfire;
 using Infrastructure.Adapters.Stroage.AWS;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Options;
@@ -53,8 +50,6 @@ builder.Services.AddSingleton<IAmazonS3>(provider =>
     };
     return new AmazonS3Client(credentials, config);
 });
-
-builder.Services.AddHangfire(config => config.UseSqlServerStorage(builder.Configuration.GetConnectionString("ModaPerfectECDb")));
 
 const string tokenOptionsConfigurationSection = "TokenOptions";
 TokenOptions tokenOptions =
@@ -114,7 +109,6 @@ if (app.Environment.IsDevelopment())
     {
         opt.DocExpansion(DocExpansion.None);
     });
-    app.UseHangfireDashboard();
 }
 
 if (app.Environment.IsProduction())
@@ -126,13 +120,6 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
-
-RecurringJob.AddOrUpdate<BackgroundWorkerBase>(
-        "UpdateAllProductPriceUsd",
-        j => j.UpdateAllProductPriceUsd(),
-        Cron.Daily(hour:2)
-    );
-app.UseHangfireServer();
 
 const string webApiConfigurationSection = "WebAPIConfiguration";
 WebApiConfiguration webApiConfiguration =

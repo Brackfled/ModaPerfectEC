@@ -8,10 +8,8 @@
     <ProjectReference Include="..\Domain\Domain.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="AForge.Video" Version="2.2.5" />
     <PackageReference Include="AutoMapper" Version="13.0.1" />
     <PackageReference Include="AWSSDK.S3" Version="3.7.412.1" />
-    <PackageReference Include="Hangfire" Version="1.8.18" />
     <PackageReference Include="MediatR" Version="12.2.0" />
     <PackageReference Include="NArchitecture.Core.Application" Version="1.0.1" />
     <PackageReference Include="NArchitecture.Core.Mailing" Version="1.0.1" />

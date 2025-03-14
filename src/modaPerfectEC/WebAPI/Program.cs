@@ -71,8 +71,6 @@ builder
         };
     });
 
-builder.Services.AddDistributedMemoryCache();
-
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddCors(opt =>
     opt.AddDefaultPolicy(p =>

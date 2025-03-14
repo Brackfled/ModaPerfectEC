@@ -53,6 +53,9 @@ public class UpdateProductCommand : IRequest<UpdatedProductResponse>, ISecuredRe
                 await _basketItemService.DeleteAllByProductIdAsync(product.Id);
             }
 
+            if ((product!.ProductState == ProductState.Active || product.ProductState == ProductState.Showcase) && request.UpdateProductRequest.ProductState == ProductState.Passive)
+                await _basketItemService.DeleteAllByProductIdAsync(product.Id);
+
             product = _mapper.Map(request.UpdateProductRequest, product);
 
             await _productRepository.UpdateAsync(product!);

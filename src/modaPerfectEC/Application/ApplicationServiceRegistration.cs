@@ -48,8 +48,6 @@ public static class ApplicationServiceRegistration
         {
             configuration.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly());
             configuration.AddOpenBehavior(typeof(AuthorizationBehavior<,>));
-            configuration.AddOpenBehavior(typeof(CachingBehavior<,>));
-            configuration.AddOpenBehavior(typeof(CacheRemovingBehavior<,>));
             configuration.AddOpenBehavior(typeof(LoggingBehavior<,>));
             configuration.AddOpenBehavior(typeof(RequestValidationBehavior<,>));
             configuration.AddOpenBehavior(typeof(TransactionScopeBehavior<,>));
@@ -79,7 +77,7 @@ public static class ApplicationServiceRegistration
         services.AddScoped<IBasketService, BasketManager>();
         services.AddScoped<IBasketItemService, BasketItemManager>();
         services.AddScoped<IOrderService, OrderManager>();
-        services.AddScoped<ICollectionVideoService, CollectionVideoManager>();  
+        services.AddScoped<ICollectionVideoService, CollectionVideoManager>();
         services.AddScoped<IProductReturnService, ProductReturnManager>();
         return services;
     }

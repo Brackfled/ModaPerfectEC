@@ -20,7 +20,5 @@ public class CategoryConfiguration : IEntityTypeConfiguration<Category>
 
         builder.HasMany(c => c.Products).WithOne(c => c.Category).HasForeignKey(c => c.CategoryId).OnDelete(DeleteBehavior.Cascade);
         builder.HasMany(c => c.SubCategories).WithOne(c => c.Category).HasForeignKey(c => c.CategoryId).OnDelete(DeleteBehavior.Cascade);
-
-        builder.HasQueryFilter(c => !c.DeletedDate.HasValue);
     }
 }
